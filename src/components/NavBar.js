@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/core/Menu'
 import IconButton from '@material-ui/core/IconButton'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-
+import {Link} from 'react-router-dom'
 
 const NavBar = () => {
     return(
@@ -20,7 +20,7 @@ const NavBar = () => {
                     React & Material-UI Sample Application
                 </Typography>
                 <Tabs>
-                    <Tab label="Home"/>
+                    <Tab label="Home" to="/userdash" component={Link}/> 
                     <Tab label="Search"/>
                 </Tabs>
             </Toolbar>
