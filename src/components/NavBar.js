@@ -20,8 +20,8 @@ const NavBar = () => {
                     React & Material-UI Sample Application
                 </Typography>
                 <Tabs>
-                    <Tab label="Home" to="/userdash" component={Link}/> 
-                    <Tab label="Search"/>
+                    <Tab label="Home" to="/userdash" component={Link} /> 
+                    <Tab label="Search" to="/search" component={Link} />
                 </Tabs>
             </Toolbar>
         </AppBar>
