@@ -19,7 +19,7 @@ const NavBar = () => {
                 <Typography variant="title" color="inherit">
                     React & Material-UI Sample Application
                 </Typography>
-                <Tabs>
+                <Tabs value={false}>
                     <Tab label="Home" to="/userdash" component={Link} /> 
                     <Tab label="Search" to="/search" component={Link} />
                 </Tabs>

@@ -6,7 +6,7 @@ import test from '../testImg.jpg'
 const Gallery = () => {
     return(
         <div>
-            <Grid container spacing={10} direction="row" alignItems="center" justify="space-evenly">
+            <Grid container spacing={10} direction="row" alignItems="center" justify="space-between">
                 <Grid item>
                     <img src={test} />
                 </Grid>
