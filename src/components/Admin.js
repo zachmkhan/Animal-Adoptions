@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom'
 const Admin = () => {
     return(
         <div>
-            <Tab label="Add Dog" to="/userdash" component={Link} /> 
+            <Tab label="Add Dog" to="/addDog" component={Link} /> 
             <Tab label="Add Cat" to="/userdash" component={Link} />
             <Tab label="Add Other" to="/userdash" component={Link} />
         </div>

@@ -22,6 +22,7 @@ const NavBar = () => {
                 <Tabs value={false}>
                     <Tab label="Home" to="/userdash" component={Link} /> 
                     <Tab label="Search" to="/search" component={Link} />
+                    <Tab label="Admin" to="/admin" component={Link} />
                 </Tabs>
             </Toolbar>
         </AppBar>
