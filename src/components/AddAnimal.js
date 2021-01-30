@@ -14,9 +14,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 
-const AddDog = () => {
+const AddAnimal = () => {
     const [name, setName] = React.useState("");
-    const [breed, setBreed] = React.useState("");
+    const [animal, setAnimal] = React.useState("");
     const [age, setAge] = React.useState("");
     const [weight, setWeight] = React.useState("");
     const [dogs, setDogs] = React.useState(false);
@@ -30,7 +30,7 @@ const AddDog = () => {
     const handleSubmit = (event) => {
         console.log(`
           User: ${name}
-          Breed: ${breed}
+          Animal: ${animal}
           Age: ${age}
           Weight: ${weight}
           Good with dogs: ${dogs}
@@ -54,16 +54,14 @@ const AddDog = () => {
                     value={name}
                 />
                 <br></br>
-                <InputLabel id="breed">Breed</InputLabel>
-                <Select 
-                    labelId="breed" 
-                    onChange={e => setBreed(e.target.value)}
-                    value={breed}
+                <TextField 
+                    type='text'
+                    name="animal" 
+                    label="Animal" 
+                    onChange={e => setAnimal(e.target.value)}
+                    value={animal}
                 >
-                    <MenuItem value="Golden Retriever">Golden Retriever</MenuItem>
-                    <MenuItem value="Boxer">Boxer</MenuItem>
-                    <MenuItem value="Rottweiler">Rottweiler</MenuItem>
-                </Select>
+                </TextField>
                 <br></br>
                 <InputLabel id="age">Age</InputLabel>
                 <Input 
@@ -158,4 +156,4 @@ const AddDog = () => {
     )
 }
 
-export default AddDog;
+export default AddAnimal;

@@ -3,7 +3,9 @@ import './App.css';
 import NavBar from './components/NavBar'
 import Gallery from './components/Gallery'
 import ListPets from './components/ListPets'
-import AddPet from './components/AddDog'
+import AddDog from './components/AddDog'
+import AddCat from './components/AddCat'
+import AddAnimal from './components/AddAnimal'
 import Admin from './components/Admin'
 import SearchFilter from './components/SearchFilter'
 import Grid from '@material-ui/core/Grid'
@@ -32,8 +34,14 @@ function App() {
             
           </Route> 
           <Route path="/addDog">
-            <AddPet/>
-          </Route> 
+            <AddDog/>
+          </Route>
+          <Route path="/addCat">
+            <AddCat/>
+          </Route>  
+          <Route path="/addAnimal">
+            <AddAnimal/>
+          </Route>  
           <Route path="/admin">
             <Admin/>
           </Route> 
