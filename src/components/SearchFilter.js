@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
+import {dogBreedsArray} from './breeds'
 
 const SearchFilter = () => {
 
@@ -24,9 +25,7 @@ const SearchFilter = () => {
         <form>
                 <InputLabel id="breed">Breed</InputLabel>
                 <Select labelId="breed">
-                    <MenuItem value="Golden Retriever">Golden Retriever</MenuItem>
-                    <MenuItem value="Boxer">Boxer</MenuItem>
-                    <MenuItem value="Rottweiler">Rottweiler</MenuItem>
+                    {dogBreedsArray}
                 </Select>
                 <br></br>
                 <InputLabel id="sex">Sex</InputLabel>

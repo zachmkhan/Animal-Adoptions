@@ -13,6 +13,7 @@ import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import {dogBreedsArray} from './breeds'
 
 const AddDog = () => {
     const [name, setName] = React.useState("");
@@ -60,9 +61,7 @@ const AddDog = () => {
                     onChange={e => setBreed(e.target.value)}
                     value={breed}
                 >
-                    <MenuItem value="Golden Retriever">Golden Retriever</MenuItem>
-                    <MenuItem value="Boxer">Boxer</MenuItem>
-                    <MenuItem value="Rottweiler">Rottweiler</MenuItem>
+                    {dogBreedsArray}
                 </Select>
                 <br></br>
                 <InputLabel id="age">Age</InputLabel>
