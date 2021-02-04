@@ -9,6 +9,7 @@ import AddAnimal from './components/AddAnimal'
 import Admin from './components/Admin'
 import SearchFilter from './components/SearchFilter'
 import Grid from '@material-ui/core/Grid'
+import Edit from './components/edit'
 import {
   BrowserRouter as Router,
   Switch,
@@ -45,6 +46,9 @@ function App() {
           <Route path="/admin">
             <Admin/>
           </Route> 
+          <Route path="/edit/:id">
+            <Edit  />
+          </Route>
         </Switch>
       </Router>
       

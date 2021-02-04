@@ -15,8 +15,8 @@ const petData = [
     { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
 ]
 
-function deleteHandler(props) {
-    console.log(props);
+function deleteHandler(id) {
+    console.log(id);
 }
 
 const Admin = () => {
@@ -29,7 +29,7 @@ const Admin = () => {
             <MaterialTable
                 title="Pets"
                 columns={[
-                    { title: 'Edit', field: 'id', render: rowData => <Link to="/userdash">{rowData.id}</Link>},
+                    { title: 'Edit', field: 'id', render: rowData => <Link to={"/edit/" + rowData.id}>{rowData.id}</Link>},
                     { title: 'Delete', field: 'id', render: rowData => <Link to="/userdash" onClick={() => {if(window.confirm('Are you sure to delete?')){ deleteHandler(rowData.id)};}}>{rowData.id}</Link>},
                     { title: 'Animal', field: 'animal' },
                     { title: 'Name', field: 'name' },
