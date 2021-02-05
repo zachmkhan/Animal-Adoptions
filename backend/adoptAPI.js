@@ -57,7 +57,7 @@ const getData = (res, dbQuery, values) =>{
       next(err);
       return;
     }
-    context.results = JSON.stringify(rows);
+    JSON.stringify(rows);
     context.rows = rows;
     res.send(context);
   });
@@ -72,7 +72,7 @@ const getAllData = (res, dbQuery) =>{
       next(err);
       return;
     }
-    context.results = JSON.stringify(rows);
+    JSON.stringify(rows);
     context.rows = rows;
     res.send(context);
   });
@@ -104,9 +104,8 @@ app.get('/pet/:petId',function(req,res,next){
 });
 
 // Get user's favorite pets data from FAVORITES/PETS tables
-app.get('/favorites',function(req,res,next){
-  var { userId } = req.body;
-  getData(res, getFavorites, userId);
+app.get('/favorites/:userId',function(req,res,next){
+  getData(res, getFavorites, req.params.userId);
 });
 
 // Adds user to USERS table
@@ -173,8 +172,6 @@ app.delete('/users',function(req,res,next){
       next(err);
       return;
     }
-    // GO TO HOME PAGE
-    //getData(res);
   });
 });
 
@@ -186,8 +183,6 @@ app.delete('/admin',function(req,res,next){
       next(err);
       return;
     }
-    // GO TO HOME PAGE
-    //getData(res);
   });
 });
 
@@ -199,8 +194,6 @@ app.delete('/pets',function(req,res,next){
       next(err);
       return;
     }
-    // GO TO HOME PAGE
-    //getData(res);
   });
 });
 
@@ -259,21 +252,21 @@ app.put('/pets/:petId',function(req,res,next){
     getData(res, getPet, petId);
   });
 });
-
+  
 // 404 Error
 app.use(function(req,res){
   res.status(404);
   res.render('404');
- });
+});
   
- // 500 Error
- app.use(function(err, req, res, next){
-   console.error(err.stack);
-   res.status(500);
-   res.render('500');
- });
+// 500 Error
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500);
+  res.render('500');
+});
   
- app.listen(app.get('port'), function(){
-   console.log('Express started on http://flip2.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
- });
+app.listen(app.get('port'), function(){
+  console.log('Express started on http://flip2.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
+});
   
