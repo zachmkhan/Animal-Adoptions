@@ -20,46 +20,51 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-var petsData = [];
-// Object.keys(pets).forEach(function(key){
-//     //petsData.push(pets[key]);
-//     petsData.push(  <GridListTile >
-//                         <img src={test} />
-//                         <GridListTileBar title={pets["name"]} />
-//                      </GridListTile>  )
-// });
-pets.forEach(function(obj) {
-    petsData.push(  <GridListTile >
-        <img src={test} />
-        <GridListTileBar title={obj["name"]} />
-     </GridListTile>  )
-})
 
-const ListPets = () => {
+
+const ListPets = (props) => {
+
     const classes = useStyles();
+
+    let {search} = props;
+    var petsData = [];
+
+    // pets.forEach(function(obj) {
+    //     petsData.push(  <GridListTile >
+    //         <img src={test} />
+    //         <GridListTileBar title={obj["name"]} />
+    //      </GridListTile>  )
+    // })
+    // console.log(search["breed"]);
+    // console.log(pets[0]["breed"]);
+
+    // pets.filter(pet => pet.breed == search.breed).map(filteredName => (
+    //     <li>
+    //         {filteredName.breed}
+    //     </li>
+    // ))
 
     return(
         <div className={classes.root}>
-            <GridList cellHeight={180} cols={2} style={{
-            width: '50%',
-            }}>
+            {/* <GridList cellHeight={180} cols={2} style={{width: '50%'}}>
                 {petsData}
-                {/* <GridListTile>
+            </GridList> */}
+            <GridList>
+            {pets.filter(function(pet) {
+              for (var key in search) {
+                if(pet[key] != search[key] && search[key] != ""){
+                  return false;
+                }
+              }
+              return true
+            }
+              ).map(filteredName => (
+                <GridListTile >
                     <img src={test} />
-                    <GridListTileBar title="Dog1" />
-                </GridListTile>
-                <GridListTile>
-                    <img src={test} />
-                    <GridListTileBar title="Dog2" />
-                </GridListTile>
-                <GridListTile>
-                    <img src={test} />
-                    <GridListTileBar title="Dog3" />
-                </GridListTile>
-                <GridListTile>
-                    <img src={test} />
-                    <GridListTileBar title="Dog4" />
-                </GridListTile> */}
+                    <GridListTileBar title={filteredName["name"]} />
+              </GridListTile>  
+              )
+            )}
             </GridList>
         </div>
     )

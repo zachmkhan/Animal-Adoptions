@@ -7,6 +7,7 @@ import AddDog from './components/AddDog'
 import AddCat from './components/AddCat'
 import AddAnimal from './components/AddAnimal'
 import Admin from './components/Admin'
+import SearchPage from './components/SearchPage'
 import SearchFilter from './components/SearchFilter'
 import Grid from '@material-ui/core/Grid'
 import Edit from './components/edit'
@@ -28,9 +29,9 @@ function App() {
           </Route> 
           <Route path="/search">
             <Grid container direction="row">
-              <SearchFilter/>
-              <ListPets/>
-              
+              {/* <SearchFilter/>
+              <ListPets/> */}
+              <SearchPage/>
             </Grid>
             
           </Route> 

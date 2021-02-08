@@ -12,7 +12,31 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
 import {dogBreedsArray} from './breeds'
 
-const SearchFilter = () => {
+const SearchFilter = (props) => {
+
+    const [sex, setSex] = React.useState("");
+    const [breed, setBreed] = React.useState("");
+    const [age, setAge] = React.useState("");
+
+    let {search, handleSearch} = props;
+
+
+    const handleSubmit = (event) => {
+        console.log(`
+          Breed: ${breed}
+          Sex: ${sex}
+          Age: ${age}
+        `);
+        var newSearch = {
+            breed:breed,
+            sex:sex,
+            age:age
+
+        };
+        console.log(newSearch);
+        handleSearch(newSearch);
+        event.preventDefault();
+    }
 
     var rowsAge =[];
     for (var i = 0; i < 26; i++) {
@@ -22,20 +46,26 @@ const SearchFilter = () => {
     }
 
     return(
-        <form>
+        <form onSubmit={handleSubmit}>
                 <InputLabel id="breed">Breed</InputLabel>
-                <Select labelId="breed">
+                <Select labelId="breed"
+                    onChange={e => setBreed(e.target.value)}
+                >
                     {dogBreedsArray}
                 </Select>
                 <br></br>
                 <InputLabel id="sex">Sex</InputLabel>
-                <Select labelId="sex">
+                <Select labelId="sex"
+                    onChange={e => setSex(e.target.value)}
+                >
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                 </Select>
                 <br></br>
                 <InputLabel id="age">Age</InputLabel>
-                <Select labelId="Age">
+                <Select labelId="Age"
+                    onChange={e => setAge(e.target.value)}
+                >
                     {rowsAge}
                 </Select>
                 <br></br>
