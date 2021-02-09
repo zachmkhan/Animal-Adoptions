@@ -1,23 +1,58 @@
 import logo from './logo.svg';
 import './App.css';
+import NavBar from './components/NavBar'
+import Gallery from './components/Gallery'
+import ListPets from './components/ListPets'
+import AddDog from './components/AddDog'
+import AddCat from './components/AddCat'
+import AddAnimal from './components/AddAnimal'
+import Admin from './components/Admin'
+import SearchPage from './components/SearchPage'
+import SearchFilter from './components/SearchFilter'
+import Grid from '@material-ui/core/Grid'
+import Edit from './components/edit'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route path="/userdash">
+            <Gallery/>
+          </Route> 
+          <Route path="/search">
+            <Grid container direction="row">
+              {/* <SearchFilter/>
+              <ListPets/> */}
+              <SearchPage/>
+            </Grid>
+            
+          </Route> 
+          <Route path="/addDog">
+            <AddDog/>
+          </Route>
+          <Route path="/addCat">
+            <AddCat/>
+          </Route>  
+          <Route path="/addAnimal">
+            <AddAnimal/>
+          </Route>  
+          <Route path="/admin">
+            <Admin/>
+          </Route> 
+          <Route path="/edit/:id">
+            <Edit  />
+          </Route>
+        </Switch>
+      </Router>
+      
     </div>
   );
 }
