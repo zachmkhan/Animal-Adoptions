@@ -1,3 +1,11 @@
+/* 
+Run with:
+./node_modules/forever/bin/forever start API.js
+
+Stop with:
+./node_modules/forever/bin/forever stop API.js
+*/
+
 var express = require('express');
 var mysql = require('./dbcon.js');
 var CORS = require('cors');
@@ -9,10 +17,12 @@ app.use(CORS());
 app.set('port', 4256);
 
 
-const getUser = `SELECT * FROM users WHERE userId=?`;
+const getUser = `SELECT * FROM users WHERE userId=?;`;
 const getAllUsers = `SELECT * FROM users;`;
-const getAdmin = `SELECT * FROM admin WHERE sellerId=?`;
-const getPet = `SELECT * FROM pets WHERE petId=?`;
+const getAdmin = `SELECT * FROM admin WHERE sellerId=?;`;
+const getAllAdmin = `SELECT * FROM admin;`;
+const getAdminPets = `SELECT * FROM pets WHERE sellerId=?;`;
+const getPet = `SELECT * FROM pets WHERE petId=?;`;
 const getAllPets = `SELECT * FROM pets;`
 const getFavorites = `SELECT p.* FROM pets p
                         JOIN favorites f ON f.petId = p.petId
@@ -20,23 +30,23 @@ const getFavorites = `SELECT p.* FROM pets p
 
 const insertUser = `INSERT INTO users (password, fname, lname, email) 
                         VALUES (?,?,?,?);`;
-const insertAdmin = `INSERT INTO admin (password, shelterName, aboutMe, fname, 
-                        lname, email, website, phone)
-                        VALUES (?,?,?,?,?,?,?,?);`;                    
-const insertPet = `INSERT INTO pets (sellerId, animal, name, breed, sex, age,
+const insertAdmin = `INSERT INTO admin (password, shelterName, city, state, 
+                        aboutMe, fname, lname, email, website, phone)
+                        VALUES (?,?,?,?,?,?,?,?,?,?);`;                    
+const insertPet = `INSERT INTO pets (sellerId, status, animal, name, breed, sex, age,
                         weight, size, adoptionFee, aboutMe, city, state, photo1,
                         photo2, photo3, photo4, photo5, photo6, goodWithKids,
                         goodWithDogs, goodWithCats, requiresFence, houseTrained,
                         neuteredSpayed, shotsUpToDate)
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
 const insertFavorite = `INSERT INTO favorites (userId, petId) VALUES (?,?);`;
 
 const updateUser = `UPDATE users SET password=?, fname=?, lname=?, email=?
                     WHERE userId=?;`;
-const updateAdmin = `UPDATE admin SET password=?, shelterName=?, aboutMe=?, 
-                        fname=?, lname=?, email=?, website=?, phone=?
+const updateAdmin = `UPDATE admin SET password=?, shelterName=?, city=?, state=? 
+                        aboutMe=?, fname=?, lname=?, email=?, website=?, phone=?
                         WHERE sellerId=?;`;
-const updatePet = `UPDATE pets SET sellerId=?, animal=?, name=?, breed=?, sex=?, age=?,
+const updatePet = `UPDATE pets SET sellerId=?, status=?, animal=?, name=?, breed=?, sex=?, age=?,
                         weight=?, size=?, adoptionFee=?, aboutMe=?, city=?, state=?, photo1=?,
                         photo2=?, photo3=?, photo4=?, photo5=?, photo6=?, goodWithKids=?,
                         goodWithDogs=?, goodWithCats=?, requiresFence=?, houseTrained=?,
@@ -44,7 +54,7 @@ const updatePet = `UPDATE pets SET sellerId=?, animal=?, name=?, breed=?, sex=?,
                         WHERE petId=?;`;
 
 const deleteUser = `DELETE FROM users WHERE userId=?;`;
-const deleteAdmin = `DELETE FROM admin WHERE adminId=?;`;
+const deleteAdmin = `DELETE FROM admin WHERE sellerId=?;`;
 const deletePet = `DELETE FROM pets WHERE petsId=?;`;
 const deleteFavorite = `DELETE FROM favorites WHERE userId=? AND petId=?;`;
 
@@ -88,9 +98,19 @@ app.get('/users/:userId',function(req,res,next){
     getData(res, getUser, req.params.userId);
 });
 
+// Get all admin data for ADMIN table <<<FOR TESTING ONLY>>>
+app.get('/admin',function(req,res,next){
+  getAllData(res, getAllAdmin);
+});
+
   // Get single admin data for ADMIN table
-app.get('/admin/:adminId',function(req,res,next){
-  getData(res, getAdmin, req.params.adminId);
+app.get('/admin/:sellerId',function(req,res,next){
+  getData(res, getAdmin, req.params.sellerId);
+});
+
+  // Get single admin data for ADMIN table
+app.get('/admin/:sellerId/pets',function(req,res,next){
+  getData(res, getAdminPets, req.params.sellerId);
 });
 
   // Get all pets data for PETS table
@@ -130,20 +150,20 @@ app.post('/admin', function(req,res,next){
       next(err);
       return;
     } 
-    getData(res, getAdmin, result.adminId);
+    getData(res, getAdmin, result.sellerId);
   });
 });
 
 // Adds pet to PETS table
 app.post('/pets', function(req,res,next){
-  var { sellerId, password, status, animal, breed, sex, age, weight, size, 
+  var { sellerId, status, animal, name, breed, sex, age, weight, size, 
     adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
     photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
     neuteredSpayed, shotsUpToDate } = req.body;
-  mysql.pool.query(insertPet, [sellerId, password, status, animal, breed, 
-    sex, age, weight, size, adoptionFee, aboutMe, city, state, photo1, photo2, 
-    photo3, photo4, photo5, photo6, goodWithKids, goodWithDogs, goodWithCats, 
-    requiresFence, houseTrained, neuteredSpayed, shotsUpToDate], (err, result) =>{
+  mysql.pool.query(insertPet, [sellerId, status, animal, name, breed, sex, age, weight, size, 
+    adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
+    photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
+    neuteredSpayed, shotsUpToDate], (err, result) =>{
     if(err){
       next(err);
       return;
@@ -165,9 +185,9 @@ app.post('/favorites', function(req,res,next){
 });
   
 // Delete user
-app.delete('/users',function(req,res,next){
-  var { userId } = req.body
-  mysql.pool.query(deleteUser, [userId], (err, result)=> {
+app.delete('/users/:userId',function(req,res,next){
+  //var { userId } = req.body
+  mysql.pool.query(deleteUser, [req.params.userId], (err, result)=> {
     if(err){
       next(err);
       return;
@@ -176,9 +196,9 @@ app.delete('/users',function(req,res,next){
 });
 
 // Delete admin
-app.delete('/admin',function(req,res,next){
-  var { adminId } = req.body
-  mysql.pool.query(deleteAdmin, [adminId], (err, result)=> {
+app.delete('/admin/:sellerId',function(req,res,next){
+  //var { adminId } = req.body
+  mysql.pool.query(deleteAdmin, [req.params.sellerId], (err, result)=> {
     if(err){
       next(err);
       return;
@@ -187,9 +207,9 @@ app.delete('/admin',function(req,res,next){
 });
 
 // Delete pet
-app.delete('/pets',function(req,res,next){
-  var { petId } = req.body
-  mysql.pool.query(deletePet, [petId], (err, result)=> {
+app.delete('/pets/:petId',function(req,res,next){
+  //var { petId } = req.body
+  mysql.pool.query(deletePet, [req.params.petId], (err, result)=> {
     if(err){
       next(err);
       return;
@@ -222,29 +242,29 @@ app.put('/users/:userId',function(req,res,next){
 });
 
 // Update admin info
-app.put('/admin/:adminId',function(req,res,next){
+app.put('/admin/:sellerId',function(req,res,next){
   var { password, shelterName, city, state, aboutMe, fname, lname, 
-    email, website, phone, adminId } = req.body;
+    email, website, phone, sellerId } = req.body;
   mysql.pool.query(updateAdmin, [password, shelterName, city, state, aboutMe, fname, lname, 
-    email, website, phone, adminId], (err, result) =>{
+    email, website, phone, sellerId], (err, result) =>{
     if(err){
       next(err);
       return;
     }
-    getData(res, getAdmin, adminId);
+    getData(res, getAdmin, sellerId);
   });
 });
 
 // Update pet info
 app.put('/pets/:petId',function(req,res,next){
-  var { sellerId, password, status, animal, breed, sex, age, weight, size, 
+  var { sellerId, status, animal, name, breed, sex, age, weight, size, 
     adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
     photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
     neuteredSpayed, shotsUpToDate, petId } = req.body;
-  mysql.pool.query(updatePet, [sellerId, password, status, animal, breed, sex, age, 
-    weight, size, adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, 
-    photo5, photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, 
-    houseTrained, neuteredSpayed, shotsUpToDate, petId], (err, result) =>{
+  mysql.pool.query(updatePet, [sellerId, status, animal, name, breed, sex, age, weight, size, 
+    adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
+    photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
+    neuteredSpayed, shotsUpToDate, petId], (err, result) =>{
     if(err){
       next(err);
       return;
@@ -253,17 +273,13 @@ app.put('/pets/:petId',function(req,res,next){
   });
 });
   
-// 404 Error
-app.use(function(req,res){
-  res.status(404);
-  res.render('404');
-});
-  
-// 500 Error
 app.use(function(err, req, res, next){
-  console.error(err.stack);
-  res.status(500);
-  res.render('500');
+  // we may use properties of the error object here and next(err) appropriately, or if we possibly recovered from the error, simply next().
+  res.status(err.status || 500);
+  res.json({
+    message: err.message,
+    error: err
+  })
 });
   
 app.listen(app.get('port'), function(){
