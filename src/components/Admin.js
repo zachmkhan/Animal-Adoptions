@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import MaterialTable from 'material-table'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -15,11 +15,24 @@ const petData = [
     { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
 ]
 
+
+
 function deleteHandler(id) {
     console.log(id);
 }
 
 const Admin = () => {
+
+    const [pets, setPets] = React.useState([]);
+    const url = `http://flip2.engr.oregonstate.edu:4256/pets/`
+
+    useEffect(() => {
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => setPets(data["rows"]))
+	}, [])
+
+
     return(
         <div>
             <Tab label="Add Dog" to="/addDog" component={Link} /> 
@@ -29,17 +42,17 @@ const Admin = () => {
             <MaterialTable
                 title="Pets"
                 columns={[
-                    { title: 'Edit', field: 'id', render: rowData => <Link to={"/edit/" + rowData.id}>{rowData.id}</Link>},
-                    { title: 'Delete', field: 'id', render: rowData => <Link to="/userdash" onClick={() => {if(window.confirm('Are you sure to delete?')){ deleteHandler(rowData.id)};}}>{rowData.id}</Link>},
+                    { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>{rowData.petId}</Link>},
+                    { title: 'Delete', field: 'petId', render: rowData => <Link to="/userdash" onClick={() => {if(window.confirm('Are you sure to delete?')){ deleteHandler(rowData.petId)};}}>{rowData.petId}</Link>},
                     { title: 'Animal', field: 'animal' },
                     { title: 'Name', field: 'name' },
                     { title: 'Breed', field: 'breed' },
                     { title: 'Age', field: 'age', type: 'numeric' },
                     { title: 'Sex', field: 'sex'},
                     { title: 'Weight', field: 'weight', type: 'numeric' },
-                    { title: 'Good with dogs', field: 'dogs', type: 'boolean', render: e => (e.dogs ? "Yes" : "No"), },
+                    { title: 'Good with dogs', field: 'goodWithDogs'},
                 ]}
-                data={petData}        
+                data={pets}        
                 // actions={[
                 //     {
                 //     icon: 'save',
