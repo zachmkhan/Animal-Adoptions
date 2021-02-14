@@ -55,7 +55,7 @@ const updatePet = `UPDATE pets SET sellerId=?, status=?, animal=?, name=?, breed
 
 const deleteUser = `DELETE FROM users WHERE userId=?;`;
 const deleteAdmin = `DELETE FROM admin WHERE sellerId=?;`;
-const deletePet = `DELETE FROM pets WHERE petsId=?;`;
+const deletePet = `DELETE FROM pets WHERE petId=?;`;
 const deleteFavorite = `DELETE FROM favorites WHERE userId=? AND petId=?;`;
 
 // Get single user/admin/pet data from table
@@ -136,7 +136,7 @@ app.post('/users', function(req,res,next){
         next(err);
         return;
       } 
-      getData(res, getUser, result.userId);
+      getData(res, getUser, result.insertId);
     });
 });
 
@@ -150,7 +150,7 @@ app.post('/admin', function(req,res,next){
       next(err);
       return;
     } 
-    getData(res, getAdmin, result.sellerId);
+    getData(res, getAdmin, result.insertId);
   });
 });
 
@@ -168,7 +168,7 @@ app.post('/pets', function(req,res,next){
       next(err);
       return;
     } 
-    getData(res, getPet, result.petId);
+    getData(res, getPet, result.insertId);
   });
 });
 
@@ -285,4 +285,3 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://flip2.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
-  
