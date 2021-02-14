@@ -1,72 +1,167 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
+import Box from '@material-ui/core/Box';
+import PetsIcon from '@material-ui/icons/Pets';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
+
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(5),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 
 
+const AddUser = () => {
+    const [fname, setFname] = React.useState("");
+    const [lname, setLname] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [email, setEmail] = React.useState("");
 
-export default function Album() {
+    const handleSubmit = (event) => {
+      const requestOptions = {
+          method: 'POST',
+          headers: { 
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+           },
+          body: JSON.stringify({
+              userId: 1, 
+              password: password,
+              fname: fname,
+              lname: lname,
+              email: email,
+
+          }
+        )
+      };
+      fetch("http://flip2.engr.oregonstate.edu:4256/users", requestOptions)
+      .then(response => response.json())
+      .then(json => {
+          console.log('parsed json', json) // access json.body here
+      })
+      
+
+    }
+
+    
 
 
-  return (
-    <React.Fragment>
+
+    
+    const classes = useStyles();
+    return(
+      <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <PetsIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up for animal adoption!
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                    type='text'
+                    name='fname'
+                    variant="outlined"
+                    label='First Name'
+                    autoFocus
+                    onChange={e => setFname(e.target.value)}
+                    value={fname}
+                />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth 
+                    type='text'
+                    name="lname" 
+                    label="Last Name" 
+                    onChange={e => setLname(e.target.value)}
+                    value={lname}
+                    autoComplete="lname"
+                />
 
-          <Typography variant="h6" color="inherit" noWrap>
-            Sign Up
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <main>
-        {/* Hero unit */}
-        <div>
-          <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Create an account
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                
-            </Typography>
-
-
-            
-            <div>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                <form>
-              <Input placeholder="Username" inputProps={{ 'aria-label': 'description' }} />
-              <div></div>
-              <Input placeholder="Password" inputProps={{ 'aria-label': 'description' }} />
-              <div></div>
-              <Input placeholder="Email" inputProps={{ 'aria-label': 'description' }} />
-              <div></div>
-              <Input placeholder="Breed" inputProps={{ 'aria-label': 'description' }} />
-              <div></div>
-              <Input placeholder="Age" inputProps={{ 'aria-label': 'description' }} />
-            </form>
                 </Grid>
-              </Grid>
+                </Grid>
+
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type='text'
+                    name="email" 
+                    label="email@example.com" 
+                    onChange={e => setEmail(e.target.value)}
+                    value={email}
+                >
+                </TextField>
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type='text'
+                    //type='password' //possibly change to this?
+                    name="password" 
+                    label="Password" 
+                    onChange={e => setPassword(e.target.value)}
+                    value={password}
+                >
+                </TextField>
+                </Grid>
+                <br></br>
+                <Button type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+          >
+            Register
+          </Button>
+            </form>
             </div>
-          </Container>
-        </div>
-      </main>
-    </React.Fragment>
-  );
+            </Container>
+    )
 }
 
-//export default App;
+export default AddUser;
