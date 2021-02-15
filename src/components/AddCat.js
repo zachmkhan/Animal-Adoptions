@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -39,85 +39,95 @@ const AddCat = () => {
     const [trained, setTrained] = React.useState("");
     const [neut, setNeut] = React.useState("");
     const [shots, setShots] = React.useState("");
+    const [files, setFiles] = React.useState(null);
+
+    //const form = useRef(null);
 
     const url = "http://flip2.engr.oregonstate.edu:4256/pets"
 
+    // const handleSubmit = (event) => {
+    //     const requestOptions = {
+    //         method: 'POST',
+    //         headers: { 
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //          },
+    //         body: JSON.stringify({
+    //             sellerId: 1, //Dummy admin id
+    //             status:status, 
+    //             animal:"Cat", 
+    //             name:name,
+    //             breed:breed, 
+    //             sex:sex, 
+    //             age:age , 
+    //             weight:weight, 
+    //             size:size, 
+    //             adoptionFee:fee, 
+    //             aboutMe: desc, 
+    //             city:city, 
+    //             state:state, 
+    //             photo1:photo1, 
+    //             photo2:photo2, 
+    //             photo3:photo3, 
+    //             photo4:photo4, 
+    //             photo5:photo5, 
+    //             photo6:photo5, 
+    //             goodWithKids:kids, 
+    //             goodWithDogs:dogs, 
+    //             goodWithCats:cats, 
+    //             requiresFence:fence, 
+    //             houseTrained:trained, 
+    //             neuteredSpayed:neut, 
+    //             shotsUpToDate:shots
+    //         }
+    //         )
+    //     };
+    //     fetch(url, requestOptions)
+    //     .then(response => response.json())
+    //     .then(json => {
+    //         console.log('parsed json', json) // access json.body here
+    //     })
+    //     //event.preventDefault();
+    // }
+
     const handleSubmit = (event) => {
+
+        var data = new FormData();
+        data.append("sellerId", 1);
+        data.append("status", status);
+        data.append("animal", "Cat");
+        data.append("name", name);
+        data.append("breed", breed);
+        data.append("sex", sex);
+        data.append("age", age);
+        data.append("weight", weight);
+        data.append("size", size);
+        data.append("adoptionFee", fee);
+        data.append("aboutMe", desc);
+        data.append("city", city);
+        data.append("state", state);
+        data.append("goodWithKids", kids);
+        data.append("goodWithDogs", dogs);
+        data.append("goodWithCats", cats);
+        data.append("requiresFence", fence);
+        data.append("houseTrained", trained);
+        data.append("neuteredSpayed", neut);
+        data.append("shotsUpToDate", shots);
+        data.append("photo", files);
+        // console.log(data);
         const requestOptions = {
+            //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',
-            headers: { 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-             },
-            body: JSON.stringify({
-                sellerId: 1, //Dummy admin id
-                status:status, 
-                animal:"Cat", 
-                name:name,
-                breed:breed, 
-                sex:sex, 
-                age:age , 
-                weight:weight, 
-                size:size, 
-                adoptionFee:fee, 
-                aboutMe: desc, 
-                city:city, 
-                state:state, 
-                photo1:photo1, 
-                photo2:photo2, 
-                photo3:photo3, 
-                photo4:photo4, 
-                photo5:photo5, 
-                photo6:photo5, 
-                goodWithKids:kids, 
-                goodWithDogs:dogs, 
-                goodWithCats:cats, 
-                requiresFence:fence, 
-                houseTrained:trained, 
-                neuteredSpayed:neut, 
-                shotsUpToDate:shots
-            }
-            )
+            body: data
         };
+        
         fetch(url, requestOptions)
         .then(response => response.json())
         .then(json => {
             console.log('parsed json', json) // access json.body here
         })
-        //event.preventDefault();
+        event.preventDefault();
     }
-
-    // const handleSubmit = (event) => {
-    //     console.log({
-    //         "sellerId": 2,
-    //         "status": status,
-    //         "animal": "Cat",
-    //         "name": name,
-    //         "breed": breed,
-    //         "sex": sex,
-    //         "age": age,
-    //         "weight": weight,
-    //         "size": size,
-    //         "adoptionFee": fee,
-    //         "aboutMe": desc,
-    //         "city": city,
-    //         "state": "WA",
-    //         "photo1": "https://i.imgur.com/cqAklTF.jpeg",
-    //         "photo2": null,
-    //         "photo3": null,
-    //         "photo4": null,
-    //         "photo5": null,
-    //         "photo6": null,
-    //         "goodWithKids": "UNKNOWN",
-    //         "goodWithDogs": "UNKNOWN",
-    //         "goodWithCats": "UNKNOWN",
-    //         "requiresFence": "UNKNOWN",
-    //         "houseTrained": "UNKNOWN",
-    //         "neuteredSpayed": "UNKNOWN",
-    //         "shotsUpToDate": "UNKNOWN"
-    //       });
-    //     event.preventDefault();
-    // }
 
     return(
         <form onSubmit={handleSubmit}>
@@ -223,7 +233,7 @@ const AddCat = () => {
                     value={desc}
                     multiline='true'
                 />
-                <br></br>
+                {/* <br></br>
                 <TextField
                     type='text'
                     name='photo1'
@@ -270,7 +280,7 @@ const AddCat = () => {
                     label='photo6'
                     onChange={e => setPhoto6(e.target.value)}
                     value={photo6}
-                />
+                /> */}
                 <br></br>
                 <InputLabel id="checkDogs">Good with dogs</InputLabel>
                 <Select 
@@ -349,6 +359,23 @@ const AddCat = () => {
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
                 <br></br>
+                <br></br>
+                <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    //style={{display: 'none'}}
+                    name="photo"
+                    onChange={e => setFiles(e.target.files[0])}
+                />
+                {/* <label htmlFor="contained-button-file">
+                    <Button variant="contained" color="primary" component="span">
+                    Upload Images
+                    </Button>
+                </label> */}
+                <br></br>
+
                 <Button type='submit'>
                     Add
                 </Button>
