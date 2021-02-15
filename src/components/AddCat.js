@@ -113,7 +113,10 @@ const AddCat = () => {
         data.append("houseTrained", trained);
         data.append("neuteredSpayed", neut);
         data.append("shotsUpToDate", shots);
-        data.append("photo", files);
+        for (let i = 0; i < files.length; i++) {
+            data.append("photo", files[i])
+        }
+        // data.append("photo", files[0]);
         // console.log(data);
         const requestOptions = {
             //headers: { 'content-type': 'multipart/form-data' },
@@ -367,7 +370,7 @@ const AddCat = () => {
                     type="file"
                     //style={{display: 'none'}}
                     name="photo"
-                    onChange={e => setFiles(e.target.files[0])}
+                    onChange={e => setFiles(e.target.files)}
                 />
                 {/* <label htmlFor="contained-button-file">
                     <Button variant="contained" color="primary" component="span">
