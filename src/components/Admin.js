@@ -17,9 +17,6 @@ const petData = [
 
 
 
-function deleteHandler(id) {
-    console.log(id);
-}
 
 const Admin = () => {
 
@@ -30,8 +27,21 @@ const Admin = () => {
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => setPets(data["rows"]))
-	}, [])
+	}, [pets])
 
+    function deleteHandler(id) {
+
+        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/delete`
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
+            body: JSON.stringify({
+                petId:id
+            })
+        };
+        console.log(id);
+        fetch(deleteUrl, requestOptions).then(response => response.json())
+    }
 
     return(
         <div>
@@ -43,7 +53,7 @@ const Admin = () => {
                 title="Pets"
                 columns={[
                     { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>{rowData.petId}</Link>},
-                    { title: 'Delete', field: 'petId', render: rowData => <Link to="/userdash" onClick={() => {if(window.confirm('Are you sure to delete?')){ deleteHandler(rowData.petId)};}}>{rowData.petId}</Link>},
+                    { title: 'Delete', field: 'petId', render: rowData => <Link to="/admin" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(rowData.petId)};}}>{rowData.petId}</Link>},
                     { title: 'Animal', field: 'animal' },
                     { title: 'Name', field: 'name' },
                     { title: 'Breed', field: 'breed' },
