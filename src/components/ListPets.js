@@ -5,6 +5,9 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import test from '../testImg.jpg'
 import { makeStyles } from '@material-ui/core/styles';
 import pets from './dummyPetData';
+import {Link} from 'react-router-dom'
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -95,7 +98,16 @@ const ListPets = (props) => {
               ).map(filteredName => (
                 <GridListTile >
                     <img src={filteredName["photo1"]} />
-                    <GridListTileBar title={filteredName["name"]} />
+                    <GridListTileBar 
+                      title={filteredName["name"]}
+                      actionIcon={
+                        <Link to={`/pet/${filteredName["petId"]}`}>
+                          <IconButton>
+                            <InfoIcon />
+                          </IconButton>
+                        </Link>
+                        }
+                    />
               </GridListTile>  
               )
             )}
