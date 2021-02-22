@@ -31,13 +31,10 @@ const Admin = () => {
 
     function deleteHandler(id) {
 
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/delete`
+        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/${id}`
         const requestOptions = {
-            method: 'POST',
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
-            body: JSON.stringify({
-                petId:id
-            })
         };
         console.log(id);
         fetch(deleteUrl, requestOptions).then(response => response.json())
