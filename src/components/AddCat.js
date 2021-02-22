@@ -117,7 +117,9 @@ const AddCat = () => {
             data.append("photo", files[i])
         }
         // data.append("photo", files[0]);
-        // console.log(data);
+        for (var value of data.values()) {
+            console.log(value);
+        }
         const requestOptions = {
             //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',

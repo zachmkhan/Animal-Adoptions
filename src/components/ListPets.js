@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const ListPets = (props) => {
 
     const classes = useStyles();
+    const [pets, setPets] = React.useState([]);
 
     let {search} = props;
     var petsData = [];
@@ -44,6 +45,39 @@ const ListPets = (props) => {
     //     </li>
     // ))
 
+    useEffect(() => {
+      async function fetchData() {
+          try {
+            //Check for empty query, need to switch routes if true
+              var emptySearch = true;
+              emptySearch = () => 
+                Object.keys(search).forEach(function(key) {
+                  if(search[key] != ""){
+                    return false;
+                  };
+                });
+              if(emptySearch){
+                var url = new URL("http://flip2.engr.oregonstate.edu:4256/pets/");
+              }
+              else{
+                var url = new URL("http://flip2.engr.oregonstate.edu:4256/pets/search");
+                Object.keys(search).forEach(function(key) {
+                  if(search[key] != ""){
+                    url.searchParams.append(key, search[key]);
+                  };
+                });
+              }
+              console.log(url);
+              const response = await fetch(url);
+              const json = await response.json();
+              setPets(json["rows"]);
+          } catch (e) {
+              console.error(e);
+          }
+      };
+      fetchData();
+    }, [search]);
+
     return(
         <div className={classes.root}>
             {/* <GridList cellHeight={180} cols={2} style={{width: '50%'}}>
@@ -60,7 +94,7 @@ const ListPets = (props) => {
             }
               ).map(filteredName => (
                 <GridListTile >
-                    <img src={test} />
+                    <img src={filteredName["photo1"]} />
                     <GridListTileBar title={filteredName["name"]} />
               </GridListTile>  
               )
