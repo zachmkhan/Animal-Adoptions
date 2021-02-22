@@ -13,8 +13,12 @@ import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const AddCat = () => {
+
     const [name, setName] = React.useState("");
     const [breed, setBreed] = React.useState("");
     const [age, setAge] = React.useState("");
@@ -40,6 +44,7 @@ const AddCat = () => {
     const [neut, setNeut] = React.useState("");
     const [shots, setShots] = React.useState("");
     const [files, setFiles] = React.useState(null);
+    const [open, setOpen] = React.useState(false);
 
     //const form = useRef(null);
 
@@ -93,7 +98,7 @@ const AddCat = () => {
     const handleSubmit = (event) => {
 
         var data = new FormData();
-        data.append("sellerId", 1);
+        data.append("sellerId", 1); //Need to update
         data.append("status", status);
         data.append("animal", "Cat");
         data.append("name", name);
@@ -133,6 +138,19 @@ const AddCat = () => {
         })
         event.preventDefault();
     }
+
+
+    const handleClick = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
 
     return(
         <form onSubmit={handleSubmit}>
@@ -381,9 +399,26 @@ const AddCat = () => {
                 </label> */}
                 <br></br>
 
-                <Button type='submit'>
+                <Button type='submit' onClick={handleClick}>
                     Add
                 </Button>
+                <Snackbar
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                    }}
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    message="Pet added"
+                    action={
+                    <React.Fragment>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                        <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                    }
+                />
             </form>
     )
 }
