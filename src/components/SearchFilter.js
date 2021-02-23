@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -34,7 +34,8 @@ const SearchFilter = (props) => {
     const [fence, setFence] = React.useState(false);
     const [trained, setTrained] = React.useState(false);
     const [neut, setNeut] = React.useState(false);
-    const [shots, setShots] = React.useState(false)
+    const [shots, setShots] = React.useState(false);
+
 
     // const stateList = (Object.keys(data));
     let {search, handleSearch} = props;
@@ -79,17 +80,13 @@ const SearchFilter = (props) => {
     }
 
     function changeCities(name) {
+
         var list = data[name];
         console.log(list);
         setCityList(list);
     }
-
-    // var rowsAge = [];
-    // for (var i = 0; i < 26; i++) {
-    //     // note: we are adding a key prop here to allow react to uniquely identify each
-    //     // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-    //     rowsAge.push(<MenuItem value={i}>{i}</MenuItem>);
-    // }
+    
+    
     var stateList = [];
     Object.keys(data).forEach(state =>
         stateList.push(<MenuItem value={state}>{state}</MenuItem>)
@@ -111,17 +108,26 @@ const SearchFilter = (props) => {
                     value={animal}
                 />
                 <br></br>
-                <InputLabel id="breed">Breed</InputLabel>
+                {/* <InputLabel id="breed">Breed</InputLabel>
                 <Select labelId="breed"
                     onChange={e => setBreed(e.target.value)}
                 >
-                    {dogBreedsArray}
+                    {breedList}
                 </Select>
+                <br></br> */}
+                <TextField
+                    type='text'
+                    name='breed'
+                    label='Breed'
+                    onChange={e => setBreed(e.target.value)}
+                    value={breed}
+                />
                 <br></br>
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select labelId="sex"
                     onChange={e => setSex(e.target.value)}
                 >
+                    <MenuItem value="">Any</MenuItem>
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                 </Select>
@@ -130,6 +136,7 @@ const SearchFilter = (props) => {
                 <Select labelId="age"
                     onChange={e => setAge(e.target.value)}
                 >
+                    <MenuItem value="">Any</MenuItem>
                     <MenuItem value="Baby">Baby</MenuItem>
                     <MenuItem value="Young">Young (1-3)</MenuItem>
                     <MenuItem value="Adult">Adult (4-8)</MenuItem>
@@ -140,6 +147,7 @@ const SearchFilter = (props) => {
                 <Select labelId="size"
                     onChange={e => setSize(e.target.value)}
                 >
+                    <MenuItem value="">Any</MenuItem>
                     <MenuItem value="Small">Small</MenuItem>
                     <MenuItem value="Medium">Medium</MenuItem>
                     <MenuItem value="Large">Large</MenuItem>
