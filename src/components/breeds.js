@@ -477,6 +477,8 @@ dogBreeds.forEach(function(breed) {
     dogBreedsArray.push(<MenuItem value={breed}>{breed}</MenuItem>)
 })
 
+export {catBreedsArray};
+var catBreedsArray = [];
 const catBreeds = [
   "Abyssinian",
   "Aegean",
@@ -576,3 +578,7 @@ const catBreeds = [
   "Turkish Van",
   "Ukrainian Levkoy"
 ]
+
+catBreeds.forEach(function(breed) {
+  catBreedsArray.push(<MenuItem value={breed}>{breed}</MenuItem>)
+})
