@@ -16,6 +16,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import {dogBreedsArray} from './breeds'
 
 
 const AddDog = () => {
@@ -168,9 +169,7 @@ const AddDog = () => {
                     onChange={e => setBreed(e.target.value)}
                     value={breed}
                 >
-                    <MenuItem value="Domestic Shorthair">Domestic Shorthair</MenuItem>
-                    <MenuItem value="Tabby">Tabby</MenuItem>
-                    <MenuItem value="Siamese">Siamese</MenuItem>
+                    {dogBreedsArray}
                 </Select>
                 <br></br>
                 <InputLabel id="sex">Sex</InputLabel>
