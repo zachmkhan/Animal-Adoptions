@@ -54,6 +54,7 @@ const schema = yup.object().shape({
     // )
   });
 
+const cityStates = require('../updated_cities_states.json');
 
 
 const AddCat = () => {
@@ -63,6 +64,7 @@ const AddCat = () => {
        });
  ;
 
+    const [cityList, setCityList] = React.useState([]);
     const [name, setName] = React.useState("");
     const [breed, setBreed] = React.useState("");
     const [age, setAge] = React.useState("");
@@ -94,6 +96,20 @@ const AddCat = () => {
 
     const url = "http://flip2.engr.oregonstate.edu:4256/pets"
 
+    function changeCities(name) {
+
+        var list = cityStates[name];
+        setCityList(list);
+    }
+
+    var stateList = [];
+    Object.keys(cityStates).forEach(state =>
+        stateList.push(<MenuItem value={state}>{state}</MenuItem>)
+    )
+    var cityMenuList = [];
+    cityList.forEach(city =>
+        cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
+    )
     // const handleSubmit = (event) => {
     //     const requestOptions = {
     //         method: 'POST',
@@ -139,50 +155,50 @@ const AddCat = () => {
     //     //event.preventDefault();
     // }
 
-    const onSubmit = (event) => {
+    // const onSubmit = (event) => {
 
-        var data = new FormData();
-        data.append("sellerId", 1); //Need to update
-        data.append("status", status);
-        data.append("animal", "Cat");
-        data.append("name", name);
-        data.append("breed", breed);
-        data.append("sex", sex);
-        data.append("age", age);
-        data.append("weight", weight);
-        data.append("size", size);
-        data.append("adoptionFee", fee);
-        data.append("aboutMe", desc);
-        data.append("city", city);
-        data.append("state", state);
-        data.append("goodWithKids", kids);
-        data.append("goodWithDogs", dogs);
-        data.append("goodWithCats", cats);
-        data.append("requiresFence", fence);
-        data.append("houseTrained", trained);
-        data.append("neuteredSpayed", neut);
-        data.append("shotsUpToDate", shots);
-        for (let i = 0; i < files.length; i++) {
-            console.log(files[i])
-            data.append("photo", files[i])
-        }
-        // data.append("photo", files[0]);
-        // for (var value of data.values()) {
-        //     console.log(value);
-        // }
-        const requestOptions = {
-            //headers: { 'content-type': 'multipart/form-data' },
-            method: 'POST',
-            body: data
-        };
+    //     var data = new FormData();
+    //     data.append("sellerId", 1); //Need to update
+    //     data.append("status", status);
+    //     data.append("animal", "Cat");
+    //     data.append("name", name);
+    //     data.append("breed", breed);
+    //     data.append("sex", sex);
+    //     data.append("age", age);
+    //     data.append("weight", weight);
+    //     data.append("size", size);
+    //     data.append("adoptionFee", fee);
+    //     data.append("aboutMe", desc);
+    //     data.append("city", city);
+    //     data.append("state", state);
+    //     data.append("goodWithKids", kids);
+    //     data.append("goodWithDogs", dogs);
+    //     data.append("goodWithCats", cats);
+    //     data.append("requiresFence", fence);
+    //     data.append("houseTrained", trained);
+    //     data.append("neuteredSpayed", neut);
+    //     data.append("shotsUpToDate", shots);
+    //     for (let i = 0; i < files.length; i++) {
+    //         console.log(files[i])
+    //         data.append("photo", files[i])
+    //     }
+    //     // data.append("photo", files[0]);
+    //     // for (var value of data.values()) {
+    //     //     console.log(value);
+    //     // }
+    //     const requestOptions = {
+    //         //headers: { 'content-type': 'multipart/form-data' },
+    //         method: 'POST',
+    //         body: data
+    //     };
         
-        // fetch(url, requestOptions)
-        // .then(response => response.json())
-        // .then(json => {
-        //     console.log('parsed json', json) // access json.body here
-        // })
-        // event.preventDefault();
-    }
+    //     // fetch(url, requestOptions)
+    //     // .then(response => response.json())
+    //     // .then(json => {
+    //     //     console.log('parsed json', json) // access json.body here
+    //     // })
+    //     // event.preventDefault();
+    // }
 
     const submitData = (data, e) => 
     {
@@ -389,36 +405,54 @@ const AddCat = () => {
                 />
                 <p>{errors.fee?.message}</p>
                 <br></br>
+                
+                
                 <TextField
                     type='text'
                     inputRef={register}
                     name='status'
                     label='Status'
-                    onChange={e => setCity(e.target.value)}
                     //value={city}
                 />
                 <p>{errors.status?.message}</p>
                 <br></br>
-                <TextField
-                    type='text'
-                    inputRef={register}
-                    name='city'
-                    label='City'
-                    onChange={e => setCity(e.target.value)}
-                    //value={city}
-                />
-                <p>{errors.city?.message}</p>
-                <br></br>
-                <TextField
-                    type='text'
-                    inputRef={register}
-                    name='state'
-                    label='State'
-                    onChange={e => setState(e.target.value)}
-                    //value={state}
+                <InputLabel id="state">State</InputLabel>
+                <Controller
+                    name="state"
+                    control={control}
+                    defaultValue={""}
+                    rules={{ required: true }}
+                    render={props =>
+                    <Select 
+                        labelId="state" 
+                        onChange={e => {props.onChange(e.target.value); changeCities(e.target.value)}}
+                        value={props.value}
+                    >
+                        {stateList}
+                    </Select>
+                    } // props contains: onChange, onBlur and value
                 />
                 <p>{errors.state?.message}</p>
                 <br></br>
+                <InputLabel id="city">City</InputLabel>
+                <Controller
+                    name="city"
+                    control={control}
+                    defaultValue={""}
+                    rules={{ required: true }}
+                    render={props =>
+                    <Select 
+                        labelId="city" 
+                        onChange={e => props.onChange(e.target.value)}
+                        value={props.value}
+                    >
+                        {cityMenuList}
+                    </Select>
+                    } // props contains: onChange, onBlur and value
+                />
+                <p>{errors.city?.message}</p>
+                <br></br>
+                
                 <TextField
                     inputRef={register}
                     type='text'
