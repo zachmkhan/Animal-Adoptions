@@ -46,11 +46,11 @@ const schema = yup.object().shape({
     requiresFence: yup.string().required(),
     houseTrained: yup.string().required(),
     neuteredSpayed: yup.string().required(),
-    shotsUpToDate: yup.string().required(),
-    photo: yup.mixed().required().test("type", "Unsupported Format", (value) => {
-        console.log(value)
-        return value && SUPPORTED_FORMATS.includes(value[0].type)}
-    )
+    shotsUpToDate: yup.string().required()
+    // photo: yup.mixed().required().test("type", "Unsupported Format", (value) => {
+    //     //console.log(value)
+    //     return value && SUPPORTED_FORMATS.includes(value[0].type)}
+    // )
   });
 
 
@@ -182,38 +182,41 @@ const AddCat = () => {
     //     event.preventDefault();
     // }
 
-    const onSubmit = data => {
-        var sendData = new FormData();
-        sendData.append("sellerId", 1); //Need to update
-        sendData.append("status", data.status);
-        sendData.append("animal", "Cat");
-        sendData.append("name", data.name);
-        sendData.append("breed", data.breed);
-        sendData.append("sex", data.sex);
-        sendData.append("age", data.age);
-        sendData.append("weight", data.weight);
-        sendData.append("size", data.size);
-        sendData.append("adoptionFee", data.fee);
-        sendData.append("aboutMe", data.desc);
-        sendData.append("city", data.city);
-        sendData.append("state", data.state);
-        sendData.append("goodWithKids", data.goodWithKids);
-        sendData.append("goodWithDogs", data.goodWithDogs);
-        sendData.append("goodWithCats", data.goodWithCats);
-        sendData.append("requiresFence", data.requiresFence);
-        sendData.append("houseTrained", data.houseTrained);
-        sendData.append("neuteredSpayed", data.neut);
-        sendData.append("shotsUpToDate", data.shotsUpToDate);
-        for (let i = 0; i < files.length; i++) {
-            if(i >= 6) {
-                break //cut off extra images
-            }
-            sendData.append("photo", files[i])
-        }
-        // data.append("photo", files[0]);
+    const submitData = data => 
+    {
         // var sendData = new FormData();
-        // sendData.append(data);
-        console.log((data));
+        // sendData.append("sellerId", 1); //Need to update
+        // sendData.append("status", data.status);
+        // sendData.append("animal", "Cat");
+        // sendData.append("name", data.name);
+        // sendData.append("breed", data.breed);
+        // sendData.append("sex", data.sex);
+        // sendData.append("age", data.age);
+        // sendData.append("weight", data.weight);
+        // sendData.append("size", data.size);
+        // sendData.append("adoptionFee", data.fee);
+        // sendData.append("aboutMe", data.desc);
+        // sendData.append("city", data.city);
+        // sendData.append("state", data.state);
+        // sendData.append("goodWithKids", data.goodWithKids);
+        // sendData.append("goodWithDogs", data.goodWithDogs);
+        // sendData.append("goodWithCats", data.goodWithCats);
+        // sendData.append("requiresFence", data.requiresFence);
+        // sendData.append("houseTrained", data.houseTrained);
+        // sendData.append("neuteredSpayed", data.neut);
+        // sendData.append("shotsUpToDate", data.shotsUpToDate);
+        // for (let i = 0; i < files.length; i++) {
+        //     if(i >= 6) {
+        //         break //cut off extra images
+        //     }
+        //     sendData.append("photo", files[i])
+        // }
+        // // data.append("photo", files[0]);
+        // // var sendData = new FormData();
+        // // sendData.append(data);
+        console.log("hello");
+        console.log(JSON.stringify(data));
+       // console.log((sendData));
     }
 
     const handleClick = () => {
@@ -229,7 +232,7 @@ const AddCat = () => {
     };
 
     return(
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(submitData)}>
                 <TextField
                     inputRef={register}
                     type='text'
@@ -497,6 +500,26 @@ const AddCat = () => {
                 />
                 <p>{errors.houseTrained?.message}</p>
                 <br></br>
+                <InputLabel id="neuteredSpayed">Neutered/Spayed</InputLabel>
+                <Controller
+                    name="neuteredSpayed"
+                    control={control}
+                    defaultValue={""}
+                    rules={{ required: true }}
+                    render={props =>
+                    <Select 
+                        labelId="neuteredSpayed" 
+                        onChange={e => props.onChange(e.target.value)}
+                        value={props.value}
+                    >
+                        <MenuItem value="Yes">Yes</MenuItem>
+                        <MenuItem value="No">No</MenuItem>
+                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                    </Select>
+                    } // props contains: onChange, onBlur and value
+                />
+                <p>{errors.shotsUpToDate?.message}</p>
+                <br></br>
                 <InputLabel id="shotsUpToDate">Shots up to date</InputLabel>
                 <Controller
                     name="shotsUpToDate"
@@ -516,21 +539,22 @@ const AddCat = () => {
                     } // props contains: onChange, onBlur and value
                 />
                 <p>{errors.shotsUpToDate?.message}</p>
+                
                 <br></br>
                 <br></br>
                 <br></br>
-                <input
+                {/* <input
                     ref={register}
                     accept="image/*"
-                    id="contained-button-file"
-                    //multiple
+                    //id="contained-button-file"
+                    multiple
                     type="file"
                     //style={{display: 'none'}}
-                    name="photo1"
-                    onChange={e => setFiles(e.target.files)}
-                />
+                    name="photo"
+                    onChange={e => setFiles(e.target.files[0])}
+                /> */}
 
-                <p>{errors.photo?.message}</p>
+                {/* <p>{errors.photo?.message}</p> */}
                 <br></br>
                 <Button type='submit' >
                     Add
