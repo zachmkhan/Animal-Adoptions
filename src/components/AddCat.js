@@ -20,6 +20,7 @@ import {catBreedsArray} from './breeds'
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import test from '../testImg.jpg';
 
 const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -46,8 +47,8 @@ const schema = yup.object().shape({
     requiresFence: yup.string().required(),
     houseTrained: yup.string().required(),
     neuteredSpayed: yup.string().required(),
-    shotsUpToDate: yup.string().required()
-    // photo: yup.mixed().required().test("type", "Unsupported Format", (value) => {
+    shotsUpToDate: yup.string().required(),
+    // photoHere: yup.mixed().required().test("type", "Unsupported Format", (value) => {
     //     //console.log(value)
     //     return value && SUPPORTED_FORMATS.includes(value[0].type)}
     // )
@@ -138,85 +139,116 @@ const AddCat = () => {
     //     //event.preventDefault();
     // }
 
-    // const handleSubmit = (event) => {
+    const onSubmit = (event) => {
 
-    //     var data = new FormData();
-    //     data.append("sellerId", 1); //Need to update
-    //     data.append("status", status);
-    //     data.append("animal", "Cat");
-    //     data.append("name", name);
-    //     data.append("breed", breed);
-    //     data.append("sex", sex);
-    //     data.append("age", age);
-    //     data.append("weight", weight);
-    //     data.append("size", size);
-    //     data.append("adoptionFee", fee);
-    //     data.append("aboutMe", desc);
-    //     data.append("city", city);
-    //     data.append("state", state);
-    //     data.append("goodWithKids", kids);
-    //     data.append("goodWithDogs", dogs);
-    //     data.append("goodWithCats", cats);
-    //     data.append("requiresFence", fence);
-    //     data.append("houseTrained", trained);
-    //     data.append("neuteredSpayed", neut);
-    //     data.append("shotsUpToDate", shots);
-    //     for (let i = 0; i < files.length; i++) {
-    //         data.append("photo", files[i])
-    //     }
-    //     // data.append("photo", files[0]);
-    //     for (var value of data.values()) {
-    //         console.log(value);
-    //     }
-    //     const requestOptions = {
-    //         //headers: { 'content-type': 'multipart/form-data' },
-    //         method: 'POST',
-    //         body: data
-    //     };
-        
-    //     fetch(url, requestOptions)
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         console.log('parsed json', json) // access json.body here
-    //     })
-    //     event.preventDefault();
-    // }
-
-    const submitData = data => 
-    {
-        // var sendData = new FormData();
-        // sendData.append("sellerId", 1); //Need to update
-        // sendData.append("status", data.status);
-        // sendData.append("animal", "Cat");
-        // sendData.append("name", data.name);
-        // sendData.append("breed", data.breed);
-        // sendData.append("sex", data.sex);
-        // sendData.append("age", data.age);
-        // sendData.append("weight", data.weight);
-        // sendData.append("size", data.size);
-        // sendData.append("adoptionFee", data.fee);
-        // sendData.append("aboutMe", data.desc);
-        // sendData.append("city", data.city);
-        // sendData.append("state", data.state);
-        // sendData.append("goodWithKids", data.goodWithKids);
-        // sendData.append("goodWithDogs", data.goodWithDogs);
-        // sendData.append("goodWithCats", data.goodWithCats);
-        // sendData.append("requiresFence", data.requiresFence);
-        // sendData.append("houseTrained", data.houseTrained);
-        // sendData.append("neuteredSpayed", data.neut);
-        // sendData.append("shotsUpToDate", data.shotsUpToDate);
-        // for (let i = 0; i < files.length; i++) {
-        //     if(i >= 6) {
-        //         break //cut off extra images
-        //     }
-        //     sendData.append("photo", files[i])
+        var data = new FormData();
+        data.append("sellerId", 1); //Need to update
+        data.append("status", status);
+        data.append("animal", "Cat");
+        data.append("name", name);
+        data.append("breed", breed);
+        data.append("sex", sex);
+        data.append("age", age);
+        data.append("weight", weight);
+        data.append("size", size);
+        data.append("adoptionFee", fee);
+        data.append("aboutMe", desc);
+        data.append("city", city);
+        data.append("state", state);
+        data.append("goodWithKids", kids);
+        data.append("goodWithDogs", dogs);
+        data.append("goodWithCats", cats);
+        data.append("requiresFence", fence);
+        data.append("houseTrained", trained);
+        data.append("neuteredSpayed", neut);
+        data.append("shotsUpToDate", shots);
+        for (let i = 0; i < files.length; i++) {
+            console.log(files[i])
+            data.append("photo", files[i])
+        }
+        // data.append("photo", files[0]);
+        // for (var value of data.values()) {
+        //     console.log(value);
         // }
-        // // data.append("photo", files[0]);
-        // // var sendData = new FormData();
-        // // sendData.append(data);
-        console.log("hello");
-        console.log(JSON.stringify(data));
+        const requestOptions = {
+            //headers: { 'content-type': 'multipart/form-data' },
+            method: 'POST',
+            body: data
+        };
+        
+        // fetch(url, requestOptions)
+        // .then(response => response.json())
+        // .then(json => {
+        //     console.log('parsed json', json) // access json.body here
+        // })
+        // event.preventDefault();
+    }
+
+    const submitData = (data, e) => 
+    {
+        var sendData = new FormData();
+        sendData.append("sellerId", 1); //Need to update
+        sendData.append("status", data.status);
+        sendData.append("animal", "Cat");
+        sendData.append("name", data.name);
+        sendData.append("breed", data.breed);
+        sendData.append("sex", data.sex);
+        sendData.append("age", data.age);
+        sendData.append("weight", data.weight);
+        sendData.append("size", data.size);
+        sendData.append("adoptionFee", data.fee);
+        sendData.append("aboutMe", data.desc);
+        sendData.append("city", data.city);
+        sendData.append("state", data.state);
+        sendData.append("goodWithKids", data.goodWithKids);
+        sendData.append("goodWithDogs", data.goodWithDogs);
+        sendData.append("goodWithCats", data.goodWithCats);
+        sendData.append("requiresFence", data.requiresFence);
+        sendData.append("houseTrained", data.houseTrained);
+        sendData.append("neuteredSpayed", data.neuteredSpayed);
+        sendData.append("shotsUpToDate", data.shotsUpToDate);
+        //console.log(files);
+
+        if (files === null) {
+            alert("You need to upload one image file");
+            return;
+        }
+        else {
+            for (let i = 0; i < files.length; i++) {
+                if(!SUPPORTED_FORMATS.includes(files[i].type)) {
+                    alert("Invalid file type");
+                    setFiles(null);
+                    return;
+                }
+                if(i >= 6) {
+                    break //cut off extra files
+                }
+                sendData.append("photo", files[i])
+            }
+        }
+
+        for (var value of sendData.values()) {
+            console.log(value);
+        }
+        // data.append("photo", files[0]);
+        // var sendData = new FormData();
+        // sendData.append(data);
+        // console.log("hello");
+        // console.log(JSON.stringify(data));
        // console.log((sendData));
+       const requestOptions = {
+        //headers: { 'content-type': 'multipart/form-data' },
+            method: 'POST',
+            body: sendData
+        };
+    
+        fetch(url, requestOptions)
+        .then(response => response.json())
+        .then(json => {
+            console.log('parsed json', json) // access json.body here
+        })
+        handleClick()
+        e.preventDefault();
     }
 
     const handleClick = () => {
@@ -543,16 +575,16 @@ const AddCat = () => {
                 <br></br>
                 <br></br>
                 <br></br>
-                {/* <input
-                    ref={register}
+                <input
+                    //ref={register}
                     accept="image/*"
-                    //id="contained-button-file"
+                    id="contained-button-file"
                     multiple
                     type="file"
                     //style={{display: 'none'}}
                     name="photo"
-                    onChange={e => setFiles(e.target.files[0])}
-                /> */}
+                    onChange={e => setFiles(e.target.files)}
+                />
 
                 {/* <p>{errors.photo?.message}</p> */}
                 <br></br>
