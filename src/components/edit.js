@@ -10,6 +10,13 @@ const petData = [
     { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
 ]
 
+const SUPPORTED_FORMATS = [
+    "image/jpg",
+    "image/jpeg",
+    "image/gif",
+    "image/png"
+  ];
+
 
 const Edit = () => {
 
@@ -78,6 +85,15 @@ const Edit = () => {
 
     function editHandler(id, photoNum) {
 
+        if (photo === null) {
+            alert("You need to upload an image file");
+            return;
+        }
+        if(!SUPPORTED_FORMATS.includes(photo.type)) {
+            alert("Invalid file type");
+            setPhoto(null);
+            return;
+        }
         var data = new FormData();
         data.append("petId", id);
         data.append("photoX", photoNum);
@@ -105,7 +121,7 @@ const Edit = () => {
                     Object.keys(pet).map(function(key) {
 
                         if(key.includes("photo")) {
-                            return;
+                            return null;
                         }
                         return <div>
                                         <TextField
@@ -136,26 +152,42 @@ const Edit = () => {
                 Object.keys(pet).map(function(key) {
 
                     if(!key.includes("photo")) {
-                        return;
+                        return null;
                     }
-                    return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                    else if (key == "photo1") {
+                        return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
                                     {pet[key] ? <img src={pet[key]} width="300" height="300" ></img> : null}
-                                    {/* <TextField
-                                        type='text'
-                                        name={key}
-                                        label={key}
-                                        onChange={e => {
-                                            const {name, value} = e.target;
-                                            setPet(prevState => ({
-                                                ...prevState,
-                                                [name]: value
-                                            }));
-                                        }}
-                                        value={pet[key]}
-                                    /> */}
+                                    <div>
+                                        <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
+                                        <Button onClick={() => {editHandler(pet["petId"], key)}}>
+                                            Change
+                                        </Button>
+                                    </div>
+                                </div>       
+                    }
+                    else if (pet[key] !== null) {
+                        return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                                    {<img src={pet[key]} width="300" height="300" ></img>}
+                                   
                                     <Button onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
                                         Delete
                                     </Button>
+                                    <div>
+                                        <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
+                                        <Button onClick={() => {editHandler(pet["petId"], key)}}>
+                                            Add
+                                        </Button>
+                                    </div>
+                                    
+                        </div>      
+                    }
+                    else {
+                        return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                                    {/* {pet[key] ? <img src={pet[key]} width="300" height="300" ></img> : null}
+                                   
+                                    <Button onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
+                                        Delete
+                                    </Button> */}
                                     <div>
                                         <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
                                         <Button onClick={() => {editHandler(pet["petId"], key)}}>
@@ -169,7 +201,8 @@ const Edit = () => {
                                         <input type="submit"/>
                                     </form> */}
                                     
-                                </div>            
+                                </div>     
+                        }       
                     } 
                 )
             }
