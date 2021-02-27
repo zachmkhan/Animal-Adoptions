@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { SettingsPhoneTwoTone } from '@material-ui/icons';
 
 const petData = [
     { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
@@ -13,6 +14,7 @@ const petData = [
 const Edit = () => {
 
     const [pet, setPet] = React.useState({});
+    const [photo, setPhoto] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     let {id} = useParams();
     const url = `http://flip2.engr.oregonstate.edu:4256/pet/${id}`
@@ -38,7 +40,7 @@ const Edit = () => {
         fetchData();
     }, []);
 
-    console.log(pet);
+    // console.log(pet);
     
     const handleSubmit = (event) => {
         const requestOptions = {
@@ -53,20 +55,92 @@ const Edit = () => {
         event.preventDefault();
     }
 
+    function deleteHandler(id, photoNum, petUrl) {
+        
+        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/photo`
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
+            body: JSON.stringify({
+                petId:id,
+                photoX:photoNum,
+                photoUrl:petUrl
+            })
+        };
+        console.log(JSON.stringify({
+            petId:id,
+            photoX:photoNum,
+            photoUrl:petUrl
+        }))
+        fetch(deleteUrl, requestOptions).then(response => response.json());
+        window.location.reload();
+    }
+
+    function editHandler(id, photoNum) {
+
+        var data = new FormData();
+        data.append("petId", id);
+        data.append("photoX", photoNum);
+        data.append("photo", photo);
+        const editUrl = `http://flip2.engr.oregonstate.edu:4256/photo`
+        const requestOptions = {
+            method: 'POST',
+            //headers: { 'Content-Type': 'application/json' },
+            body: data
+        };
+        for (var value of data.values()) {
+            console.log(value);
+        }
+        fetch(editUrl, requestOptions).then(response => response.json());
+        window.location.reload();
+    }
+
+
     return(
 
-        <form onSubmit={handleSubmit}>
-            {/* {pet.map((pet => 
-                <ul>{pet.name}</ul>
-            ))} */}
+        <div>
+            <form onSubmit={handleSubmit}>
+                
+                {
+                    Object.keys(pet).map(function(key) {
+
+                        if(key.includes("photo")) {
+                            return;
+                        }
+                        return <div>
+                                        <TextField
+                                            type='text'
+                                            name={key}
+                                            label={key}
+                                            onChange={e => {
+                                                const {name, value} = e.target;
+                                                setPet(prevState => ({
+                                                    ...prevState,
+                                                    [name]: value
+                                                }));
+                                            }}
+                                            value={pet[key]}
+                                        />
+                                    </div>            
+                        } 
+                    )
+                    
+                }
+                    <Button type='submit'>
+                        Update
+                    </Button>
+            </form>
+            <hr></hr>
+            <div>
             {
                 Object.keys(pet).map(function(key) {
-                    // if(key == "goodWithKids") {
-                    //     return <h2>{key}: {pet[key]} </h2>
-                    // }
-                    
-                        return <div>
-                                    <TextField
+
+                    if(!key.includes("photo")) {
+                        return;
+                    }
+                    return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                                    {pet[key] ? <img src={pet[key]} width="300" height="300" ></img> : null}
+                                    {/* <TextField
                                         type='text'
                                         name={key}
                                         label={key}
@@ -78,17 +152,29 @@ const Edit = () => {
                                             }));
                                         }}
                                         value={pet[key]}
-                                    />
+                                    /> */}
+                                    <Button onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
+                                        Delete
+                                    </Button>
+                                    <div>
+                                        <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
+                                        <Button onClick={() => {editHandler(pet["petId"], key)}}>
+                                            Add
+                                        </Button>
+                                    </div>
+                                    {/* <form method="POST" enctype="multipart/form-data" action="/photo">
+                                        <input type="hidden" name="petId" name={pet["petId"]}/>
+                                        <input type="hidden" name="photoX" value={key}/>
+                                        Photo<input type="file" name="photo"/>
+                                        <input type="submit"/>
+                                    </form> */}
+                                    
                                 </div>            
-                } 
+                    } 
                 )
-                
             }
-                <Button type='submit'>
-                    Update
-                </Button>
-        </form>
-        
+            </div>
+        </div>
         
     )
 
