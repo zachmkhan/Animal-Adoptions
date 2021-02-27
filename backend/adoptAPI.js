@@ -9,32 +9,24 @@ Stop with:
 const express = require('express');
 const mysql = require('./dbcon.js');
 const CORS = require('cors');
-const app = express();
+const request = require('request');
 const AWS = require("aws-sdk");
+const bodyParser = require('body-parser');
 const multer = require('multer'); // "^1.3.0"
 const multerS3 = require('multer-s3'); //"^2.7.0"
-const bodyParser = require('body-parser');
-const s3 = new AWS.S3();
 
+const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(CORS());
 app.set('port', 4256);
 app.use(bodyParser.json());
 
-AWS.config.loadFromPath("config.json");
+const geoKey = 'AIzaSyArii4GSAs11sDjn7k4mGnPjI8FTCHoJCo';
 
-var upload = multer({
-  storage: multerS3({
-      s3: s3,
-      acl: 'public-read',
-      bucket: 'elasticbeanstalk-us-east-2-181021098475/cs467',
-      contentType: multerS3.AUTO_CONTENT_TYPE,
-      key: function (req, file, cb) {
-          cb(null, Date.now().toString())
-      }
-  })
-});
+AWS.config.loadFromPath("config.json");
+const s3 = new AWS.S3();
+const bucket = 'elasticbeanstalk-us-east-2-181021098475/cs467'
 
 const getUser = `SELECT * FROM users WHERE userId=?;`;
 const userLogin = `SELECT * FROM users WHERE email=?;`;
@@ -51,15 +43,15 @@ const getFavorites = `SELECT p.* FROM pets p
 
 const insertUser = `INSERT INTO users (password, fname, lname, email) 
                         VALUES (?,?,?,?);`;
-const insertAdmin = `INSERT INTO admin (password, shelterName, city, state, 
+const insertAdmin = `INSERT INTO admin (password, shelterName, city, state, latitude, longitude
                         aboutMe, fname, lname, email, website, phone)
-                        VALUES (?,?,?,?,?,?,?,?,?,?);`;                    
-const insertPet = `INSERT INTO pets (sellerId, status, animal, name, breed, sex, age, 
-                        ageGroup, weight, size, adoptionFee, aboutMe, city, state, 
-                        photo1, photo2, photo3, photo4, photo5, photo6, 
-                        goodWithKids, goodWithDogs, goodWithCats, requiresFence, 
-                        houseTrained, neuteredSpayed, shotsUpToDate)
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;                    
+const insertPet = `INSERT INTO pets (sellerId, status, animal, name, breed, sex, age, ageGroup,
+                        weight, size, adoptionFee, aboutMe, city, state, latitude, longitude, photo1,
+                        photo2, photo3, photo4, photo5, photo6, goodWithKids,
+                        goodWithDogs, goodWithCats, requiresFence, houseTrained,
+                        neuteredSpayed, shotsUpToDate)
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`;
 const insertFavorite = `INSERT INTO favorites (userId, petId) VALUES (?,?);`;
 
 const updateUser = `UPDATE users SET password=?, fname=?, lname=?, email=?
@@ -69,9 +61,8 @@ const updateAdmin = `UPDATE admin SET password=?, shelterName=?, city=?, state=?
                         WHERE sellerId=?;`;
 const updatePet = `UPDATE pets SET sellerId=?, status=?, animal=?, name=?, breed=?, sex=?, age=?,
                         ageGroup=?, weight=?, size=?, adoptionFee=?, aboutMe=?, city=?, state=?, 
-                        photo1=?, photo2=?, photo3=?, photo4=?, photo5=?, photo6=?, 
-                        goodWithKids=?, goodWithDogs=?, goodWithCats=?, requiresFence=?, 
-                        houseTrained=?, neuteredSpayed=?, shotsUpToDate=?
+                        latitude=?, lopngitude=?, goodWithKids=?, goodWithDogs=?, goodWithCats=?, 
+                        requiresFence=?, houseTrained=?, neuteredSpayed=?, shotsUpToDate=?
                         WHERE petId=?;`;
 
 const deleteUser = `DELETE FROM users WHERE userId=?;`;
@@ -112,6 +103,7 @@ const getAllData = (res, dbQuery) =>{
 // Validate user/admin login
 const validateLogin = (res, dbQuery, email, password) => {
   var context = {}
+  console.log(email, password);
   mysql.pool.query(dbQuery, email, (err, rows, fields) => {
     if(err) {
       console.log(err);
@@ -121,7 +113,8 @@ const validateLogin = (res, dbQuery, email, password) => {
     if (rows[0]) {
       if (rows[0].password == password) {
         JSON.stringify(rows);
-        context.rows = rows
+        context.rows = rows;
+        console.log(context);
         res.send(context);
       }
       else {
@@ -134,9 +127,133 @@ const validateLogin = (res, dbQuery, email, password) => {
   });
 }
 
+function getCoordinates(city, state) {
+  var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${state}&key=${geoKey}`;
+  return new Promise(function(resolve, reject) {
+    request(url, function (error, response, body) {
+      try {
+        var coordinates = [];
+        var json = JSON.parse(body);
+        coordinates.push(parseFloat(json.results[0].geometry.location.lat));
+        coordinates.push(parseFloat(json.results[0].geometry.location.lng));
+        resolve(coordinates);
+      } catch(e) {
+        reject(e);
+      }
+    })
+  });
+}
+
+// Uploads image file to AWS S3 bucket
+var upload = multer({
+  storage: multerS3({
+      s3: s3,
+      acl: 'public-read',
+      bucket: bucket,
+      contentType: multerS3.AUTO_CONTENT_TYPE,
+      contentDisposition: 'inline',
+      key: function (req, file, cb) {
+          cb(null, Date.now().toString())
+      }
+  })
+});
+
+// Deletes image files from AWS S3 bucket
+function deletePhoto(photo) {
+  // Take out Key from photo URL (last 13 characters)
+  var key = photo.slice(-13);
+  console.log(photo);
+  var params = {
+      Bucket: bucket,
+      Key: key
+  }
+  s3.deleteObject(params, function(err, data) {
+    if (err) {// an error occurred
+      console.log(err, err.stack);
+    }
+    else {// successful response
+      console.log(data);
+    }
+  });
+}
+
+// Gets all photos associated with pet/pets (to delete in bulk)
+function getPhotos(rows) {
+  var photos = [];
+  for (var i = 0; i < rows.length; i++) {
+    if (rows[i].photo1) {
+      photos.push(rows[i].photo1);
+    }
+    if (rows[i].photo2) {
+      photos.push(rows[i].photo2);
+    }
+    if (rows[i].photo3) {
+      photos.push(rows[i].photo3);
+    }
+    if (rows[i].photo4) {
+      photos.push(rows[i].photo4);
+    }
+    if (rows[i].photo5) {
+      photos.push(rows[i].photo5);
+    }
+    if (rows[i].photo6) {
+      photos.push(rows[i].photo6);
+    }
+    return photos;
+  }
+}
+
+// Takes search requests from form and generates a query for all pets meeting criteria
+function generateSearchQuery(params) {
+  var query = `SELECT *, ( 3959 * acos( cos( radians(${params.latitude}) ) * cos( radians( latitude ) )
+      * cos( radians( longitude ) - radians(${params.longitude}) ) + sin( radians(${params.latitude}) ) 
+      * sin( radians( latitude ) ) ) ) AS distance
+    FROM pets WHERE `;
+    
+  if (params.animal) {
+    query += `animal='${params.animal}'`;
+  }
+  if (params.breed) {
+    query += ` AND breed='${params.breed}'`;
+  }
+  if (params.sex) {
+    query += ` AND sex='${params.sex}'`;
+  }
+  if (params.ageGroup) {
+    query += ` AND ageGroup='${params.ageGroup}'`;
+  }
+  if (params.size) {
+    query += ` AND size='${params.size}'`;
+  }
+  if (params.goodWithKids) {
+    query += ` AND goodWithKids='${params.goodWithKids}'`;
+  }
+  if (params.goodWithDogs) {
+    query += ` AND goodWithDogs='${params.goodWithDogs}'`;
+  }
+  if (params.goodWithCats) {
+    query += ` AND goodWithCats='${params.goodWithCats}'`;
+  }
+  if (params.requiresFence) {
+    query += ` AND requiresFence='${params.requiresFence}'`;
+  }
+  if (params.houseTrained) {
+    query += ` AND houseTrained='${params.houseTrained}'`;
+  }
+  if (params.neuteredSpayed) {
+    query += ` AND neuteredSpayed='${params.neuteredSpayed}'`;
+  }
+  if (params.shotsUpToDate) {
+    query += ` AND shotsUpToDate='${params.shotsUpToDate}'`;
+  }
+  query += ` HAVING distance < ${params.distance} ORDER BY distance`
+  return query;
+}
+
+
 //BACKEND TESTING
 //app.get('/', (req, res) => {
-//    res.sendFile(__dirname + '/index.html');
+//  res.sendFile(__dirname + '/index.html');
 //});
 
 // Get all users data for USERS table <<<FOR TESTING ONLY>>>
@@ -145,8 +262,11 @@ app.get('/users', function(req,res,next){
 });
 
   // Verify user login with email and password
-app.get('/users/login', function(req,res,next){
-  validateLogin(res, userLogin, req.query.email, req.query.password);
+app.post('/users/login', function(req,res,next){
+  console.log(req.body);
+  var {email, password} = req.body;
+  console.log(email, password);
+  validateLogin(res, userLogin, email, password);
 });
 
   // Get single users data for USERS table
@@ -159,8 +279,9 @@ app.get('/admin', function(req,res,next){
   getAllData(res, getAllAdmin);
 });
 
-app.get('/admin/login', function(req,res,next){
-  validateLogin(res, adminLogin, req.query.email, req.query.password);
+app.post('/admin/login', function(req,res,next){
+  var {email, password} = req.body;
+  validateLogin(res, adminLogin, req.body.email, req.body.password);
 });
 
   // Get single admin data for ADMIN table
@@ -209,27 +330,32 @@ app.post('/users', function(req,res,next){
 app.post('/admin', function(req,res,next){
   var { password, shelterName, city, state, aboutMe, fname, lname, 
     email, website, phone } = req.body;
-  mysql.pool.query(insertAdmin, [password, shelterName, city, state, 
-    aboutMe, fname, lname, email, website, phone], (err, result) =>{
-    if(err){
-      next(err);
-      return;
-    } 
-    getData(res, getAdmin, result.insertId);
-  });
+
+  getCoordinates(city, state).then(function(val) {
+    var latitude = val[0];
+    var longitude = val[1];
+    mysql.pool.query(insertAdmin, [password, shelterName, city, state, latitude, 
+      longitude, aboutMe, fname, lname, email, website, phone], (err, result) =>{
+      if(err){
+        next(err);
+        return;
+      } 
+      getData(res, getAdmin, result.insertId);
+    });
+  }).catch(function(err) {
+    console.log(err);
+  })
 });
 
-// Adds pet to PET table [Uses "upload" with AWS and Multer to upload 
-// photos to AWS, retrieves url, then stores in database]
+// Adds pet to PETS table.
 app.post('/pets', upload.array('photo', 6), function(req,res,next){
   var { sellerId, status, animal, name, breed, sex, age, weight, size, 
     adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, 
     photo5, photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, 
     houseTrained, neuteredSpayed, shotsUpToDate } = req.body;
   
-  // First photo is required
-  var photo1 = req.files[0].location;
-  // If 'next' photo exists, assign to 'next' photo, otherwise null
+  // Assign photos to store in DB
+  photo1 = req.files[0].location;
   if (req.files[1]) {
     photo2 = req.files[1].location;
   }
@@ -246,30 +372,37 @@ app.post('/pets', upload.array('photo', 6), function(req,res,next){
     photo6 = req.files[5].location;
   }
 
-  // Determine ageGroup based on animal age
+  // Determine ageGroup based on age
   if (age < 1) {
-    var ageGroup = "Baby";
+    ageGroup = "Baby";
   }
   else if (age < 4) {
-    var ageGroup = "Young";
+    ageGroup = "Young";
   }
   else if (age < 9) {
-    var ageGroup = "Adult"
+    ageGroup = "Adult"
   }
   else {
-    var ageGroup = "Senior"
+    ageGroup = "Senior"
   }
-
-  mysql.pool.query(insertPet, [sellerId, status, animal, name, breed, sex, age, ageGroup, 
-    weight, size, adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
-    photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
-    neuteredSpayed, shotsUpToDate], (err, result) =>{
-    if(err){
-      next(err);
-      return;
-    } 
-    getData(res, getPet, result.insertId);
-  });
+  
+  // Get lat/long coordinates, then store in DB
+  getCoordinates(city, state).then(function(val) {
+    var latitude = val[0];
+    var longitude = val[1];
+    mysql.pool.query(insertPet, [sellerId, status, animal, name, breed, sex, age, ageGroup, 
+      weight, size, adoptionFee, aboutMe, city, state, latitude, longitude, photo1, photo2, photo3, photo4, 
+      photo5, photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
+      neuteredSpayed, shotsUpToDate], (err, result) =>{
+      if(err){
+        next(err);
+        return;
+      } 
+      getData(res, getPet, result.insertId);
+    });
+  }).catch(function(err) {
+    console.log(err);
+  })
 });
 
 // Adds user/pet pair to FAVORITES table
@@ -297,7 +430,7 @@ app.delete('/users/:userId', function(req,res,next){
 
 // Delete admin
 app.delete('/admin/:sellerId', function(req,res,next){
-  //var { adminId } = req.body
+  // Get all admin's listed pets to delete photos from AWS S3
   mysql.pool.query(getAdminPets, req.params.sellerId, (err, rows, fields) => {
     if(err) {
       console.log(err);
@@ -312,6 +445,7 @@ app.delete('/admin/:sellerId', function(req,res,next){
       next(err);
       return;
     }
+    // Delete all pet photos
     for (var i = 0; i < photos.length; i++) {
       deletePhoto(photos[i]);
     }
@@ -369,8 +503,8 @@ app.put('/users/:userId', function(req,res,next){
 app.put('/admin/:sellerId', function(req,res,next){
   var { password, shelterName, city, state, aboutMe, fname, lname, 
     email, website, phone, sellerId } = req.body;
-  mysql.pool.query(updateAdmin, [password, shelterName, city, state, aboutMe, fname, lname, 
-    email, website, phone, sellerId], (err, result) =>{
+  mysql.pool.query(updateAdmin, [password, shelterName, city, state, aboutMe, 
+    fname, lname, email, website, phone, sellerId], (err, result) =>{
     if(err){
       next(err);
       return;
@@ -382,18 +516,10 @@ app.put('/admin/:sellerId', function(req,res,next){
 // Update pet info
 app.put('/pets/:petId', function(req,res,next){
   var { sellerId, status, animal, name, breed, sex, age, weight, size, 
-    adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
-    photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
-    neuteredSpayed, shotsUpToDate, petId } = req.body;
-  //var photos = []
-  //mysql.pool.query(getPet, values, (err, rows, fields) => {
-  //  if(err){
-  //    next(err);
-  //    return;
-  //  }
-  //  photos = getPhotos(rows);
-  //});
+    adoptionFee, aboutMe, city, state, goodWithKids, goodWithDogs, goodWithCats, 
+    requiresFence, houseTrained, neuteredSpayed, shotsUpToDate, petId } = req.body;
   
+  // Determine ageGroup based on pet's age
   if (age < 1) {
     var ageGroup = "Baby";
   }
@@ -407,11 +533,57 @@ app.put('/pets/:petId', function(req,res,next){
     var ageGroup = "Senior"
   }
 
-  mysql.pool.query(updatePet, [sellerId, status, animal, name, breed, sex, age, ageGroup,
-    weight, size, adoptionFee, aboutMe, city, state, photo1, photo2, photo3, photo4, photo5, 
-    photo6, goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
-    neuteredSpayed, shotsUpToDate, petId], (err, result) =>{
+  getCoordinates(city, state).then(function(val) {
+    var latitude = val[0];
+    var longitude = val[1];
+    mysql.pool.query(updatePet, [sellerId, status, animal, name, breed, sex, age, 
+      ageGroup, weight, size, adoptionFee, aboutMe, city, state, latitude, longitude, 
+      goodWithKids, goodWithDogs, goodWithCats, requiresFence, houseTrained, 
+      neuteredSpayed, shotsUpToDate, petId], (err, result) =>{
+      if(err){
+        next(err);
+        return;
+      } 
+      getData(res, getPet, result.insertId);
+    });
+  }).catch(function(err) {
+    console.err(err);
+  });
+});
+
+// Edit pet page: Delete single photo
+app.delete('/photo', function(req,res,next){
+  var { petId, photoX, photoUrl } = req.body;
+  mysql.pool.query(`UPDATE pets SET ${photoX}=null WHERE petId=${petId};`, (err, result) =>{
     if(err){
+      console.log(err);
+      next(err);
+      return;
+    }
+    deletePhoto(photoUrl);
+    getData(res, getPet, petId);
+  });
+});
+
+// Edit pet page: Add single photo
+app.post('/photo', upload.array('photo', 1), function(req,res,next) {
+  var { petId, photoX } = req.body;
+
+  if (photoX == 'photo1') {
+    mysql.pool.query(`SELECT photo1 FROM pets WHERE petId=${petId}`, (err, rows, fields) => {
+      if(err) {
+        console.log(err);
+        next(err);
+        return;
+      }
+      deletePhoto(rows[0].photo1);
+    });
+  }
+
+  mysql.pool.query(`UPDATE pets SET ${photoX}='${req.files[0].location}' WHERE petId=${petId};`, 
+    (err, result) =>{
+    if(err){
+      console.log(err);
       next(err);
       return;
     }
@@ -431,93 +603,3 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://flip2.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
-
-function deletePhoto(photo) {
-  // Take out Key from photo URL (last 13 characters)
-  var key = photo.slice(-13);
-  console.log(photo);
-  var params = {
-      Bucket: bucket,
-      Key: key
-  }
-  s3.deleteObject(params, function(err, data) {
-    if (err) {// an error occurred
-      console.log(err, err.stack);
-    }
-    else {// successful response
-      console.log(data);
-    }
-  });
-}
-
-function generateSearchQuery(params) {
-  var query = 'SELECT * FROM pets WHERE ';
-  if (params.animal) {
-    query += 'animal="' + params.animal + '"';
-  }
-  if (params.breed) {
-    query += ' AND breed="' + params.breed + '"';
-  }
-  if (params.sex) {
-    query += ' AND sex="' + params.sex + '"';
-  }
-  if (params.ageGroup) {
-    query += ' AND ageGroup="' + params.ageGroup + '"';
-  }
-  if (params.size) {
-    query += ' AND size="' + params.size + '"';
-  }
-  if (params.city) {
-    query += ' AND city="' + params.city + '"';
-  }
-  if (params.state) {
-    query += ' AND state="' + params.state + '"';
-  }
-  if (params.goodWithKids) {
-    query += ' AND goodWithKids="' + params.goodWithKids + '"';
-  }
-  if (params.goodWithDogs) {
-    query += ' AND goodWithDogs="' + params.goodWithDogs + '"';
-  }
-  if (params.goodWithCats) {
-    query += ' AND goodWithCats="' + params.goodWithCats + '"';
-  }
-  if (params.requiresFence) {
-    query += ' AND requiresFence="' + params.requiresFence + '"';
-  }
-  if (params.houseTrained) {
-    query += ' AND houseTrained="' + params.houseTrained + '"';
-  }
-  if (params.neuteredSpayed) {
-    query += ' AND neuteredSpayed="' + params.neuteredSpayed + '"';
-  }
-  if (params.shotsUpToDate) {
-    query += ' AND shotsUpToDate="' + params.shotsUpToDate + '"';
-  }
-  return query;
-}
-
-function getPhotos(rows) {
-  var photos = [];
-  for (var i = 0; i < rows.length; i++) {
-    if (rows[i].photo1) {
-      photos.push(rows[i].photo1);
-    }
-    if (rows[i].photo2) {
-      photos.push(rows[i].photo2);
-    }
-    if (rows[i].photo3) {
-      photos.push(rows[i].photo3);
-    }
-    if (rows[i].photo4) {
-      photos.push(rows[i].photo4);
-    }
-    if (rows[i].photo5) {
-      photos.push(rows[i].photo5);
-    }
-    if (rows[i].photo6) {
-      photos.push(rows[i].photo6);
-    }
-    return photos;
-  }
-}
