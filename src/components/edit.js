@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
-import { SettingsPhoneTwoTone } from '@material-ui/icons';
+import { LaptopWindowsOutlined, SettingsPhoneTwoTone } from '@material-ui/icons';
 import {catBreedsArray} from './breeds'
 import {dogBreedsArray} from './breeds'
 
@@ -146,8 +146,8 @@ const Edit = () => {
             photoX:photoNum,
             photoUrl:petUrl
         }))
-        fetch(deleteUrl, requestOptions).then(response => response.json());
-        window.location.reload();
+        fetch(deleteUrl, requestOptions).then(response => {response.json(); window.location.reload()});
+        //window.location.reload();
     }
 
     function editHandler(id, photoNum) {
@@ -174,8 +174,8 @@ const Edit = () => {
         for (var value of data.values()) {
             console.log(value);
         }
-        fetch(editUrl, requestOptions).then(response => response.json());
-        window.location.reload();
+        fetch(editUrl, requestOptions).then(response => {response.json(); window.location.reload()});
+        //window.location.reload();
     }
 
 
@@ -573,12 +573,12 @@ const Edit = () => {
                                     <Button onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
                                         Delete
                                     </Button>
-                                    <div>
+                                    {/* <div>
                                         <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
                                         <Button onClick={() => {editHandler(pet["petId"], key)}}>
                                             Add
                                         </Button>
-                                    </div>
+                                    </div> */}
                                     
                         </div>      
                     }
