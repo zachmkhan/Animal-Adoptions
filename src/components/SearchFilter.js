@@ -35,6 +35,7 @@ const SearchFilter = (props) => {
     const [trained, setTrained] = React.useState(false);
     const [neut, setNeut] = React.useState(false);
     const [shots, setShots] = React.useState(false);
+    const [distance, setDistance] = React.useState(50);
 
 
     // const stateList = (Object.keys(data));
@@ -42,22 +43,26 @@ const SearchFilter = (props) => {
 
 
     const handleSubmit = (event) => {
-        console.log(`
-            animal: ${animal},
-            breed: ${breed},
-            sex: ${sex},
-            ageGroup: ${age},
-            size: ${size},
-            city: ${city},
-            state: ${st},
-            goodWithKids: ${kids ? "Yes": "No"},
-            goodWithDogs: ${dogs ? "Yes": "No"},
-            goodWithCats: ${cats ? "Yes": "No"},
-            requiresFence: ${fence ? "Yes": "No"},
-            houseTrained: ${trained ? "Yes": "No"},
-            neuteredSpayed: ${neut ? "Yes": "No"},
-            shotsUpToDate: ${shots ? "Yes": "No"}
-        `);
+        // console.log(`
+        //     animal: ${animal},
+        //     breed: ${breed},
+        //     sex: ${sex},
+        //     ageGroup: ${age},
+        //     size: ${size},
+        //     city: ${city},
+        //     state: ${st},
+        //     goodWithKids: ${kids ? "Yes": "No"},
+        //     goodWithDogs: ${dogs ? "Yes": "No"},
+        //     goodWithCats: ${cats ? "Yes": "No"},
+        //     requiresFence: ${fence ? "Yes": "No"},
+        //     houseTrained: ${trained ? "Yes": "No"},
+        //     neuteredSpayed: ${neut ? "Yes": "No"},
+        //     shotsUpToDate: ${shots ? "Yes": "No"}
+        // `);
+        if(city == "" || st == "" || animal == "") {
+            alert("You need to select an animal, state, and city");
+            return;
+        }
         var newSearch = {
             animal:animal,
             breed:breed,
@@ -66,6 +71,7 @@ const SearchFilter = (props) => {
             size:size,
             city:city,
             state:st,
+            distance:distance,
             goodWithKids:kids ? "Yes": "",
             goodWithDogs:dogs ? "Yes": "",
             goodWithCats:cats ? "Yes": "",
@@ -100,13 +106,21 @@ const SearchFilter = (props) => {
 
     return(
         <form onSubmit={handleSubmit}>
-                <TextField
+                <InputLabel id="animal">Animal</InputLabel>
+                <Select labelId="animal"
+                    onChange={e => setAnimal(e.target.value)}
+                >
+                    <MenuItem value="Dog">Dog</MenuItem>
+                    <MenuItem value="Cat">Cat</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                </Select>
+                {/* <TextField
                     type='text'
                     name='animal'
                     label='Animal'
                     onChange={e => setAnimal(e.target.value)}
                     value={animal}
-                />
+                /> */}
                 <br></br>
                 {/* <InputLabel id="breed">Breed</InputLabel>
                 <Select labelId="breed"
@@ -168,8 +182,18 @@ const SearchFilter = (props) => {
                 >
                     {cityMenuList}
                 </Select>
+                <InputLabel id="distance">Distance</InputLabel>
+                <Select labelId="distance"
+                     onChange={e => {setDistance(e.target.value)}}
+                >
+                    <MenuItem value="10000">Anywhere</MenuItem>
+                    <MenuItem value="10">10</MenuItem>
+                    <MenuItem value="25">25</MenuItem>
+                    <MenuItem value="50">50</MenuItem>
+                    <MenuItem value="100">100</MenuItem>
+                </Select>
                 <br></br>
-                <FormGroup row>
+                <FormGroup row style={{justifyContent: 'center'}}>
                 <FormControlLabel
                     control={<Checkbox checked={dogs} onChange={e => setDogs(!dogs)} name="dogs" />}
                     label="Good with dogs"

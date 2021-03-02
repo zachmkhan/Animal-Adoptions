@@ -25,11 +25,6 @@ const SearchPage = () => {
 
     const handleSearch = obj => {
         setSearch(obj);
-        console.log(obj);
-        // console.log({
-        //     test:"test1",
-        //     test2:"test2"
-        // })
     };
     
 

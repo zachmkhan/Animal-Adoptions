@@ -15,11 +15,11 @@ const NavBar = () => {
         <div>
         <AppBar position="static">
             <Toolbar>
-                <IconButton>
+                {/* <IconButton>
                     Test
-                </IconButton>
+                </IconButton> */}
                 <Typography variant="title" color="inherit">
-                    React & Material-UI Sample Application
+                    AdoptPets
                 </Typography>
                 <Tabs value={false}>
                     <Tab label="Home" to="/userdash" component={Link} /> 

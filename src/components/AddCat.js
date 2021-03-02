@@ -584,7 +584,7 @@ const AddCat = () => {
                     </Select>
                     } // props contains: onChange, onBlur and value
                 />
-                <p>{errors.shotsUpToDate?.message}</p>
+                <p>{errors.neuteredSpayed?.message}</p>
                 <br></br>
                 <InputLabel id="shotsUpToDate">Shots up to date</InputLabel>
                 <Controller
@@ -633,7 +633,7 @@ const AddCat = () => {
                     open={open}
                     autoHideDuration={6000}
                     onClose={handleClose}
-                    message="Pet added"
+                    message="Pet added - Refresh page to add another pet"
                     action={
                     <React.Fragment>
                         <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
