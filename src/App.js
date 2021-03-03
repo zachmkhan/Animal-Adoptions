@@ -6,6 +6,7 @@ import ListPets from './components/ListPets'
 import AddDog from './components/AddDog'
 import AddCat from './components/AddCat'
 import AddAnimal from './components/AddAnimal'
+import AddTest from './components/AddTest'
 import Admin from './components/Admin'
 import SearchPage from './components/SearchPage'
 import SearchFilter from './components/SearchFilter'
@@ -13,6 +14,8 @@ import Grid from '@material-ui/core/Grid'
 import Edit from './components/edit'
 import Pet from './components/Pet'
 import Favorites from './components/Favorites'
+import EditAdmin from './components/EditAdmin'
+import EditUser from './components/EditUser'
 import {
   BrowserRouter as Router,
   Switch,
@@ -46,6 +49,9 @@ function App() {
           <Route path="/addAnimal">
             <AddAnimal/>
           </Route>  
+          <Route path="/addTest">
+            <AddTest/>
+          </Route>  
           <Route path="/admin">
             <Admin/>
           </Route> 
@@ -57,6 +63,12 @@ function App() {
           </Route>
           <Route path="/favorites/:id">
             <Favorites/>
+          </Route>
+          <Route path="/editAdmin/:id">
+            <EditAdmin/>
+          </Route>
+          <Route path="/editUser/:id">
+            <EditUser/>
           </Route>
         </Switch>
       </Router>

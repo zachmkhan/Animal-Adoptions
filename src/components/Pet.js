@@ -14,6 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import test from '../testImg.jpg'
 import { useParams } from 'react-router-dom';
+import { keys } from '@material-ui/core/styles/createBreakpoints';
+import ImageGallery from 'react-image-gallery';
+import './petStyles.css';
 
 // const useStyles = makeStyles((theme) => ({
 //     root: {
@@ -39,11 +42,13 @@ const Pet = () => {
 
     const [pet, setPet] = React.useState({});
     const [check, setCheck] = React.useState(false);
+    const [images, setImages] = React.useState([]);
+    const [random, setRandom] = React.useState(0);
 
     let {id} = useParams();
     const dummyUser = 2;
-    const url = `http://flip2.engr.oregonstate.edu:4256/pet/${id}`
-    const favsUrl = `http://flip2.engr.oregonstate.edu:4256/favorites/${dummyUser}`
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pet/${id}`
+    const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/${dummyUser}`
 
     useEffect(() => {
         async function fetchData() {
@@ -53,7 +58,7 @@ const Pet = () => {
 
                 const favsReponse = await fetch(favsUrl);
                 const favsJson = await favsReponse.json();
-                for(var i = 0; i < favsJson["rows"].length; i++) {
+                for(var i = 0; i < favsJson["rows"].length; i++) {  //Check if pet is already in favorites
                     if(favsJson["rows"][i]["petId"] == id) {
                         
                         setCheck(true);
@@ -61,13 +66,23 @@ const Pet = () => {
                     } 
                 }
                 setPet(json["rows"][0]);
-
+                // var photoArray = []; Attempt to randomly pick an image
+                // Object.keys(json["rows"][0]).map(function(key){
+                //     if(key.includes("photo") && pet[key] != "") {
+                //         photoArray.push(pet[key]);
+                //     }
+                // })
+                // setImages(photoArray);
+                // if(photoArray.length != 0) {
+                //     setRandom(Math.floor(Math.random() * photoArray.length));
+                // }
+                
             } catch (e) {
                 console.error(e);
             }
         };
         fetchData();
-        console.log(pet);
+        
     }, []);
 
     function favoriteHandler() {
@@ -76,7 +91,7 @@ const Pet = () => {
             alert("Pet is already in your favorites");
             return;
         }
-        const favsUrl = `http://flip2.engr.oregonstate.edu:4256/favorites`
+        const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites`
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
@@ -99,17 +114,18 @@ const Pet = () => {
             alignItems="flex-end"
             style={{height: "100vh",width: "100vw"}}
         >
-        <Grid item style={{textAlign:'center',width:"50vw"}} >
-            <div style={{verticalAlign: 'middle'}}>
+        <Grid item style={{display:'flex', height:"75vh", width:"50vw", alignItems:'center', justifyContent:'center'}} >
+            <Paper>
                 <img src={pet["photo1"]} height="500px" width="500px"></img>
                 <br></br>
                 <Button onClick={() => favoriteHandler()}>
                     Add to Favorites
                 </Button>
-            </div>
+            </Paper>
             
         </Grid>
         <Grid item style={{textAlign:'center',width:"50vw"}} >
+            <Paper style={{height:"75vh", textAlign:'center', alignItems:'center', justifyContent:'center', verticalAlign:'center'}}>
             {
                 Object.keys(pet).map(function(key) {
                         if(String(key).includes("photo")) {
@@ -123,6 +139,7 @@ const Pet = () => {
                 )
                 
             }
+            </Paper>
         </Grid>
 
 

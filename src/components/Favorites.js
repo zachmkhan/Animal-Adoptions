@@ -29,7 +29,7 @@ const Favorites = () => {
 
     let {id} = useParams();
     // let id = 1;
-    const url = `http://flip2.engr.oregonstate.edu:4256/favorites/${id}`
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/${id}`
 
     useEffect(() => {
         async function fetchData() {
@@ -50,7 +50,7 @@ const Favorites = () => {
 
     function deleteHandler(petId, userId) {
 
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/favorites/`
+        const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/`
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },

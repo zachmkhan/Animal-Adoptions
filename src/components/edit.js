@@ -33,8 +33,8 @@ const Edit = () => {
     const [cityList, setCityList] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     let {id} = useParams();
-    const url = `http://flip2.engr.oregonstate.edu:4256/pet/${id}`
-    const editUrl = `http://flip2.engr.oregonstate.edu:4256/pets/${id}`
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pet/${id}`
+    const editUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/${id}`
 
 
     // useEffect(() => {
@@ -131,7 +131,7 @@ const Edit = () => {
 
     function deleteHandler(id, photoNum, petUrl) {
         
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/photo`
+        const deleteUrl = `http://http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/photo`
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
@@ -165,7 +165,7 @@ const Edit = () => {
         data.append("petId", id);
         data.append("photoX", photoNum);
         data.append("photo", photo);
-        const editUrl = `http://flip2.engr.oregonstate.edu:4256/photo`
+        const editUrl = `http://http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/photo`
         const requestOptions = {
             method: 'POST',
             //headers: { 'Content-Type': 'application/json' },

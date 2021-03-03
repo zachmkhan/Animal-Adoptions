@@ -21,7 +21,8 @@ const petData = [
 const Admin = () => {
 
     const [pets, setPets] = React.useState([]);
-    const url = `http://flip2.engr.oregonstate.edu:4256/pets/`
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/`
+    const adminId = 2; //dummy
 
     useEffect(() => {
 		fetch(url)
@@ -31,7 +32,7 @@ const Admin = () => {
 
     function deleteHandler(id) {
 
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/${id}`
+        const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/${id}`
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
@@ -63,19 +64,11 @@ const Admin = () => {
 
                 ]}
                 data={pets}        
-                // actions={[
-                //     {
-                //     icon: 'save',
-                //     tooltip: 'Save User',
-                //     onClick: (event, rowData) => <Link to="/userdash"></Link>
-                //     },
-                //     {
-                //     icon: 'delete',
-                //     tooltip: 'Delete User',
-                //     //onClick: (event, rowData) => confirm("You want to delete " + rowData.name)
-                //     }
-                // ]}
+                
             />
+            <hr></hr>
+            <Tab label="Edit Profile" to={"/editAdmin/" + adminId} component={Link} />
+
         </div>
         
     )

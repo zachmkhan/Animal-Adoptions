@@ -54,10 +54,10 @@ const ListPets = (props) => {
               console.log(emptySearch);
               var url = "";
               if(emptySearch){
-                url = new URL("http://flip2.engr.oregonstate.edu:4256/pets/");
+                url = new URL("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/");
               }
               else{
-                url = new URL("http://flip2.engr.oregonstate.edu:4256/pets/search");
+                url = new URL("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/search");
                 Object.keys(search).forEach(function(key) {
                   if(search[key] != ""){
                     url.searchParams.append(key, search[key]);

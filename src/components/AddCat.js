@@ -30,24 +30,24 @@ const SUPPORTED_FORMATS = [
   ];
 
 const schema = yup.object().shape({
-    status: yup.string().required(),
-    name: yup.string().required(),
-    breed: yup.string().required(),
-    sex: yup.string().required(),
-    age: yup.number().positive().required(),
-    weight: yup.number().positive().required(),
-    size: yup.string().required(),
-    fee: yup.number().positive().required(),
-    desc: yup.string().required(),
-    city: yup.string().required(),
-    state: yup.string().required(),
-    goodWithKids: yup.string().required(),
-    goodWithDogs: yup.string().required(),
-    goodWithCats: yup.string().required(),
-    requiresFence: yup.string().required(),
-    houseTrained: yup.string().required(),
-    neuteredSpayed: yup.string().required(),
-    shotsUpToDate: yup.string().required(),
+    status: yup.string().required("Status is a required field"),
+    name: yup.string().required("Name is a required field"),
+    breed: yup.string().required("Breed is a required field"),
+    sex: yup.string().required("Sex is a required field"),
+    age: yup.number().positive().required("Age is a required field"),
+    weight: yup.number().positive().required("Weight is a required field"),
+    size: yup.string().required("Size is a required field"),
+    fee: yup.number().positive().required("Adoption Fee is a required field"),
+    desc: yup.string().required("About Me is a required field"),
+    city: yup.string().required("Cityis a required field"),
+    state: yup.string().required("State is a required field"),
+    goodWithKids: yup.string().required("Good With Kids is a required field"),
+    goodWithDogs: yup.string().required("Good With Dogs is a required field"),
+    goodWithCats: yup.string().required("Good With Cats is a required field"),
+    requiresFence: yup.string().required("Requires Fence is a required field"),
+    houseTrained: yup.string().required("Housetrained is a required field"),
+    neuteredSpayed: yup.string().required("Neutered/Spayed is a required field"),
+    shotsUpToDate: yup.string().required("Shots Up to Date is a required field"),
     // photoHere: yup.mixed().required().test("type", "Unsupported Format", (value) => {
     //     //console.log(value)
     //     return value && SUPPORTED_FORMATS.includes(value[0].type)}
@@ -94,7 +94,7 @@ const AddCat = () => {
 
     //const form = useRef(null);
 
-    const url = "http://flip2.engr.oregonstate.edu:4256/pets"
+    const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets"
 
     function changeCities(name) {
 
