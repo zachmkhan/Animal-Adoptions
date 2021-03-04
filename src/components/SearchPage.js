@@ -27,8 +27,6 @@ const SearchPage = () => {
         setSearch(obj);
     };
     
-
-
     
 
     return(

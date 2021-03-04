@@ -19,6 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 
 const AddAnimal = () => {
+
     const [name, setName] = React.useState("");
     const [breed, setBreed] = React.useState("");
     const [age, setAge] = React.useState("");

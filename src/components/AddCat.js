@@ -21,6 +21,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import test from '../testImg.jpg';
+import { Typography } from '@material-ui/core';
 
 const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -62,7 +63,7 @@ const AddCat = () => {
     const { register, handleSubmit, errors, control } = useForm({
             resolver: yupResolver(schema)
        });
- ;
+
 
     const [cityList, setCityList] = React.useState([]);
     const [name, setName] = React.useState("");
@@ -92,9 +93,8 @@ const AddCat = () => {
     const [files, setFiles] = React.useState(null);
     const [open, setOpen] = React.useState(false);
 
-    //const form = useRef(null);
-
-    const url = "http://flip2.engr.oregonstate.edu:4256/pets"
+    const test = 5;
+    const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets"
 
     function changeCities(name) {
 
@@ -246,14 +246,8 @@ const AddCat = () => {
         for (var value of sendData.values()) {
             console.log(value);
         }
-        // data.append("photo", files[0]);
-        // var sendData = new FormData();
-        // sendData.append(data);
-        // console.log("hello");
-        // console.log(JSON.stringify(data));
-       // console.log((sendData));
+
        const requestOptions = {
-        //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',
             body: sendData
         };
@@ -279,6 +273,13 @@ const AddCat = () => {
       setOpen(false);
     };
 
+    if(!test || test.length === 0) {
+        return(
+            <Typography>
+                You do not have permission to access this page.
+            </Typography>
+        )
+    }
     return(
         <form onSubmit={handleSubmit(submitData)}>
                 <TextField
