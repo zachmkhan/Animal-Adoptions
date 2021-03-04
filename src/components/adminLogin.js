@@ -70,7 +70,7 @@ const LoginAdmin = () => {
         )
         
       };
-      fetch("http://flip2.engr.oregonstate.edu:4256/admin/login", requestOptions)
+      fetch(" http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/admin/login", requestOptions)
       .then(response => response.json())
       //console.log(response.json())
       .then(json => {

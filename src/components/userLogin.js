@@ -70,7 +70,7 @@ const LoginUser = () => {
         )
         
       };
-      fetch("http://flip2.engr.oregonstate.edu:4256/users/login", requestOptions)
+      fetch(" http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/users/login", requestOptions)
       .then(response => response.json())
       //console.log(response.json())
       .then(json => {
@@ -78,6 +78,7 @@ const LoginUser = () => {
         //alert(json.rows[0].userId)
         setUserId(json.rows[0].userId)
         localStorage.setItem('user', json.rows[0].userId)
+        alert("You are now logged in as " + json.rows[0].fname + ' ' + json.rows[0].lname)
     })
       .catch((error) => {
         alert('Invalid Login')
@@ -164,6 +165,7 @@ const LoginUser = () => {
             </form>
             </div>
             </Container>
+
     )
 }
 export default LoginUser;
