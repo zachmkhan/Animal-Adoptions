@@ -9,7 +9,6 @@ import Tabs from '@material-ui/core/Tabs'
 import {Link} from 'react-router-dom'
 
 
-
 //dummy id used for favorites route for now
 const NavBar = () => {
     return(
@@ -27,9 +26,6 @@ const NavBar = () => {
                     <Tab label="Search" to="/search" component={Link} />
                     <Tab label="Admin" to="/admin" component={Link} />
                     <Tab label="Favorite" to="/favorites/2" component={Link} />
-                    <Tab label="Home" to="/Home" component={Link} /> 
-                    <Tab label="Login" to="/userLogin" component={Link} /> 
-                    <Tab label="Admin Login" to="/adminLogin" component={Link} /> 
                 </Tabs>
             </Toolbar>
         </AppBar>

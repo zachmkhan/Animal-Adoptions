@@ -22,13 +22,7 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useHistory } from "react-router-dom";
-import tests from './test';
 
-function logOut() {
-  alert("Logging out");
-  localStorage.removeItem('user');
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,14 +43,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+
+
 const LoginUser = () => {
     const [password, setPassword] = React.useState("");
     const [email, setEmail] = React.useState("");
-    const [user, setUserId] = React.useState();
     const handleSubmit = (event) => {
-      var data = new FormData();
-      data.append("email", email);
-      data.append("password", password);
       const requestOptions = {
           method: 'POST',
           headers: { 
@@ -68,29 +61,29 @@ const LoginUser = () => {
               password: password,
           }
         )
-        
       };
-      fetch(" http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/users/login", requestOptions)
+
+      fetch("http://flip2.engr.oregonstate.edu:4256/users/login", requestOptions)
       .then(response => response.json())
-      //console.log(response.json())
-      .then(json => {
-        console.log('parsed json', json) // access json.body here
-        //alert(json.rows[0].userId)
-        setUserId(json.rows[0].userId)
-        localStorage.setItem('user', json.rows[0].userId)
-        alert("You are now logged in as " + json.rows[0].fname + ' ' + json.rows[0].lname)
-    })
+      .then((jsonData) => {
+        console.log(jsonData)
+      })
       .catch((error) => {
-        alert('Invalid Login')
         console.error(error)
       })
-      event.preventDefault();
 
 
-
-
-
+      
     }
+
+
+
+
+    
+
+
+
+    
     const classes = useStyles();
     return(
       <Container component="main" maxWidth="xs">
@@ -100,9 +93,11 @@ const LoginUser = () => {
           <EmojiPeopleIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Login to your user account!
+          Login to your account!
         </Typography>
         <form onSubmit={handleSubmit}>
+
+
                 <Grid item xs={12}>
                 <TextField
                     variant="outlined"
@@ -135,37 +130,14 @@ const LoginUser = () => {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  //onClick={() => {window.location.assign('http://flip2.engr.oregonstate.edu:4256/users')}}
                   
           >
             Login
           </Button>
-          <br></br>
-          <Button 
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={() => alert(localStorage.getItem('user')) }
-                  
-                  
-          >
-            Test Button
-          </Button>
-          <Button 
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  //onClick={() => localStorage.removeItem('user') }
-                  onClick={() => logOut() }
-                  
-                  
-          >
-            Logout Button
-          </Button>
             </form>
             </div>
             </Container>
-
     )
 }
+
 export default LoginUser;
