@@ -31,13 +31,10 @@ const Admin = () => {
 
     function deleteHandler(id) {
 
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/delete`
+        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/${id}`
         const requestOptions = {
-            method: 'POST',
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
-            body: JSON.stringify({
-                petId:id
-            })
         };
         console.log(id);
         fetch(deleteUrl, requestOptions).then(response => response.json())
@@ -52,6 +49,7 @@ const Admin = () => {
             <MaterialTable
                 title="Pets"
                 columns={[
+                    { title: 'Page', field: 'petId', render: rowData => <Link to={"/pet/" + rowData.petId}>{rowData.petId}</Link>},
                     { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>{rowData.petId}</Link>},
                     { title: 'Delete', field: 'petId', render: rowData => <Link to="/admin" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(rowData.petId)};}}>{rowData.petId}</Link>},
                     { title: 'Animal', field: 'animal' },
@@ -60,7 +58,9 @@ const Admin = () => {
                     { title: 'Age', field: 'age', type: 'numeric' },
                     { title: 'Sex', field: 'sex'},
                     { title: 'Weight', field: 'weight', type: 'numeric' },
-                    { title: 'Good with dogs', field: 'goodWithDogs'},
+                    { title: 'City', field: 'city'},
+                    { title: 'State', field: 'state'},
+
                 ]}
                 data={pets}        
                 // actions={[

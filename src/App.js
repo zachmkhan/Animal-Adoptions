@@ -12,6 +12,7 @@ import SearchFilter from './components/SearchFilter'
 import Grid from '@material-ui/core/Grid'
 import Edit from './components/edit'
 import Pet from './components/Pet'
+import Favorites from './components/Favorites'
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,6 +54,9 @@ function App() {
           </Route>
           <Route path="/pet/:id">
             <Pet/>
+          </Route>
+          <Route path="/favorites/:id">
+            <Favorites/>
           </Route>
         </Switch>
       </Router>

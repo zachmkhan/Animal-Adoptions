@@ -38,15 +38,30 @@ import { useParams } from 'react-router-dom';
 const Pet = () => {
 
     const [pet, setPet] = React.useState({});
+    const [check, setCheck] = React.useState(false);
+
     let {id} = useParams();
+    const dummyUser = 2;
     const url = `http://flip2.engr.oregonstate.edu:4256/pet/${id}`
+    const favsUrl = `http://flip2.engr.oregonstate.edu:4256/favorites/${dummyUser}`
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetch(url);
                 const json = await response.json();
+
+                const favsReponse = await fetch(favsUrl);
+                const favsJson = await favsReponse.json();
+                for(var i = 0; i < favsJson["rows"].length; i++) {
+                    if(favsJson["rows"][i]["petId"] == id) {
+                        
+                        setCheck(true);
+                        break;
+                    } 
+                }
                 setPet(json["rows"][0]);
+
             } catch (e) {
                 console.error(e);
             }
@@ -55,7 +70,24 @@ const Pet = () => {
         console.log(pet);
     }, []);
 
-    //const classes = useStyles();
+    function favoriteHandler() {
+
+        if(check) {
+            alert("Pet is already in your favorites");
+            return;
+        }
+        const favsUrl = `http://flip2.engr.oregonstate.edu:4256/favorites`
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
+            body: JSON.stringify({
+                userId:dummyUser,
+                petId:id
+            })
+        };
+        console.log(`Added pet ${id} and user ${dummyUser}`);
+        //fetch(favsUrl, requestOptions).then(response => response.json())
+    }
   
     return (
 
@@ -68,7 +100,14 @@ const Pet = () => {
             style={{height: "100vh",width: "100vw"}}
         >
         <Grid item style={{textAlign:'center',width:"50vw"}} >
-            <img src={pet["photo1"]} height="500px" width="500px"></img>
+            <div style={{verticalAlign: 'middle'}}>
+                <img src={pet["photo1"]} height="500px" width="500px"></img>
+                <br></br>
+                <Button onClick={() => favoriteHandler()}>
+                    Add to Favorites
+                </Button>
+            </div>
+            
         </Grid>
         <Grid item style={{textAlign:'center',width:"50vw"}} >
             {

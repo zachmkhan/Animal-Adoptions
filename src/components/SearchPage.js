@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -25,11 +25,6 @@ const SearchPage = () => {
 
     const handleSearch = obj => {
         setSearch(obj);
-        console.log(obj);
-        // console.log({
-        //     test:"test1",
-        //     test2:"test2"
-        // })
     };
     
 
