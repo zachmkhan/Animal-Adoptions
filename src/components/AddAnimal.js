@@ -47,55 +47,10 @@ const AddAnimal = () => {
     const [files, setFiles] = React.useState(null);
     const [open, setOpen] = React.useState(false);
 
-    //const form = useRef(null);
 
     const url = "http://flip2.engr.oregonstate.edu:4256/pets"
 
-    // const handleSubmit = (event) => {
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //          },
-    //         body: JSON.stringify({
-    //             sellerId: 1, //Dummy admin id
-    //             status:status, 
-    //             animal:"Cat", 
-    //             name:name,
-    //             breed:breed, 
-    //             sex:sex, 
-    //             age:age , 
-    //             weight:weight, 
-    //             size:size, 
-    //             adoptionFee:fee, 
-    //             aboutMe: desc, 
-    //             city:city, 
-    //             state:state, 
-    //             photo1:photo1, 
-    //             photo2:photo2, 
-    //             photo3:photo3, 
-    //             photo4:photo4, 
-    //             photo5:photo5, 
-    //             photo6:photo5, 
-    //             goodWithKids:kids, 
-    //             goodWithDogs:dogs, 
-    //             goodWithCats:cats, 
-    //             requiresFence:fence, 
-    //             houseTrained:trained, 
-    //             neuteredSpayed:neut, 
-    //             shotsUpToDate:shots
-    //         }
-    //         )
-    //     };
-    //     fetch(url, requestOptions)
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         console.log('parsed json', json) // access json.body here
-    //     })
-    //     //event.preventDefault();
-    // }
-
+    
     const handleSubmit = (event) => {
 
         var data = new FormData();

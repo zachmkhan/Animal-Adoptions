@@ -25,13 +25,20 @@ const Favorites = () => {
 
     const [favs, setFavs] = React.useState([]);
     const [favsLength, setFavsLength] = React.useState(false);  //useEffect hook to rerender on delete
+    const [value, setValue] = React.useState("");
 
 
-    let {id} = useParams();
-    // let id = 1;
-    const url = `http://flip2.engr.oregonstate.edu:4256/favorites/${id}`
+    // let {id} = useParams();
 
     useEffect(() => {
+        const check = localStorage.getItem('user')
+        if (check) {
+            setValue(check)
+        }
+        else {
+            return;
+        }
+        const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/${check}`
         async function fetchData() {
             try {
                 const response = await fetch(url);
@@ -43,14 +50,14 @@ const Favorites = () => {
             }
         };
         fetchData();
-        console.log(favs);
+        
     }, [favsLength]);
 
   
 
     function deleteHandler(petId, userId) {
 
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/favorites/`
+        const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/`
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
@@ -62,6 +69,14 @@ const Favorites = () => {
         fetch(deleteUrl, requestOptions).then(response => (response.json()).then(data => setFavsLength(data.length)))
         //console.log(`You have removed the ${petId} and ${userId}`)
         //setFavs(favs);
+    }
+
+    if(!value || value.length === 0) {
+        return(
+            <Typography>
+                You do not have permission to access this page.
+            </Typography>
+        )
     }
 
     return(
@@ -81,7 +96,7 @@ const Favorites = () => {
                                             </Link>
                                         </span>}
                                 actionIcon={
-                                    <Button variant="contained" color="primary" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(4, 2)};}}>
+                                    <Button variant="contained" color="primary" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet.petId, value)};}}>
                                         Remove Favorite
                                     </Button>
                                 }

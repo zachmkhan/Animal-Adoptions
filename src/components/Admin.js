@@ -21,23 +21,36 @@ const petData = [
 const Admin = () => {
 
     const [pets, setPets] = React.useState([]);
-    const url = `http://flip2.engr.oregonstate.edu:4256/pets/`
+    const [value, setValue] = React.useState("");
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/`
 
     useEffect(() => {
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => setPets(data["rows"]))
+        const check = localStorage.getItem('admin')
+        if (check) {
+            setValue(check)
+        }
 	}, [pets])
 
     function deleteHandler(id) {
 
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/pets/${id}`
+        const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/${id}`
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
         };
         console.log(id);
         fetch(deleteUrl, requestOptions).then(response => response.json())
+    }
+
+    if(!value || value.length === 0) {
+        return(
+            <Typography>
+                You do not have permission to access this page.
+            </Typography>
+        )
     }
 
     return(

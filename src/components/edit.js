@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { LaptopWindowsOutlined, SettingsPhoneTwoTone } from '@material-ui/icons';
 import {catBreedsArray} from './breeds'
 import {dogBreedsArray} from './breeds'
+import Typography from '@material-ui/core/Typography'
 
 const petData = [
     { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
@@ -31,17 +32,13 @@ const Edit = () => {
     const [pet, setPet] = React.useState({});
     const [photo, setPhoto] = React.useState(null);
     const [cityList, setCityList] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
+    const [value, setValue] = React.useState("");
+
     let {id} = useParams();
-    const url = `http://flip2.engr.oregonstate.edu:4256/pet/${id}`
-    const editUrl = `http://flip2.engr.oregonstate.edu:4256/pets/${id}`
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pet/${id}`
+    const editUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/${id}`
 
 
-    // useEffect(() => {
-	// 	fetch(url)
-	// 		.then((response) => response.json())
-	// 		.then((data) => setPet(data["rows"][0]))
-	// }, [])
 
     useEffect(() => {
         async function fetchData() {
@@ -54,6 +51,10 @@ const Edit = () => {
             }
         };
         fetchData();
+        const check = localStorage.getItem('admin')
+        if (check) {
+            setValue(check)
+        }
     }, []);
 
     function changeCities(name) {
@@ -131,7 +132,7 @@ const Edit = () => {
 
     function deleteHandler(id, photoNum, petUrl) {
         
-        const deleteUrl = `http://flip2.engr.oregonstate.edu:4256/photo`
+        const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/photo`
         const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
@@ -165,7 +166,7 @@ const Edit = () => {
         data.append("petId", id);
         data.append("photoX", photoNum);
         data.append("photo", photo);
-        const editUrl = `http://flip2.engr.oregonstate.edu:4256/photo`
+        const editUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/photo`
         const requestOptions = {
             method: 'POST',
             //headers: { 'Content-Type': 'application/json' },
@@ -178,6 +179,13 @@ const Edit = () => {
         //window.location.reload();
     }
 
+    if(!value || value.length === 0) {
+        return(
+            <Typography>
+                You do not have permission to access this page.
+            </Typography>
+        )
+    }
 
     return(
 

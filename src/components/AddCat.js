@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -92,8 +92,8 @@ const AddCat = () => {
     const [shots, setShots] = React.useState("");
     const [files, setFiles] = React.useState(null);
     const [open, setOpen] = React.useState(false);
+    
 
-    const test = 5;
     const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets"
 
     function changeCities(name) {
@@ -110,95 +110,7 @@ const AddCat = () => {
     cityList.forEach(city =>
         cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
     )
-    // const handleSubmit = (event) => {
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //          },
-    //         body: JSON.stringify({
-    //             sellerId: 1, //Dummy admin id
-    //             status:status, 
-    //             animal:"Cat", 
-    //             name:name,
-    //             breed:breed, 
-    //             sex:sex, 
-    //             age:age , 
-    //             weight:weight, 
-    //             size:size, 
-    //             adoptionFee:fee, 
-    //             aboutMe: desc, 
-    //             city:city, 
-    //             state:state, 
-    //             photo1:photo1, 
-    //             photo2:photo2, 
-    //             photo3:photo3, 
-    //             photo4:photo4, 
-    //             photo5:photo5, 
-    //             photo6:photo5, 
-    //             goodWithKids:kids, 
-    //             goodWithDogs:dogs, 
-    //             goodWithCats:cats, 
-    //             requiresFence:fence, 
-    //             houseTrained:trained, 
-    //             neuteredSpayed:neut, 
-    //             shotsUpToDate:shots
-    //         }
-    //         )
-    //     };
-    //     fetch(url, requestOptions)
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         console.log('parsed json', json) // access json.body here
-    //     })
-    //     //event.preventDefault();
-    // }
-
-    // const onSubmit = (event) => {
-
-    //     var data = new FormData();
-    //     data.append("sellerId", 1); //Need to update
-    //     data.append("status", status);
-    //     data.append("animal", "Cat");
-    //     data.append("name", name);
-    //     data.append("breed", breed);
-    //     data.append("sex", sex);
-    //     data.append("age", age);
-    //     data.append("weight", weight);
-    //     data.append("size", size);
-    //     data.append("adoptionFee", fee);
-    //     data.append("aboutMe", desc);
-    //     data.append("city", city);
-    //     data.append("state", state);
-    //     data.append("goodWithKids", kids);
-    //     data.append("goodWithDogs", dogs);
-    //     data.append("goodWithCats", cats);
-    //     data.append("requiresFence", fence);
-    //     data.append("houseTrained", trained);
-    //     data.append("neuteredSpayed", neut);
-    //     data.append("shotsUpToDate", shots);
-    //     for (let i = 0; i < files.length; i++) {
-    //         console.log(files[i])
-    //         data.append("photo", files[i])
-    //     }
-    //     // data.append("photo", files[0]);
-    //     // for (var value of data.values()) {
-    //     //     console.log(value);
-    //     // }
-    //     const requestOptions = {
-    //         //headers: { 'content-type': 'multipart/form-data' },
-    //         method: 'POST',
-    //         body: data
-    //     };
-        
-    //     // fetch(url, requestOptions)
-    //     // .then(response => response.json())
-    //     // .then(json => {
-    //     //     console.log('parsed json', json) // access json.body here
-    //     // })
-    //     // event.preventDefault();
-    // }
+    
 
     const submitData = (data, e) => 
     {
@@ -273,13 +185,23 @@ const AddCat = () => {
       setOpen(false);
     };
 
-    if(!test || test.length === 0) {
+
+    const [value, setValue] = React.useState("");
+    useEffect(() => {
+
+        const check = localStorage.getItem('admin')
+        if (check) {
+            setValue(check)
+        }
+    }, []);
+    if(!value || value.length === 0) {
         return(
             <Typography>
                 You do not have permission to access this page.
             </Typography>
         )
     }
+    
     return(
         <form onSubmit={handleSubmit(submitData)}>
                 <TextField

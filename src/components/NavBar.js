@@ -33,7 +33,7 @@ const NavBar = () => {
                     <Tab label="Home" to="/userdash" component={Link} /> 
                     <Tab label="Search" to="/search" component={Link} />
                     <Tab label="Admin" to="/admin" component={Link} />
-                    <Tab label="Favorite" to="/favorites/2" component={Link} />
+                    <Tab label="Favorite" to="/favorites" component={Link} />
                     {/* <Tab label="Home" to="/Home" component={Link} />  */}
                     <Tab label="Login" to="/userLogin" component={Link} /> 
                     <Tab label="Admin Login" to="/adminLogin" component={Link} /> 

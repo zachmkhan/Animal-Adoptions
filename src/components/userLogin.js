@@ -23,7 +23,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
-import tests from './test';
 
 function logOut() {
   alert("Logging out");
@@ -77,6 +76,7 @@ const LoginUser = () => {
         console.log('parsed json', json) // access json.body here
         //alert(json.rows[0].userId)
         setUserId(json.rows[0].userId)
+        localStorage.clear(); //Remove all previous logins
         localStorage.setItem('user', json.rows[0].userId)
         alert("You are now logged in as " + json.rows[0].fname + ' ' + json.rows[0].lname)
     })

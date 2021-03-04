@@ -23,7 +23,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
-import tests from './test';
 
 function logOut() {
   alert("Logging out");
@@ -77,7 +76,8 @@ const LoginAdmin = () => {
         console.log('parsed json', json) // access json.body here
         //alert(json.rows[0].userId)
         setUserId(json.rows[0].sellerId)
-        localStorage.setItem('user', json.rows[0].sellerId)
+        localStorage.clear(); //Remove all previous logins
+        localStorage.setItem('admin', json.rows[0].sellerId)
     })
       .catch((error) => {
         alert('Invalid Login')
@@ -144,7 +144,7 @@ const LoginAdmin = () => {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  onClick={() => alert(localStorage.getItem('user')) }
+                  onClick={() => alert(localStorage.getItem('admin')) }
                   
                   
           >

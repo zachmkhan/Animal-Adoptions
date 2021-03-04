@@ -1,9 +1,7 @@
 import './App.css';
 import NavBar from './components/NavBar'
 
-import AddCat from './components/AddCat'
 import Grid from '@material-ui/core/Grid'
-import Home from './components/Home'
 import Login from './components/userLogin'
 import AdminLogin from './components/adminLogin'
 import Gallery from './components/Gallery'
@@ -14,7 +12,6 @@ import AddAnimal from './components/AddAnimal'
 import Admin from './components/Admin'
 import SearchPage from './components/SearchPage'
 import SearchFilter from './components/SearchFilter'
-import Grid from '@material-ui/core/Grid'
 import Edit from './components/edit'
 import Pet from './components/Pet'
 import Favorites from './components/Favorites'
@@ -33,15 +30,13 @@ function App() {
         <NavBar />
         <Switch>
 
-          <Route path="/home">
-            <Home/>
-          </Route>  
+         
           <Route path="/userLogin">
             <Login/>
           </Route> 
           <Route path="/adminLogin">
             <AdminLogin/>
-
+          </Route> 
           <Route path="/userdash">
             <Gallery/>
           </Route> 
@@ -71,9 +66,8 @@ function App() {
           <Route path="/pet/:id">
             <Pet/>
           </Route>
-          <Route path="/favorites/:id">
+          <Route path="/favorites/">
             <Favorites/>
-
           </Route>
         </Switch>
       </Router>

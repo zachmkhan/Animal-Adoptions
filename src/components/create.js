@@ -69,7 +69,7 @@ const AddUser = () => {
           }
         )
       };
-      fetch("http://flip2.engr.oregonstate.edu:4256/users", requestOptions)
+      fetch("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/users", requestOptions)
       .then(response => response.json())
       .then(json => {
           console.log('parsed json', json) // access json.body here

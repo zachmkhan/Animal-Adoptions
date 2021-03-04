@@ -42,8 +42,8 @@ const Pet = () => {
 
     let {id} = useParams();
     const dummyUser = 2;
-    const url = `http://flip2.engr.oregonstate.edu:4256/pet/${id}`
-    const favsUrl = `http://flip2.engr.oregonstate.edu:4256/favorites/${dummyUser}`
+    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pet/${id}`
+    const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/${dummyUser}`
 
     useEffect(() => {
         async function fetchData() {
@@ -76,7 +76,7 @@ const Pet = () => {
             alert("Pet is already in your favorites");
             return;
         }
-        const favsUrl = `http://flip2.engr.oregonstate.edu:4256/favorites`
+        const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites`
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },

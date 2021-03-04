@@ -49,7 +49,7 @@ const AddDog = () => {
 
     //const form = useRef(null);
 
-    const url = "http://flip2.engr.oregonstate.edu:4256/pets"
+    const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com//pets"
 
     // const handleSubmit = (event) => {
     //     const requestOptions = {
