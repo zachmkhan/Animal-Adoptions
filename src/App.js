@@ -1,21 +1,23 @@
+import logo from './logo.svg';
 import './App.css';
 import NavBar from './components/NavBar'
-
-import Grid from '@material-ui/core/Grid'
-import Login from './components/userLogin'
-import AdminLogin from './components/adminLogin'
 import Gallery from './components/Gallery'
 import ListPets from './components/ListPets'
 import AddDog from './components/AddDog'
 import AddCat from './components/AddCat'
 import AddAnimal from './components/AddAnimal'
+import AddTest from './components/AddTest'
 import Admin from './components/Admin'
 import SearchPage from './components/SearchPage'
 import SearchFilter from './components/SearchFilter'
+import Grid from '@material-ui/core/Grid'
 import Edit from './components/edit'
 import Pet from './components/Pet'
 import Favorites from './components/Favorites'
-
+import LoginAdmin from './components/adminLogin'
+import LoginUser from './components/userLogin'
+// import EditAdmin from './components/EditAdmin'
+// import EditUser from './components/EditUser'
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,14 +31,6 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-
-         
-          <Route path="/userLogin">
-            <Login/>
-          </Route> 
-          <Route path="/adminLogin">
-            <AdminLogin/>
-          </Route> 
           <Route path="/userdash">
             <Gallery/>
           </Route> 
@@ -57,6 +51,9 @@ function App() {
           <Route path="/addAnimal">
             <AddAnimal/>
           </Route>  
+          <Route path="/addTest">
+            <AddTest/>
+          </Route>  
           <Route path="/admin">
             <Admin/>
           </Route> 
@@ -68,6 +65,12 @@ function App() {
           </Route>
           <Route path="/favorites/">
             <Favorites/>
+          </Route>
+          <Route path="/userLogin">
+            <LoginUser/>
+          </Route>
+          <Route path="/adminLogin">
+            <LoginAdmin/>
           </Route>
         </Switch>
       </Router>

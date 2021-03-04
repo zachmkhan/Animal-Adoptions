@@ -26,7 +26,11 @@ import { useHistory } from "react-router-dom";
 
 function logOut() {
   alert("Logging out");
-  localStorage.removeItem('user');
+  // localStorage.removeItem('user');
+  localStorage.clear();
+  window.location.reload();
+
+
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -79,7 +83,7 @@ const LoginUser = () => {
         localStorage.clear(); //Remove all previous logins
         localStorage.setItem('user', json.rows[0].userId)
         alert("You are now logged in as " + json.rows[0].fname + ' ' + json.rows[0].lname)
-    })
+    }).then(() => window.location.reload())
       .catch((error) => {
         alert('Invalid Login')
         console.error(error)
@@ -93,6 +97,7 @@ const LoginUser = () => {
     }
     const classes = useStyles();
     return(
+
       <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
