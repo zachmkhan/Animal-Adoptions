@@ -41,10 +41,9 @@ const Pet = () => {
     const [check, setCheck] = React.useState(false);
 
     let {id} = useParams();
-    const dummyUser = 2;
     const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pet/${id}`
-    const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/${dummyUser}`
-
+    const val = localStorage.getItem('user');
+    const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/${val}`
     useEffect(() => {
         async function fetchData() {
             try {
@@ -81,12 +80,12 @@ const Pet = () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json','Accept': 'application/json' },
             body: JSON.stringify({
-                userId:dummyUser,
+                userId:val,
                 petId:id
             })
         };
-        console.log(`Added pet ${id} and user ${dummyUser}`);
-        //fetch(favsUrl, requestOptions).then(response => response.json())
+        console.log(`Added pet ${id} and user ${val}`);
+        fetch(favsUrl, requestOptions).then(response => response.json())
     }
   
     return (
@@ -117,11 +116,8 @@ const Pet = () => {
                         }
                         else return <Typography>
                                 {key} : {pet[key]}
-                                </Typography>
-                        
-                } 
-                )
-                
+                                </Typography>      
+                }) 
             }
         </Grid>
 
