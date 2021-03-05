@@ -14,6 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import test from '../testImg.jpg'
 import { useParams } from 'react-router-dom';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
+
 
 // const useStyles = makeStyles((theme) => ({
 //     root: {
@@ -39,7 +42,7 @@ const Pet = () => {
 
     const [pet, setPet] = React.useState({});
     const [check, setCheck] = React.useState(false);
-
+    var photos = [];
     let {id} = useParams();
     const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pet/${id}`
     const val = localStorage.getItem('user');
@@ -87,7 +90,7 @@ const Pet = () => {
         console.log(`Added pet ${id} and user ${val}`);
         fetch(favsUrl, requestOptions).then(response => response.json())
     }
-  
+
     return (
 
     <div>
@@ -98,9 +101,25 @@ const Pet = () => {
             alignItems="flex-end"
             style={{height: "100vh",width: "100vw"}}
         >
-        <Grid item style={{textAlign:'center',width:"50vw"}} >
-            <div style={{verticalAlign: 'middle'}}>
-                <img src={pet["photo1"]} height="500px" width="500px"></img>
+        <Grid item style={{textAlign:'center', width:"50vw"}} >
+            <div style={{verticalAlign: 'middle', paddingLeft: "60px", paddingTop: "100px", width: "50%"}}>
+                
+                {Object.keys(pet).map(function(key) {
+                    if (String(key).includes("photo") && pet[key] ) {
+                        photos.push(pet[key]);
+                        return 
+                    }
+                    else {return;}
+                })}
+                <Carousel dynamicHeight={true}>
+                    {photos.map(function(image) {
+                        return (
+                            <div>
+                                <img src={image}/>
+                            </div>
+                        )
+                    })}
+                </Carousel>
                 <br></br>
                 <Button onClick={() => favoriteHandler()}>
                     Add to Favorites
@@ -108,7 +127,7 @@ const Pet = () => {
             </div>
             
         </Grid>
-        <Grid item style={{textAlign:'center',width:"50vw"}} >
+        <Grid item style={{textAlign:'center', width:"50vw"}} >
             {
                 Object.keys(pet).map(function(key) {
                         if(String(key).includes("photo")) {
