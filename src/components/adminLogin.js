@@ -127,8 +127,7 @@ const LoginAdmin = () => {
                     variant="outlined"
                     required
                     fullWidth
-                    type='text'
-                    //type='password' //possibly change to this?
+                    type='password'
                     name="password" 
                     label="Password" 
                     onChange={e => setPassword(e.target.value)}
