@@ -9,6 +9,7 @@ import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import Box from '@material-ui/core/Box'
 import {Link} from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -17,6 +18,8 @@ const NavBar = () => {
 
     const [checkUser, setCheckUser] = React.useState("");
     const [checkAdmin, setCheckAdmin] = React.useState("");
+
+    const history = useHistory();
 
     useEffect(() => {
         
@@ -36,7 +39,7 @@ const NavBar = () => {
 
     function logOut() {
         alert("Logging out");
-        // localStorage.removeItem('user');
+        history.push("/userdash")
         localStorage.clear();
         window.location.reload();
       

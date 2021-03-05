@@ -22,16 +22,18 @@ const Admin = () => {
 
     const [pets, setPets] = React.useState([]);
     const [value, setValue] = React.useState("");
-    const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/`
+
+    // const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/`
 
     useEffect(() => {
+
+        const val = localStorage.getItem('admin');
+        setValue(val);
+        const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/admin/${val}/pets`
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => setPets(data["rows"]))
-        const check = localStorage.getItem('admin')
-        if (check) {
-            setValue(check)
-        }
+        
 	}, [pets])
 
     function deleteHandler(id) {
