@@ -115,7 +115,7 @@ const AddCat = () => {
     const submitData = (data, e) => 
     {
         var sendData = new FormData();
-        sendData.append("sellerId", 1); //Need to update
+        sendData.append("sellerId", value); //Need to update
         sendData.append("status", data.status);
         sendData.append("animal", "Cat");
         sendData.append("name", data.name);

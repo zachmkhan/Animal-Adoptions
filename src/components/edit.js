@@ -114,7 +114,7 @@ const Edit = () => {
                 neuteredSpayed: pet.neuteredSpayed,
                 petId: pet.petId,
                 requiresFence: pet.requiresFence,
-                sellerId: 1,
+                sellerId: value,
                 sex: pet.sex,
                 shotsUpToDate: pet.shotsUpToDate,
                 size: pet.size,
@@ -179,7 +179,7 @@ const Edit = () => {
         //window.location.reload();
     }
 
-    if(!value || value.length === 0) {
+    if(!value || value.length === 0 || value != pet.sellerId) {
         return(
             <Typography>
                 You do not have permission to access this page.

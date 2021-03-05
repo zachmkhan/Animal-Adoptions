@@ -16,6 +16,9 @@ import Pet from './components/Pet'
 import Favorites from './components/Favorites'
 import LoginAdmin from './components/adminLogin'
 import LoginUser from './components/userLogin'
+import EditUser from './components/EditUser'
+import EditAdmin from './components/EditAdmin'
+
 // import EditAdmin from './components/EditAdmin'
 // import EditUser from './components/EditUser'
 import {
@@ -71,6 +74,12 @@ function App() {
           </Route>
           <Route path="/adminLogin">
             <LoginAdmin/>
+          </Route>
+          <Route path="/EditUser">
+            <EditUser/>
+          </Route>
+          <Route path="/EditAdmin">
+            <EditAdmin/>
           </Route>
         </Switch>
       </Router>

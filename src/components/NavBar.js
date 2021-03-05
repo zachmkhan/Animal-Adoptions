@@ -3,9 +3,11 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/core/Menu'
+import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
+import Box from '@material-ui/core/Box'
 import {Link} from 'react-router-dom'
 
 
@@ -32,6 +34,16 @@ const NavBar = () => {
         }
     }, [checkUser, checkAdmin]);
 
+    function logOut() {
+        alert("Logging out");
+        // localStorage.removeItem('user');
+        localStorage.clear();
+        window.location.reload();
+      
+      
+      }
+
+
     if (checkAdmin) {
         return (
         <div>
@@ -40,6 +52,8 @@ const NavBar = () => {
                     <Typography variant="title" color="inherit">
                         AdoptPets
                     </Typography>
+                    <Box display='flex' flexGrow={1}>
+                    
                     {/* {
                         (!test || test.length === 0) 
                         ?  <Typography>Hello</Typography>
@@ -51,8 +65,11 @@ const NavBar = () => {
                         <Tab label="Search" to="/search" component={Link} />
                         <Tab label="Admin" to="/admin" component={Link} />
                         {/* <Tab label="Home" to="/Home" component={Link} />  */}
-                        {/* <Tab label="Admin Login" to="/adminLogin" component={Link} />  */}
+                        <Tab label="Admin Login" to="/adminLogin" component={Link} /> 
+                        <Tab label="Profile" to="/EditAdmin" component={Link} /> 
                     </Tabs>
+                    </Box>
+                    <Button color="inherit" onClick={() => logOut()}>Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>
@@ -63,9 +80,12 @@ const NavBar = () => {
             <div>
                 <AppBar position="static">
                     <Toolbar>
-                        <Typography variant="title" color="inherit">
+                        <Typography variant="title" color="inherit" align='center'>
                             AdoptPets
                         </Typography>
+                        <Box display='flex' flexGrow={1}>
+
+                        
                         {/* {
                             (!test || test.length === 0) 
                             ?  <Typography>Hello</Typography>
@@ -76,8 +96,11 @@ const NavBar = () => {
                             <Tab label="Home" to="/userdash" component={Link} /> 
                             <Tab label="Search" to="/search" component={Link} />
                             <Tab label="Favorite" to="/favorites" component={Link} />
-                            <Tab label="Login" to="/userLogin" component={Link} /> 
+                            <Tab label="Login" to="/userLogin" component={Link} />
+                            <Tab label="Profile" to="/EditUser" component={Link} />  
                         </Tabs>
+                        </Box>
+                        <Button color="inherit" onClick={() => logOut()}>Logout</Button>
                     </Toolbar>
                 </AppBar>
             </div>
@@ -90,6 +113,7 @@ const NavBar = () => {
                 <Typography variant="title" color="inherit">
                     AdoptPets
                 </Typography>
+                
                 {/* {
                     (!test || test.length === 0) 
                     ?  <Typography>Hello</Typography>
