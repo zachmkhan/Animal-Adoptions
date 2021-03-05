@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const LoginUser = () => {
+
+  const history = useHistory();
+
     const [password, setPassword] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [user, setUserId] = React.useState();
@@ -83,7 +86,8 @@ const LoginUser = () => {
         localStorage.clear(); //Remove all previous logins
         localStorage.setItem('user', json.rows[0].userId)
         alert("You are now logged in as " + json.rows[0].fname + ' ' + json.rows[0].lname)
-    }).then(() => window.location.reload())
+    }).then(history.push("/userdash"))
+    .then(() => window.location.reload())
       .catch((error) => {
         alert('Invalid Login')
         console.error(error)
