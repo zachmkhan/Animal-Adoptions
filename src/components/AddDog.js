@@ -200,16 +200,16 @@ const AddDog = () => {
                 >
                 </Input>
                 <br></br>
-                <InputLabel id="size">Size</InputLabel>
+                <InputLabel id="size">Expected Size When Grown</InputLabel>
                 <Select 
                     labelId="size" 
                     onChange={e => setSize(e.target.value)}
                     value={size}
                 >
-                    <MenuItem value="Small">Small</MenuItem>
-                    <MenuItem value="Medium">Medium</MenuItem>
-                    <MenuItem value="Large">Large</MenuItem>
-                    <MenuItem value="XLarge">XLarge</MenuItem>
+                    <MenuItem value="Small">Small (less than 25lbs)</MenuItem>
+                    <MenuItem value="Medium">Medium (25-60lbs)</MenuItem>
+                    <MenuItem value="Large">Large (60-100lbs)</MenuItem>
+                    <MenuItem value="XLarge">XLarge (100+ lbs)</MenuItem>
 
                 </Select>
                 <br></br>
