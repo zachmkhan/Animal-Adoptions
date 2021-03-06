@@ -573,7 +573,9 @@ const Edit = () => {
                     }
                     else if (key == "photo1") {
                         return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto"}}>
-                                    {pet[key] ? <img src={pet[key]} width="300" height="300" ></img> : null}
+                                    <div style={{width: "20vw", height: "90%"}}>
+                                        <img src={pet[key]} style={{width: "100%", height: "100%", objectFit: "cover"}}></img> 
+                                    </div>
                                     <div>
                                         <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
                                         <Button onClick={() => {editHandler(pet["petId"], key)}}>
