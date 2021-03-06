@@ -81,31 +81,29 @@ const Favorites = () => {
 
     return(
         <div>
-            <GridList>
+            <h1>Your Favorites! Don't wait too long to decide!</h1>
+            <div style={{width: "60vw", display: "grid", gridTemplateColumns: "auto auto auto", marginLeft: "auto", marginRight: "auto"}}>
                 {favs.map((pet) => (
-                    <GridListTile key={pet.img}>
-                        <img
-                            src={pet.photo1}
-                        />
-                        {/* <Link to={`/pet/${pet.petId}`}> */}
-                            <GridListTileBar
-                                title={`${pet.name}: ${pet.status}`}
-                                subtitle={<span>
-                                            <Link to={`/pet/${pet.petId}`} style={{ color: 'inherit', textDecoration: 'inherit' }}>
-                                                Visit
-                                            </Link>
-                                        </span>}
-                                actionIcon={
-                                    <Button variant="contained" color="primary" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet.petId, value)};}}>
-                                        Remove Favorite
-                                    </Button>
-                                }
-                            />
-                        {/* </Link> */}
-                        
-                    </GridListTile>
+                    <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", color: 'inherit', textDecoration: 'inherit'}}>
+                    <a href={`/pet/${pet.petId}`} style={{color: 'inherit', textDecoration: 'inherit'}}>
+                        <div style={{width: "20vw", height: "70%"}}>
+                            <img src={pet.photo1} style={{width: "100%", height: "100%", objectFit: "cover"}}/>
+                        </div>
+                        <div>
+                            {pet.name}
+                            <br></br>
+                            {`${pet.sex}, ${pet.ageGroup}`}
+                            <br></br>
+                            {`${pet.city}, ${pet.state}`}
+                            <br></br>
+                            
+                        </div>
+                    </a>
+                    <Button variant="contained" color="primary" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet.petId, value)};}}>
+                        😢 Remove Favorite 😢
+                    </Button></div>                      
                 ))}
-            </GridList>
+            </div>
         </div>
         
     )

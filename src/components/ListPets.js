@@ -80,52 +80,22 @@ const ListPets = (props) => {
     }, [search]);
 
     return(
-        <div className={classes.root}>
-            {/* <GridList>
-            {pets.filter(function(pet) {
-              for (var key in search) {
-                if(pet[key] != search[key] && search[key] != ""){
-                  return false;
-                }
-              }
-              return true
-            }
-              ).map(filteredName => (
-                <GridListTile >
-                    <img src={filteredName["photo1"]} />
-                    <GridListTileBar 
-                      title={filteredName["name"]}
-                      actionIcon={
-                        <Link to={`/pet/${filteredName["petId"]}`}>
-                          <IconButton>
-                            <InfoIcon />
-                          </IconButton>
-                        </Link>
-                        }
-                    />
-              </GridListTile>  
-              )
-            )}
-            </GridList> */}
-            <GridList>
-            {pets.map(filteredName => (
-                <GridListTile style={{ height: "auto" }}>
-                    <img src={filteredName["photo1"]} style={{ width: "100%" }} className="MuiGridListTile-imgFullHeight"/>
-                    <GridListTileBar 
-                      title={filteredName["name"]}
-                      actionIcon={
-                        <Link to={`/pet/${filteredName["petId"]}`}>
-                          <IconButton>
-                            <InfoIcon />
-                          </IconButton>
-                        </Link>
-                        }
-                    />
-              </GridListTile>  
-              )
-            )}
-            </GridList>
-        </div>
+      <div style={{display: "grid", gridTemplateColumns: "auto auto auto"}}>
+        {pets.map((pet) => (
+          <a href={`/pet/${pet.petId}`} style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", color: 'inherit', textDecoration: 'inherit'}}>
+            <div style={{width: "20vw", height: "80%"}}>
+                <img src={pet.photo1} style={{width: "100%", height: "100%", objectFit: "cover"}}/>
+            </div>
+            <div>
+              {pet.name}
+              <br></br>
+              {`${pet.sex}, ${pet.ageGroup}`}
+              <br></br>
+              {`${pet.city}, ${pet.state}`}
+            </div>
+          </a>                        
+        ))}
+      </div>
     )
 }
 export default ListPets;

@@ -146,27 +146,7 @@ const LoginAdmin = () => {
             Login
           </Button>
           <br></br>
-          <Button 
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={() => alert(localStorage.getItem('admin')) }
-                  
-                  
-          >
-            Test Button
-          </Button>
-          <Button 
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  //onClick={() => localStorage.removeItem('user') }
-                  onClick={() => logOut() }
-                  
-                  
-          >
-            Logout Button
-          </Button>
+
             </form>
             </div>
             </Container>

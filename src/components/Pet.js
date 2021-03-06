@@ -18,26 +18,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//       flexGrow: 1,
-//     },
-//     paper: {
-//       padding: theme.spacing(2),
-//       textAlign: 'center',
-//       color: theme.palette.text.secondary,
-//       justifyContent: "center",
-//       height: 500,
-//       //direction: 'column',
-//       alignItems: 'center',
-//       justifyContent: 'center'
-//     },
-//   }));
-  
-
-
-  
-
 const Pet = () => {
 
     const [pet, setPet] = React.useState({});
@@ -91,27 +71,63 @@ const Pet = () => {
         fetch(favsUrl, requestOptions).then(response => response.json())
     }
 
+    function yesOrNo(string) {
+        if (string == "Yes") {
+            return <p>&#9989;</p>;
+        }
+        else if (string == "No") {
+            return <p>&#10060;</p>;
+        }
+        else {
+            return <p>N/A</p>;
+        }
+    }
+
+    function sizeWeight(animal, size) {
+        if (animal=="Dog" && size=="Small") {
+            return <p><b>Expected Size: </b>Small (less than 25lbs)</p>
+        }
+        else if (animal=="Dog" && size=="Medium") {
+            return <p><b>Expected Size: </b>Medium (25-60lbs)</p>
+        }
+        else if (animal=="Dog" && size=="Large") {
+            return <p><b>Expected Size: </b>Large (60-100lbs)</p>
+        }
+        else if (animal=="Dog" && size=="Xlarge") {
+            return <p><b>Expected Size: </b>XLarge (100+ lbs)</p>
+        }
+        if (animal=="Cat" && size=="Small") {
+            return <p><b>Expected Size: </b>Small (less than 10lbs)</p>
+        }
+        else if (animal=="Cat" && size=="Medium") {
+            return <p><b>Expected Size: </b>Medium (10-15)</p>
+        }
+        else if (animal=="Cat" && size=="Large") {
+            return <p><b>Expected Size: </b>Large (15-20)</p>
+        }
+        else if (animal=="Cat" && size=="Xlarge") {
+            return <p><b>Expected Size: </b>XLarge (20+ lbs)</p>
+        }
+        else {
+            return <p><b>Expected Size: </b>{size}</p>
+        }
+
+    }
+
     return (
 
-    <div>
-        <Grid
-            container
-            alignContent="center"
-            justifyContent="center"
-            alignItems="flex-end"
-            style={{height: "100vh",width: "100vw"}}
-        >
-        <Grid item style={{textAlign:'center', width:"50vw"}} >
-            <div style={{verticalAlign: 'middle', paddingLeft: "60px", paddingTop: "100px", width: "50%"}}>
-                
+    <div style={{fontSize: "1vw", marginBottom: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+        <div style={{display: "grid", gridTemplateColumns: "auto auto"}}>
+            <div style={{width: "30vw", marginLeft: "15%", gridArea: 1/1/1/1}}>
+                <h1 style={{fontSize: "3vw"}}>Hi, I'm {pet["name"]}!</h1>
                 {Object.keys(pet).map(function(key) {
                     if (String(key).includes("photo") && pet[key] ) {
                         photos.push(pet[key]);
                         return 
                     }
-                    else {return;}
+                    else return
                 })}
-                <Carousel dynamicHeight={true}>
+                <Carousel>
                     {photos.map(function(image) {
                         return (
                             <div>
@@ -120,28 +136,97 @@ const Pet = () => {
                         )
                     })}
                 </Carousel>
-                <br></br>
-                <Button onClick={() => favoriteHandler()}>
-                    Add to Favorites
+                <Button style={{width: "100%", fontSize: "1vw", backgroundColor: "#4169E1"}} onClick={() => favoriteHandler()}>
+                    😊 Add to Favorites 😊
                 </Button>
             </div>
-            
-        </Grid>
-        <Grid item style={{textAlign:'center', width:"50vw"}} >
-            {
-                Object.keys(pet).map(function(key) {
-                        if(String(key).includes("photo")) {
-                            return;
-                        }
-                        else return <Typography>
-                                {key} : {pet[key]}
-                                </Typography>      
-                }) 
-            }
-        </Grid>
 
+        <div style={{width: "40vw", marginTop: "15%", gridArea: 1/2/1/2}}>
+            <div style={{borderStyle: "groove", backgroundColor: "rgb(220,220,220)"}}>
+                <h1>Shelter Information</h1>
+                    <div>
+                        <p><b>{pet["shelterName"]}</b> </p>
+                    </div>
+                    <div>
+                        <p>
+                            <b>Email: </b><a href={"mailto:"+pet["email"]}>{pet["email"]}</a>
+                        </p>
+                    </div>
+                    <div>
+                        <p><b>Website: </b><a href={"https://"+pet["website"]}>{pet["website"]}</a></p>
+                    </div>        
+            </div>
+            <br></br>
+            <div style={{}}>
+                <div style={{borderStyle: "groove", backgroundColor: "rgb(220,220,220)"}}>
+                    <h1>Facts About {pet["name"]}</h1>
+                    <div style={{display: "grid", gridTemplateColumns: "auto auto"}}>
+                        <div style={{}}>
+                            <p><b>Adoption Status:</b> {pet["status"]}</p>
+                        </div>
+                        <div>
+                            <p><b>Breed:</b> {pet["breed"]}</p>
+                        </div>
+                        <div>
+                            <p><b>Sex:</b> {pet["sex"]}</p>
+                        </div>
+                        <div>
+                            <p><b>Age:</b> {pet["ageGroup"]}</p>
+                        </div>
+                        <div>
+                            <p><b>Weight:</b> {pet["weight"]}lbs</p>
+                        </div>
+                        <div>
+                            {sizeWeight(pet["animal"], pet["size"])}
+                        </div>
+                        <div>
+                            <p><b>Adoption Fee:</b> ${pet["adoptionFee"]}</p>
+                        </div>
+                        <div>
+                            <p><b>Location:</b> {pet["city"]}, {pet["state"]}</p>
+                        </div>
+                    </div>
+                </div>
+                <br></br>
+                <div style={{borderStyle: "groove", backgroundColor: "rgb(220,220,220)"}}>
+                    <h2 style={{textAlign: "center"}}>Things You Should Know About Me</h2>
+                    <div style={{display: "grid", gridTemplateColumns: "auto auto auto"}}>
 
-        </Grid>
+                        <div>
+                            <p><b>Good With Kids</b></p>
+                            {yesOrNo(pet["goodWithKids"])}
+                        </div>
+                        <div>
+                            <p><b>Good With Dogs</b></p>
+                            {yesOrNo(pet["goodWithDogs"])}
+                        </div>
+                        <div>
+                            <p><b>Good With Cats</b></p>
+                            {yesOrNo(pet["goodWithCats"])}
+                        </div>
+                        <div>
+                            <p><b>Requires Fence</b></p>
+                            {yesOrNo(pet["requiresFence"])}
+                        </div>
+                        <div>
+                            <p><b>Spayed/Neutered</b></p>
+                            {yesOrNo(pet["neuteredSpayed"])}
+                        </div>
+                        <div>
+                            <p><b>Shots Up To Date</b></p>
+                            {yesOrNo(pet["shotsUpToDate"])}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div style={{alignText: "center", borderStyle: "groove", backgroundColor: "rgb(220,220,220)", width: "60%", marginLeft: "auto", marginRight: "auto", marginTop: "5%"}}>
+            <h1>About Me!</h1>
+            <p style={{fontSize: "1vw", textAlign: "left"}}>{pet["aboutMe"]}</p>
+        </div>
+        
+        
     </div>
     );
 }
