@@ -205,7 +205,7 @@ const Pet = () => {
             </div>
         </div>
         </div>
-        <div style={{borderStyle: "groove", backgroundColor: "rgb(220,220,220)", width: "60%", marginLeft: "auto", marginRight: "auto", marginTop: "5%"}}>
+        <div style={{alignText: "center", borderStyle: "groove", backgroundColor: "rgb(220,220,220)", width: "60%", marginLeft: "auto", marginRight: "auto", marginTop: "5%"}}>
             <h1>About Me!</h1>
             <p style={{fontSize: "1vw", textAlign: "left"}}>{pet["aboutMe"]}</p>
         </div>
