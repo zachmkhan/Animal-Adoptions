@@ -30,9 +30,16 @@ const SearchPage = () => {
     
 
     return(
-        <div>
-            <SearchFilter search={search} handleSearch={handleSearch}/>
-            <ListPets search={search}/>
+        <div style={{width: "95%", display: "grid", gridTemplateColumns: "auto auto", marginLeft: "auto", marginRight: "auto"}}>
+            <div style={{width: "25vw", marginLeft: "auto", marginRight: "auto", marginTop: "15%"}}>
+                <h1>Search Filters:</h1>
+                <SearchFilter search={search} handleSearch={handleSearch}/>
+            </div>
+            <div style={{width: "65vw", marginLeft: "auto", marginRight: "auto", marginTop: "5%"}}>
+                <h1>Pets Matching Your Search</h1>
+                <ListPets search={search}/>
+            </div>
+            
         </div>
     )
 }
