@@ -18,19 +18,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
+import PetsIcon from '@material-ui/icons/Pets';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 
-function logOut() {
-  alert("Logging out");
-  // localStorage.removeItem('user');
-  localStorage.clear();
-  window.location.reload();
-  
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,17 +44,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const LoginAdmin = () => {
 
-    const history = useHistory();
 
+
+const AddUser = () => {
+
+  const history = useHistory();
+    const [fname, setFname] = React.useState("");
+    const [lname, setLname] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [user, setUserId] = React.useState();
+
     const handleSubmit = (event) => {
-      var data = new FormData();
-      data.append("email", email);
-      data.append("password", password);
       const requestOptions = {
           method: 'POST',
           headers: { 
@@ -69,46 +64,73 @@ const LoginAdmin = () => {
               'Content-Type': 'application/json'
            },
           body: JSON.stringify({
-              email: email,            
+              userId: 10, 
               password: password,
+              fname: fname,
+              lname: lname,
+              email: email,
+
           }
         )
-        
       };
-      fetch(" http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/admin/login", requestOptions)
+      fetch("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/users", requestOptions)
       .then(response => response.json())
-      //console.log(response.json())
       .then(json => {
-        console.log('parsed json', json) // access json.body here
-        //alert(json.rows[0].userId)
-        setUserId(json.rows[0].sellerId)
-        localStorage.clear(); //Remove all previous logins
-        localStorage.setItem('admin', json.rows[0].sellerId)
-    }).then(history.push("/userdash"))
-    .then(() => window.location.reload())
-      .catch((error) => {
-        alert('Invalid Login')
-        console.error(error)
-      })
-      event.preventDefault();
-
-
-
-
+          console.log('parsed json', json) // access json.body here
+          localStorage.clear(); //Remove all previous logins
+          localStorage.setItem('user', json.rows[0].userId)
+          alert("You are now logged in as " + json.rows[0].fname + ' ' + json.rows[0].lname)
+      }).then(history.push("/userdash"))
+      .then(() => window.location.reload())
+      
 
     }
+
+    
+
+
+
+    
     const classes = useStyles();
     return(
       <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <EmojiPeopleIcon />
+          <PetsIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Login to your admin account!
+          Sign up for animal adoption!
         </Typography>
         <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                    type='text'
+                    name='fname'
+                    variant="outlined"
+                    label='First Name'
+                    autoFocus
+                    onChange={e => setFname(e.target.value)}
+                    value={fname}
+                />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth 
+                    type='text'
+                    name="lname" 
+                    label="Last Name" 
+                    onChange={e => setLname(e.target.value)}
+                    value={lname}
+                    autoComplete="lname"
+                />
+
+                </Grid>
+                </Grid>
+
                 <Grid item xs={12}>
                 <TextField
                     variant="outlined"
@@ -127,7 +149,8 @@ const LoginAdmin = () => {
                     variant="outlined"
                     required
                     fullWidth
-                    type='password'
+                    //type='text'
+                    type='password' //possibly change to this?
                     name="password" 
                     label="Password" 
                     onChange={e => setPassword(e.target.value)}
@@ -140,24 +163,13 @@ const LoginAdmin = () => {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  //onClick={() => {window.location.assign('http://flip2.engr.oregonstate.edu:4256/users')}}
-                  
           >
-            Login
+            Register
           </Button>
-          <Button 
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  onClick={() =>  history.push("/adminRegister") }
-          >
-            New Admin?
-          </Button>
-          <br></br>
-
             </form>
             </div>
             </Container>
     )
 }
-export default LoginAdmin;
+
+export default AddUser;

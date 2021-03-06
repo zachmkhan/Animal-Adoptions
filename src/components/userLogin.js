@@ -15,7 +15,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
@@ -23,6 +22,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
+
+
+
 
 function logOut() {
   alert("Logging out");
@@ -149,7 +151,17 @@ const LoginUser = () => {
             Login
           </Button>
           <br></br>
+          <Button 
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>  history.push("/userRegister") }
+          >
+            New User?
+          </Button>
+
             </form>
+            
             </div>
             </Container>
 
