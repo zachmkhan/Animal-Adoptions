@@ -30,9 +30,9 @@ const Gallery = () => {
                 </Grid>
             </Grid>
             <hr></hr>
-            <Typography>
+            {/* <Typography>
                 {value}
-            </Typography>
+            </Typography> */}
         </div>
     )
 }
