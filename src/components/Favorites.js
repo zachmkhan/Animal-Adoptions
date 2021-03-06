@@ -83,9 +83,11 @@ const Favorites = () => {
         <div>
             <GridList>
                 {favs.map((pet) => (
-                    <GridListTile key={pet.img}>
+                    <GridListTile key={pet.img} style={{ height: "auto" }}>
                         <img
                             src={pet.photo1}
+                            style={{ width: "100%" }} 
+                            className="MuiGridListTile-imgFullHeight"
                         />
                         {/* <Link to={`/pet/${pet.petId}`}> */}
                             <GridListTileBar
