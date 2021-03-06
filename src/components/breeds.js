@@ -18,6 +18,7 @@ export {dogBreedsArray};
 var dogBreedsArray = [];
 const dogBreeds = 
       [
+        "Any",
         "Affenpinscher",
         "Afghan Hound",
         "Aidi",
@@ -480,6 +481,7 @@ dogBreeds.forEach(function(breed) {
 export {catBreedsArray};
 var catBreedsArray = [];
 const catBreeds = [
+  "Any",
   "Abyssinian",
   "Aegean",
   "American Curl",

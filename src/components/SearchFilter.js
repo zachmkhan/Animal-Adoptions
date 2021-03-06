@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
 import {dogBreedsArray} from './breeds'
+import {catBreedsArray} from './breeds'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
@@ -36,6 +37,7 @@ const SearchFilter = (props) => {
     const [neut, setNeut] = React.useState(false);
     const [shots, setShots] = React.useState(false);
     const [distance, setDistance] = React.useState(50);
+    const [breedList, setBreedList] = React.useState([]);
 
 
     // const stateList = (Object.keys(data));
@@ -43,29 +45,14 @@ const SearchFilter = (props) => {
 
 
     const handleSubmit = (event) => {
-        // console.log(`
-        //     animal: ${animal},
-        //     breed: ${breed},
-        //     sex: ${sex},
-        //     ageGroup: ${age},
-        //     size: ${size},
-        //     city: ${city},
-        //     state: ${st},
-        //     goodWithKids: ${kids ? "Yes": "No"},
-        //     goodWithDogs: ${dogs ? "Yes": "No"},
-        //     goodWithCats: ${cats ? "Yes": "No"},
-        //     requiresFence: ${fence ? "Yes": "No"},
-        //     houseTrained: ${trained ? "Yes": "No"},
-        //     neuteredSpayed: ${neut ? "Yes": "No"},
-        //     shotsUpToDate: ${shots ? "Yes": "No"}
-        // `);
+  
         if(city == "" || st == "" || animal == "") {
             alert("You need to select an animal, state, and city");
             return;
         }
         var newSearch = {
             animal:animal,
-            breed:breed,
+            breed:breed == "Any" ? "" : breed,
             sex:sex,
             ageGroup:age,
             size:size,
@@ -83,6 +70,20 @@ const SearchFilter = (props) => {
         //console.log(newSearch);
         handleSearch(newSearch);
         event.preventDefault();
+    }
+
+    function changeBreeds(animal) {
+
+        if(animal == "Dog"){
+            setBreedList(dogBreedsArray);
+        }
+        else if (animal == "Cat") {
+            setBreedList(catBreedsArray);
+        }
+        else {
+            setBreedList([]);
+        }
+
     }
 
     function changeCities(name) {
@@ -108,7 +109,7 @@ const SearchFilter = (props) => {
         <form onSubmit={handleSubmit}>
                 <InputLabel id="animal">Animal</InputLabel>
                 <Select labelId="animal"
-                    onChange={e => setAnimal(e.target.value)}
+                    onChange={e => {setAnimal(e.target.value); changeBreeds(e.target.value)}}
                 >
                     <MenuItem value="Dog">Dog</MenuItem>
                     <MenuItem value="Cat">Cat</MenuItem>
@@ -122,21 +123,21 @@ const SearchFilter = (props) => {
                     value={animal}
                 /> */}
                 <br></br>
-                {/* <InputLabel id="breed">Breed</InputLabel>
+                <InputLabel id="breed">Breed</InputLabel>
                 <Select labelId="breed"
                     onChange={e => setBreed(e.target.value)}
                 >
                     {breedList}
                 </Select>
-                <br></br> */}
-                <TextField
+                <br></br>
+                {/* <TextField
                     type='text'
                     name='breed'
                     label='Breed'
                     onChange={e => setBreed(e.target.value)}
                     value={breed}
                 />
-                <br></br>
+                <br></br> */}
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select labelId="sex"
                     onChange={e => setSex(e.target.value)}
