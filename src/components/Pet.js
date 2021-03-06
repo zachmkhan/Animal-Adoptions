@@ -88,14 +88,30 @@ const Pet = () => {
             return <p><b>Expected Size: </b>Small (less than 25lbs)</p>
         }
         else if (animal=="Dog" && size=="Medium") {
-            return <p><b>Expected Size: </b>Medium (26-60lbs)</p>
+            return <p><b>Expected Size: </b>Medium (25-60lbs)</p>
         }
         else if (animal=="Dog" && size=="Large") {
-            return <p><b>Expected Size: </b>Large (61-100lbs)</p>
+            return <p><b>Expected Size: </b>Large (60-100lbs)</p>
         }
         else if (animal=="Dog" && size=="Xlarge") {
-            return <p><b>Expected Size: </b>XLarge (Greater than 100lbs)</p>
+            return <p><b>Expected Size: </b>XLarge (100+ lbs)</p>
         }
+        if (animal=="Cat" && size=="Small") {
+            return <p><b>Expected Size: </b>Small (less than 10lbs)</p>
+        }
+        else if (animal=="Cat" && size=="Medium") {
+            return <p><b>Expected Size: </b>Medium (10-15)</p>
+        }
+        else if (animal=="Cat" && size=="Large") {
+            return <p><b>Expected Size: </b>Large (15-20)</p>
+        }
+        else if (animal=="Cat" && size=="Xlarge") {
+            return <p><b>Expected Size: </b>XLarge (20+ lbs)</p>
+        }
+        else {
+            return <p><b>Expected Size: </b>{size}</p>
+        }
+
     }
 
     return (
@@ -121,7 +137,7 @@ const Pet = () => {
                     })}
                 </Carousel>
                 <Button style={{width: "100%", fontSize: "1vw", backgroundColor: "#4169E1"}} onClick={() => favoriteHandler()}>
-                    Add to Favorites
+                    😊 Add to Favorites 😊
                 </Button>
             </div>
 
