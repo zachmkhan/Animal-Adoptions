@@ -100,27 +100,27 @@ const Edit = () => {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                aboutMe: pet.aboutMe,
-                animal: pet.animal,
-                adoptionFee: pet.adoptionFee,
-                age: pet.age,
-                breed: pet.breed,
-                city: pet.city,
-                goodWithCats: pet.goodWithCats,
-                goodWithDogs: pet.goodWithDogs,
-                goodWithKids: pet.goodWithKids,
-                houseTrained: pet.houseTrained,
-                name: pet.name,
-                neuteredSpayed: pet.neuteredSpayed,
-                petId: pet.petId,
-                requiresFence: pet.requiresFence,
-                sellerId: value,
-                sex: pet.sex,
-                shotsUpToDate: pet.shotsUpToDate,
-                size: pet.size,
-                state: pet.state,
+                sellerId: pet.sellerId,
                 status: pet.status,
+                animal: pet.animal,
+                name: pet.name,
+                breed: pet.breed,
+                sex: pet.sex,
+                age: pet.age,
                 weight: pet.weight,
+                size: pet.size,
+                adoptionFee: pet.adoptionFee,
+                aboutMe: pet.aboutMe,
+                city: pet.city,
+                state: pet.state,
+                goodWithKids: pet.goodWithKids,
+                goodWithDogs: pet.goodWithDogs,
+                goodWithCats: pet.goodWithCats,
+                requiresFence: pet.requiresFence,
+                houseTrained: pet.houseTrained,
+                neuteredSpayed: pet.neuteredSpayed,
+                shotsUpToDate: pet.shotsUpToDate,
+                petId: pet.petId,
             })
         };
         fetch(editUrl, requestOptions)
@@ -190,10 +190,12 @@ const Edit = () => {
     return(
 
         <div>
-            <form onSubmit={handleSubmit}>
+            <form id="form" onSubmit={handleSubmit} style={{width: "80%"}}>
+            <InputLabel id="name">Name: {pet.name}</InputLabel>
             <TextField
                     type='text'
                     name='name'
+                    style={{marginLeft: "auto", marginRight: "auto"}}
                     label={pet.name ? "" : 'Name'}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -307,7 +309,7 @@ const Edit = () => {
                 </Input>
                 <br></br>
                 <InputLabel id="status">Status</InputLabel>
-                <Input 
+                <Select 
                     labelId="status"
                     name="status" 
                     type="text"
@@ -320,7 +322,11 @@ const Edit = () => {
                         }));
                     }}
                 >
-                </Input>
+                    <MenuItem value="Available">Available</MenuItem>
+                    <MenuItem value="Unavailable">Unavailable</MenuItem>
+                    <MenuItem value="Pending">Pending</MenuItem>
+                    <MenuItem value="Adopted!">Adopted!</MenuItem>
+                </Select>
                 <br></br>
                 <InputLabel id="state">State: {pet.state}</InputLabel>
                 <Select 
@@ -383,9 +389,12 @@ const Edit = () => {
                     value={pet.state}
                 />
                 <br></br> */}
-                <TextField
-                    type='text'
+                <InputLabel id="aboutMe">About Me</InputLabel>
+                <textarea
+                    cols="100"
+                    rows="20"
                     name='aboutMe'
+                    form="form"
                     label={pet.aboutMe ? "" : 'About me'}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -395,7 +404,6 @@ const Edit = () => {
                         }));
                     }}
                     value={pet.aboutMe}
-                    multiline='true'
                 />
              
                 <br></br>
@@ -564,7 +572,7 @@ const Edit = () => {
                         return null;
                     }
                     else if (key == "photo1") {
-                        return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                        return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto"}}>
                                     {pet[key] ? <img src={pet[key]} width="300" height="300" ></img> : null}
                                     <div>
                                         <input type="file" name="photo" onChange={e => setPhoto(e.target.files[0])}/>
@@ -575,9 +583,10 @@ const Edit = () => {
                                 </div>       
                     }
                     else if (pet[key] !== null) {
-                        return <div style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-                                    {<img src={pet[key]} width="300" height="300" ></img>}
-                                   
+                        return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto"}}>
+                                    <div style={{width: "20vw", height: "90%"}}>
+                                        <img src={pet[key]} style={{width: "100%", height: "100%", objectFit: "cover"}}></img>
+                                    </div>
                                     <Button onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
                                         Delete
                                     </Button>
