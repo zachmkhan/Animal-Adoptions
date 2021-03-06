@@ -109,8 +109,8 @@ const ListPets = (props) => {
             </GridList> */}
             <GridList>
             {pets.map(filteredName => (
-                <GridListTile >
-                    <img src={filteredName["photo1"]} />
+                <GridListTile style={{ height: "auto" }}>
+                    <img src={filteredName["photo1"]} style={{ width: "100%" }} className="MuiGridListTile-imgFullHeight"/>
                     <GridListTileBar 
                       title={filteredName["name"]}
                       actionIcon={
