@@ -46,6 +46,7 @@ const Edit = () => {
                 const response = await fetch(url);
                 const json = await response.json();
                 setPet(json["rows"][0]);
+                setCityList(cityStates[json["rows"][0]["state"]]);
             } catch (e) {
                 console.error(e);
             }
