@@ -18,8 +18,10 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {dogBreedsArray} from './breeds'
 
+const data = require('../updated_cities_states.json');
 
 const AddDog = () => {
+    const [cityList, setCityList] = React.useState([]);
     const [name, setName] = React.useState("");
     const [breed, setBreed] = React.useState("");
     const [age, setAge] = React.useState("");
@@ -50,6 +52,22 @@ const AddDog = () => {
     //const form = useRef(null);
 
     const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com//pets"
+    function changeCities(name) {
+
+        var list = data[name];
+        console.log(list);
+        setCityList(list);
+    }
+    
+    
+    var stateList = [];
+    Object.keys(data).forEach(state =>
+        stateList.push(<MenuItem value={state}>{state}</MenuItem>)
+    )
+    var cityMenuList = [];
+    cityList.forEach(city =>
+        cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
+    )
 
     // const handleSubmit = (event) => {
     //     const requestOptions = {
@@ -154,7 +172,7 @@ const AddDog = () => {
     };
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form id="form" onSubmit={handleSubmit}>
                 <TextField
                     type='text'
                     name='name'
@@ -223,88 +241,42 @@ const AddDog = () => {
                 </Input>
                 <br></br>
                 <InputLabel id="status">Status</InputLabel>
-                <Input 
+                <Select 
                     labelId="status" 
                     type="text"
                     value={status}
                     onChange={e => setStatus(e.target.value)}
                 >
-                </Input>
+                    <MenuItem value="Available">Available</MenuItem>
+                    <MenuItem value="Unvailable">Unvailable</MenuItem>
+                    <MenuItem value="Pending">Pending</MenuItem>
+                </Select>
                 <br></br>
-                <TextField
-                    type='text'
-                    name='city'
-                    label='City'
-                    onChange={e => setCity(e.target.value)}
-                    value={city}
-                />
+                <InputLabel id="state">State</InputLabel>
+                <Select labelId="state"
+                    onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
+                >
+                    {stateList}
+                </Select>
+                
+                <InputLabel id="city">City</InputLabel>
+                <Select labelId="city"
+                    onChange={e => {setCity(e.target.value)}}
+
+                >
+                    {cityMenuList}
+                </Select>
                 <br></br>
-                <TextField
-                    type='text'
-                    name='state'
-                    label='State'
-                    onChange={e => setState(e.target.value)}
-                    value={state}
-                />
+                
+                <InputLabel id="aboutMe">About Me</InputLabel>
+                <textarea
+                    cols="100"
+                    rows="20"
+                    name='aboutMe'
+                    form="form"
+                ></textarea>
                 <br></br>
-                <TextField
-                    type='text'
-                    name='desc'
-                    label='About me'
-                    onChange={e => setDesc(e.target.value)}
-                    value={desc}
-                    multiline='true'
-                />
-                {/* <br></br>
-                <TextField
-                    type='text'
-                    name='photo1'
-                    label='photo1'
-                    onChange={e => setPhoto1(e.target.value)}
-                    value={photo1}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='photo2'
-                    label='photo2'
-                    onChange={e => setPhoto2(e.target.value)}
-                    value={photo2}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='photo3'
-                    label='photo3'
-                    onChange={e => setPhoto3(e.target.value)}
-                    value={photo3}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='photo4'
-                    label='photo4'
-                    onChange={e => setPhoto4(e.target.value)}
-                    value={photo4}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='photo5'
-                    label='photo5'
-                    onChange={e => setPhoto5(e.target.value)}
-                    value={photo5}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='photo6'
-                    label='photo6'
-                    onChange={e => setPhoto6(e.target.value)}
-                    value={photo6}
-                /> */}
-                <br></br>
-                <InputLabel id="checkDogs">Good with dogs</InputLabel>
+                <InputLabel id="checkDogs">Good With Dogs</InputLabel>
                 <Select 
                     labelId="checkDogs" 
                     onChange={e => setDogs(e.target.value)}
@@ -315,7 +287,7 @@ const AddDog = () => {
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
                 <br></br>
-                <InputLabel id="checkCats">Good with cats</InputLabel>
+                <InputLabel id="checkCats">Good With Cats</InputLabel>
                 <Select 
                     labelId="checkCats" 
                     onChange={e => setCats(e.target.value)}
@@ -326,7 +298,7 @@ const AddDog = () => {
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
                 <br></br>
-                <InputLabel id="checkKids">Good with kids</InputLabel>
+                <InputLabel id="checkKids">Good With Kids</InputLabel>
                 <Select 
                     labelId="checkKids" 
                     onChange={e => setKids(e.target.value)}
@@ -337,7 +309,7 @@ const AddDog = () => {
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
                 <br></br>
-                <InputLabel id="checkFence">Fenced yard required</InputLabel>
+                <InputLabel id="checkFence">Fenced Yard Required</InputLabel>
                 <Select 
                     labelId="checkFence" 
                     onChange={e => setFence(e.target.value)}
@@ -359,7 +331,7 @@ const AddDog = () => {
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
                 {/* <br></br> */}
-                <InputLabel id="checkTrained">Housetrained</InputLabel>
+                <InputLabel id="checkTrained">House Trained</InputLabel>
                 <Select 
                     labelId="checkTrained" 
                     onChange={e => setTrained(e.target.value)}
@@ -370,7 +342,7 @@ const AddDog = () => {
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
                 <br></br>
-                <InputLabel id="checkShots">Shots up to date</InputLabel>
+                <InputLabel id="checkShots">Shots Up To Date</InputLabel>
                 <Select 
                     labelId="checkShots" 
                     onChange={e => setShots(e.target.value)}
