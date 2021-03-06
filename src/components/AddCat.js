@@ -55,14 +55,10 @@ const schema = yup.object().shape({
     // )
   });
 
-const cityStates = require('../updated_cities_states.json');
+  const data = require('../updated_cities_states.json');
 
 
 const AddCat = () => {
-
-    const { register, handleSubmit, errors, control } = useForm({
-            resolver: yupResolver(schema)
-       });
 
 
     const [cityList, setCityList] = React.useState([]);
@@ -98,12 +94,12 @@ const AddCat = () => {
 
     function changeCities(name) {
 
-        var list = cityStates[name];
+        var list = data[name];
         setCityList(list);
     }
 
     var stateList = [];
-    Object.keys(cityStates).forEach(state =>
+    Object.keys(data).forEach(state =>
         stateList.push(<MenuItem value={state}>{state}</MenuItem>)
     )
     var cityMenuList = [];
@@ -112,66 +108,50 @@ const AddCat = () => {
     )
     
 
-    const submitData = (data, e) => 
-    {
-        var sendData = new FormData();
-        sendData.append("sellerId", value); //Need to update
-        sendData.append("status", data.status);
-        sendData.append("animal", "Cat");
-        sendData.append("name", data.name);
-        sendData.append("breed", data.breed);
-        sendData.append("sex", data.sex);
-        sendData.append("age", data.age);
-        sendData.append("weight", data.weight);
-        sendData.append("size", data.size);
-        sendData.append("adoptionFee", data.fee);
-        sendData.append("aboutMe", data.desc);
-        sendData.append("city", data.city);
-        sendData.append("state", data.state);
-        sendData.append("goodWithKids", data.goodWithKids);
-        sendData.append("goodWithDogs", data.goodWithDogs);
-        sendData.append("goodWithCats", data.goodWithCats);
-        sendData.append("requiresFence", data.requiresFence);
-        sendData.append("houseTrained", data.houseTrained);
-        sendData.append("neuteredSpayed", data.neuteredSpayed);
-        sendData.append("shotsUpToDate", data.shotsUpToDate);
-        //console.log(files);
+    const handleSubmit = (event) => {
 
-        if (files === null) {
-            alert("You need to upload one image file");
-            return;
+        var data = new FormData();
+        data.append("sellerId", 1); //Need to update
+        data.append("status", status);
+        data.append("animal", "Cat");
+        data.append("name", name);
+        data.append("breed", breed);
+        data.append("sex", sex);
+        data.append("age", age);
+        data.append("weight", weight);
+        data.append("size", size);
+        data.append("adoptionFee", fee);
+        data.append("aboutMe", desc);
+        data.append("city", city);
+        data.append("state", state);
+        data.append("goodWithKids", kids);
+        data.append("goodWithDogs", dogs);
+        data.append("goodWithCats", cats);
+        data.append("requiresFence", fence);
+        data.append("houseTrained", trained);
+        data.append("neuteredSpayed", neut);
+        data.append("shotsUpToDate", shots);
+        for (let i = 0; i < files.length; i++) {
+            data.append("photo", files[i])
         }
-        else {
-            for (let i = 0; i < files.length; i++) {
-                if(!SUPPORTED_FORMATS.includes(files[i].type)) {
-                    alert("Invalid file type");
-                    setFiles(null);
-                    return;
-                }
-                if(i >= 6) {
-                    break //cut off extra files
-                }
-                sendData.append("photo", files[i])
-            }
-        }
-
-        for (var value of sendData.values()) {
+        // data.append("photo", files[0]);
+        for (var value of data.values()) {
             console.log(value);
         }
-
-       const requestOptions = {
+        const requestOptions = {
+            //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',
-            body: sendData
+            body: data
         };
-    
+        
         fetch(url, requestOptions)
         .then(response => response.json())
         .then(json => {
             console.log('parsed json', json) // access json.body here
         })
-        handleClick()
-        e.preventDefault();
+        event.preventDefault();
     }
+
 
     const handleClick = () => {
       setOpen(true);
@@ -184,356 +164,191 @@ const AddCat = () => {
   
       setOpen(false);
     };
-
-
-    const [value, setValue] = React.useState("");
-    useEffect(() => {
-
-        const check = localStorage.getItem('admin')
-        if (check) {
-            setValue(check)
-        }
-    }, []);
-    if(!value || value.length === 0) {
-        return(
-            <Typography>
-                You do not have permission to access this page.
-            </Typography>
-        )
-    }
     
     return(
-        <form onSubmit={handleSubmit(submitData)}>
+        <form id="form" onSubmit={handleSubmit}>
                 <TextField
-                    inputRef={register}
                     type='text'
                     name='name'
                     label='Name'
-                    //onChange={e => setName(e.target.value)}
-                    //value={name}
+                    onChange={e => setName(e.target.value)}
+                    value={name}
                 />
-                <p>{errors.name?.message}</p>
                 <br></br>
                 <InputLabel id="breed">Breed</InputLabel>
-                <Controller
-                    name="breed"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="breed" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        {catBreedsArray}
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.breed?.message}</p>
-
+                <Select 
+                    labelId="breed" 
+                    onChange={e => setBreed(e.target.value)}
+                    value={breed}
+                >
+                    {catBreedsArray}
+                </Select>
                 <br></br>
                 <InputLabel id="sex">Sex</InputLabel>
-                <Controller
-                    name="sex"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="sex" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Male">Male</MenuItem>
-                        <MenuItem value="Female">Female</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.sex?.message}</p>
-                
+                <Select 
+                    labelId="sex" 
+                    onChange={e => setSex(e.target.value)}
+                    value={sex}
+                >
+                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Female">Female</MenuItem>
+                </Select>
                 <br></br>
                 <InputLabel id="age">Age</InputLabel>
-                <Controller
-                    name="age"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Input
-                        labelId="age" 
-                        type="number"
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                    </Input>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.age?.message}</p>
+                <Input 
+                    labelId="age" 
+                    type="number"
+                    value={age}
+                    onChange={e => setAge(e.target.value)}
+                >
+                </Input>
                 <br></br>
                 <InputLabel id="weight">Weight (lbs)</InputLabel>
-                <Controller
-                    name="weight"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Input
-                        labelId="weight" 
-                        type="number"
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                    </Input>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.weight?.message}</p>
+                <Input 
+                    labelId="weight" 
+                    type="number"
+                    value={weight}
+                    onChange={e => setWeight(e.target.value)}
+                >
+                </Input>
                 <br></br>
                 <InputLabel id="size">Expected Size When Grown</InputLabel>
-                <Controller
-                    name="size"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="size" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Small">Small (less than 10lbs)</MenuItem>
-                        <MenuItem value="Medium">Medium (10-15lbs)</MenuItem>
-                        <MenuItem value="Large">Large (15-20lbs)</MenuItem>
-                        <MenuItem value="XLarge">XLarge (20+ lbs)</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.size?.message}</p>
+                <Select 
+                    labelId="size" 
+                    onChange={e => setSize(e.target.value)}
+                    value={size}
+                >
+                    <MenuItem value="Small">Small (less than 10lbs)</MenuItem>
+                    <MenuItem value="Medium">Medium (10-15)</MenuItem>
+                    <MenuItem value="Large">Large (15-20)</MenuItem>
+                    <MenuItem value="XLarge">XLarge (20+ lbs)</MenuItem>
+
+                </Select>
                 <br></br>
                 <InputLabel id="fee">Adoption Fee</InputLabel>
-                <Controller
-                    name="fee"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Input
-                        labelId="fee" 
-                        type="number"
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                    </Input>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.fee?.message}</p>
+                <Input 
+                    labelId="fee" 
+                    type="number"
+                    value={fee}
+                    onChange={e => setFee(e.target.value)}
+                >
+                </Input>
                 <br></br>
-                
-                
-                <TextField
-                    type='text'
-                    inputRef={register}
-                    name='status'
-                    label='Status'
-                    //value={city}
-                />
-                <p>{errors.status?.message}</p>
+                <InputLabel id="status">Status</InputLabel>
+                <Select 
+                    labelId="status" 
+                    type="text"
+                    value={status}
+                    onChange={e => setStatus(e.target.value)}
+                >
+                    <MenuItem value="Available">Available</MenuItem>
+                    <MenuItem value="Unvailable">Unvailable</MenuItem>
+                    <MenuItem value="Pending">Pending</MenuItem>
+                </Select>
                 <br></br>
                 <InputLabel id="state">State</InputLabel>
-                <Controller
-                    name="state"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="state" 
-                        onChange={e => {props.onChange(e.target.value); changeCities(e.target.value)}}
-                        value={props.value}
-                    >
-                        {stateList}
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.state?.message}</p>
-                <br></br>
+                <Select labelId="state"
+                    onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
+                >
+                    {stateList}
+                </Select>
+                
                 <InputLabel id="city">City</InputLabel>
-                <Controller
-                    name="city"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="city" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        {cityMenuList}
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.city?.message}</p>
+                <Select labelId="city"
+                    onChange={e => {setCity(e.target.value)}}
+
+                >
+                    {cityMenuList}
+                </Select>
                 <br></br>
                 
-                <TextField
-                    inputRef={register}
-                    type='text'
-                    name='desc'
-                    label='About me'
-                    //onChange={e => setDesc(e.target.value)}
-                    //value={desc}
-                    multiline='true'
-                />
-                <p>{errors.desc?.message}</p>
-
+                <InputLabel id="aboutMe">About Me</InputLabel>
+                <textarea
+                    cols="100"
+                    rows="20"
+                    name='aboutMe'
+                    form="form"
+                ></textarea>
                 <br></br>
-                <InputLabel id="goodWithDogs">Good with dogs</InputLabel>
-                <Controller
-                    name="goodWithDogs"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="goodWithDogs" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.goodWithDogs?.message}</p>
-
+                <InputLabel id="checkDogs">Good With Dogs</InputLabel>
+                <Select 
+                    labelId="checkDogs" 
+                    onChange={e => setDogs(e.target.value)}
+                    value={dogs}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
                 <br></br>
-                <InputLabel id="goodWithCats">Good with cats</InputLabel>
-                <Controller
-                    name="goodWithCats"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="goodWithCats" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.goodWithCats?.message}</p>
+                <InputLabel id="checkCats">Good With Cats</InputLabel>
+                <Select 
+                    labelId="checkCats" 
+                    onChange={e => setCats(e.target.value)}
+                    value={cats}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
                 <br></br>
-                <InputLabel id="goodWithKids">Good with kids</InputLabel>
-                <Controller
-                    name="goodWithKids"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="goodWithKids" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.goodWithKids?.message}</p>
+                <InputLabel id="checkKids">Good With Kids</InputLabel>
+                <Select 
+                    labelId="checkKids" 
+                    onChange={e => setKids(e.target.value)}
+                    value={kids}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
                 <br></br>
-                <InputLabel id="requiresFence">Fenced yard required</InputLabel>
-                <Controller
-                    name="requiresFence"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="requiresFence" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.requiresFence?.message}</p>
+                <InputLabel id="checkFence">Fenced Yard Required</InputLabel>
+                <Select 
+                    labelId="checkFence" 
+                    onChange={e => setFence(e.target.value)}
+                    value={fence}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
                 <br></br>
-                <InputLabel id="houseTrained">House trained</InputLabel>
-                <Controller
-                    name="houseTrained"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="houseTrained" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.houseTrained?.message}</p>
+                <InputLabel id="checkNeut">Neutered/Spayed</InputLabel>
+                <Select 
+                    labelId="checkNeut" 
+                    onChange={e => setNeut(e.target.value)}
+                    value={neut}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
+                {/* <br></br> */}
+                <InputLabel id="checkTrained">House Trained</InputLabel>
+                <Select 
+                    labelId="checkTrained" 
+                    onChange={e => setTrained(e.target.value)}
+                    value={trained}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
                 <br></br>
-                <InputLabel id="neuteredSpayed">Neutered/Spayed</InputLabel>
-                <Controller
-                    name="neuteredSpayed"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="neuteredSpayed" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.neuteredSpayed?.message}</p>
-                <br></br>
-                <InputLabel id="shotsUpToDate">Shots up to date</InputLabel>
-                <Controller
-                    name="shotsUpToDate"
-                    control={control}
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={props =>
-                    <Select 
-                        labelId="shotsUpToDate" 
-                        onChange={e => props.onChange(e.target.value)}
-                        value={props.value}
-                    >
-                        <MenuItem value="Yes">Yes</MenuItem>
-                        <MenuItem value="No">No</MenuItem>
-                        <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
-                    </Select>
-                    } // props contains: onChange, onBlur and value
-                />
-                <p>{errors.shotsUpToDate?.message}</p>
-                
-                <br></br>
+                <InputLabel id="checkShots">Shots Up To Date</InputLabel>
+                <Select 
+                    labelId="checkShots" 
+                    onChange={e => setShots(e.target.value)}
+                    value={shots}
+                >
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                    <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
+                </Select>
                 <br></br>
                 <br></br>
                 <input
-                    //ref={register}
                     accept="image/*"
                     id="contained-button-file"
                     multiple
@@ -542,10 +357,14 @@ const AddCat = () => {
                     name="photo"
                     onChange={e => setFiles(e.target.files)}
                 />
-
-                {/* <p>{errors.photo?.message}</p> */}
+                {/* <label htmlFor="contained-button-file">
+                    <Button variant="contained" color="primary" component="span">
+                    Upload Images
+                    </Button>
+                </label> */}
                 <br></br>
-                <Button type='submit' >
+
+                <Button type='submit' onClick={handleClick}>
                     Add
                 </Button>
                 <Snackbar
@@ -556,7 +375,7 @@ const AddCat = () => {
                     open={open}
                     autoHideDuration={6000}
                     onClose={handleClose}
-                    message="Pet added - Refresh page to add another pet"
+                    message="Pet added"
                     action={
                     <React.Fragment>
                         <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
