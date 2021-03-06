@@ -289,7 +289,7 @@ const AddCat = () => {
                 />
                 <p>{errors.weight?.message}</p>
                 <br></br>
-                <InputLabel id="size">Size</InputLabel>
+                <InputLabel id="size">Expected Size When Grown</InputLabel>
                 <Controller
                     name="size"
                     control={control}
@@ -301,10 +301,10 @@ const AddCat = () => {
                         onChange={e => props.onChange(e.target.value)}
                         value={props.value}
                     >
-                        <MenuItem value="Small">Small</MenuItem>
-                        <MenuItem value="Medium">Medium</MenuItem>
-                        <MenuItem value="Large">Large</MenuItem>
-                        <MenuItem value="XLarge">XLarge</MenuItem>
+                        <MenuItem value="Small">Small (less than 10lbs)</MenuItem>
+                        <MenuItem value="Medium">Medium (10-15lbs)</MenuItem>
+                        <MenuItem value="Large">Large (15-20lbs)</MenuItem>
+                        <MenuItem value="XLarge">XLarge (20+ lbs)</MenuItem>
                     </Select>
                     } // props contains: onChange, onBlur and value
                 />
