@@ -18,9 +18,10 @@ import LoginAdmin from './components/adminLogin'
 import LoginUser from './components/userLogin'
 import EditUser from './components/EditUser'
 import EditAdmin from './components/EditAdmin'
+import UserRegister from './components/userRegister'
+import AdminRegister from './components/adminRegister'
 
-// import EditAdmin from './components/EditAdmin'
-// import EditUser from './components/EditUser'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -80,6 +81,12 @@ function App() {
           </Route>
           <Route path="/EditAdmin">
             <EditAdmin/>
+          </Route>
+          <Route path="/UserRegister">
+            <UserRegister/>
+          </Route>
+          <Route path="/AdminRegister">
+            <AdminRegister/>
           </Route>
         </Switch>
       </Router>
