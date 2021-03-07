@@ -91,7 +91,7 @@ const AddCat = () => {
     
 
     const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets"
-
+    const storedVal = localStorage.getItem('admin');
     function changeCities(name) {
 
         var list = data[name];
@@ -111,7 +111,7 @@ const AddCat = () => {
     const handleSubmit = (event) => {
 
         var data = new FormData();
-        data.append("sellerId", 1); //Need to update
+        data.append("sellerId", storedVal); //Need to update
         data.append("status", status);
         data.append("animal", "Cat");
         data.append("name", name);
@@ -166,7 +166,10 @@ const AddCat = () => {
     };
     
     return(
-        <form id="form" onSubmit={handleSubmit}>
+        <div style={{marginTop: "5%"}}>
+            <h1><u>Add Cat</u></h1>
+            <form id="form" onSubmit={handleSubmit}>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <TextField
                     type='text'
                     name='name'
@@ -174,7 +177,9 @@ const AddCat = () => {
                     onChange={e => setName(e.target.value)}
                     value={name}
                 />
-                <br></br>
+                </div>
+                <div style={{display: "grid", gridTemplateColumns: "auto auto auto auto", marginLeft: "10%", marginRight: "10%"}}>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="breed">Breed</InputLabel>
                 <Select 
                     labelId="breed" 
@@ -183,7 +188,8 @@ const AddCat = () => {
                 >
                     {catBreedsArray}
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select 
                     labelId="sex" 
@@ -193,8 +199,9 @@ const AddCat = () => {
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="age">Age</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="age">Age (years)</InputLabel>
                 <Input 
                     labelId="age" 
                     type="number"
@@ -202,7 +209,8 @@ const AddCat = () => {
                     onChange={e => setAge(e.target.value)}
                 >
                 </Input>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="weight">Weight (lbs)</InputLabel>
                 <Input 
                     labelId="weight" 
@@ -211,7 +219,8 @@ const AddCat = () => {
                     onChange={e => setWeight(e.target.value)}
                 >
                 </Input>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="size">Expected Size When Grown</InputLabel>
                 <Select 
                     labelId="size" 
@@ -224,8 +233,9 @@ const AddCat = () => {
                     <MenuItem value="XLarge">XLarge (20+ lbs)</MenuItem>
 
                 </Select>
-                <br></br>
-                <InputLabel id="fee">Adoption Fee</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="fee">AdoptionFee</InputLabel>
                 <Input 
                     labelId="fee" 
                     type="number"
@@ -233,7 +243,26 @@ const AddCat = () => {
                     onChange={e => setFee(e.target.value)}
                 >
                 </Input>
-                <br></br>
+                </div>
+                
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="state">State</InputLabel>
+                <Select labelId="state"
+                    onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
+                >
+                    {stateList}
+                </Select>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="city">City</InputLabel>
+                <Select labelId="city"
+                    onChange={e => {setCity(e.target.value)}}
+
+                >
+                    {cityMenuList}
+                </Select>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="status">Status</InputLabel>
                 <Select 
                     labelId="status" 
@@ -245,31 +274,12 @@ const AddCat = () => {
                     <MenuItem value="Unvailable">Unvailable</MenuItem>
                     <MenuItem value="Pending">Pending</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="state">State</InputLabel>
-                <Select labelId="state"
-                    onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
-                >
-                    {stateList}
-                </Select>
-                
-                <InputLabel id="city">City</InputLabel>
-                <Select labelId="city"
-                    onChange={e => {setCity(e.target.value)}}
+                </div>
 
-                >
-                    {cityMenuList}
-                </Select>
-                <br></br>
                 
-                <InputLabel id="aboutMe">About Me</InputLabel>
-                <textarea
-                    cols="100"
-                    rows="20"
-                    name='aboutMe'
-                    form="form"
-                ></textarea>
-                <br></br>
+                
+
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkDogs">Good With Dogs</InputLabel>
                 <Select 
                     labelId="checkDogs" 
@@ -280,7 +290,9 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkCats">Good With Cats</InputLabel>
                 <Select 
                     labelId="checkCats" 
@@ -291,7 +303,9 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkKids">Good With Kids</InputLabel>
                 <Select 
                     labelId="checkKids" 
@@ -302,7 +316,9 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkFence">Fenced Yard Required</InputLabel>
                 <Select 
                     labelId="checkFence" 
@@ -313,7 +329,9 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkNeut">Neutered/Spayed</InputLabel>
                 <Select 
                     labelId="checkNeut" 
@@ -324,7 +342,9 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                {/* <br></br> */}
+                </div>
+
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkTrained">House Trained</InputLabel>
                 <Select 
                     labelId="checkTrained" 
@@ -335,7 +355,8 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"15vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkShots">Shots Up To Date</InputLabel>
                 <Select 
                     labelId="checkShots" 
@@ -346,7 +367,18 @@ const AddCat = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                </div>
+                <InputLabel id="aboutMe">About Me</InputLabel>
+                <textarea
+                    style={{fontSize: 18}}
+                    cols="100"
+                    rows="20"
+                    name='aboutMe'
+                    form="form"
+                    onChange={e => setDesc(e.target.value)}
+                    value={desc}
+                ></textarea>
                 <br></br>
                 <input
                     accept="image/*"
@@ -385,6 +417,7 @@ const AddCat = () => {
                     }
                 />
             </form>
+        </div>
     )
 }
 
