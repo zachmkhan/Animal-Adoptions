@@ -106,7 +106,10 @@ const SearchFilter = (props) => {
     
 
     return(
-        <form onSubmit={handleSubmit}>
+        <div style={{}}>
+            <form id="form" onSubmit={handleSubmit}>
+            <div style={{display: "grid", gridTemplateColumns: "auto auto"}}>
+                <div style={{width:"50%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="animal">Animal</InputLabel>
                 <Select labelId="animal"
                     onChange={e => {setAnimal(e.target.value); changeBreeds(e.target.value)}}
@@ -115,29 +118,17 @@ const SearchFilter = (props) => {
                     <MenuItem value="Cat">Cat</MenuItem>
                     <MenuItem value="Other">Other</MenuItem>
                 </Select>
-                {/* <TextField
-                    type='text'
-                    name='animal'
-                    label='Animal'
-                    onChange={e => setAnimal(e.target.value)}
-                    value={animal}
-                /> */}
-                <br></br>
+                </div>
+                <div style={{width:"50%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="breed">Breed</InputLabel>
                 <Select labelId="breed"
                     onChange={e => setBreed(e.target.value)}
                 >
                     {breedList}
                 </Select>
-                <br></br>
-                {/* <TextField
-                    type='text'
-                    name='breed'
-                    label='Breed'
-                    onChange={e => setBreed(e.target.value)}
-                    value={breed}
-                />
-                <br></br> */}
+                </div>
+                
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select labelId="sex"
                     onChange={e => setSex(e.target.value)}
@@ -146,7 +137,8 @@ const SearchFilter = (props) => {
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="age">Age</InputLabel>
                 <Select labelId="age"
                     onChange={e => setAge(e.target.value)}
@@ -157,7 +149,8 @@ const SearchFilter = (props) => {
                     <MenuItem value="Adult">Adult (4-8)</MenuItem>
                     <MenuItem value="Senior">Senior (9+)</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="size">Size</InputLabel>
                 <Select labelId="size"
                     onChange={e => setSize(e.target.value)}
@@ -168,14 +161,16 @@ const SearchFilter = (props) => {
                     <MenuItem value="Large">Large</MenuItem>
                     <MenuItem value="XLarge">Extra Large</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="state">State</InputLabel>
                 <Select labelId="state"
                     onChange={e => {setSt(e.target.value); changeCities(e.target.value)}}
                 >
                     {stateList}
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="city">City</InputLabel>
                 <Select labelId="city"
                     onChange={e => {setCity(e.target.value)}}
@@ -183,6 +178,8 @@ const SearchFilter = (props) => {
                 >
                     {cityMenuList}
                 </Select>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="distance">Distance</InputLabel>
                 <Select labelId="distance"
                      onChange={e => {setDistance(e.target.value)}}
@@ -193,7 +190,8 @@ const SearchFilter = (props) => {
                     <MenuItem value="50">50</MenuItem>
                     <MenuItem value="100">100</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                </div>
                 <FormGroup row style={{justifyContent: 'center'}}>
                 <FormControlLabel
                     control={<Checkbox checked={dogs} onChange={e => setDogs(!dogs)} name="dogs" />}
@@ -228,6 +226,7 @@ const SearchFilter = (props) => {
                     Search
                 </Button>
             </form>
+            </div>
     )
 
 }
