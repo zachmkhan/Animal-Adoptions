@@ -130,8 +130,8 @@ const Pet = () => {
                 <Carousel>
                     {photos.map(function(image) {
                         return (
-                            <div>
-                                <img src={image}/>
+                            <div style={{width: "100%", height: "100%"}}>
+                                <img src={image} style={{width: "100%", height: "100%", objectFit: "cover"}}/>
                             </div>
                         )
                     })}
