@@ -14,12 +14,6 @@ import Button from '@material-ui/core/Button';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 
-const petData = [
-    { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
-    { id: '2', animal: 'Dog', name: 'Brutus', age: 3, sex: 'male', weight: '55', dogs: false, breed: 'Boxer' },
-    { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
-]
-
 
 const Favorites = () => {
 
@@ -79,9 +73,18 @@ const Favorites = () => {
         )
     }
 
+    function hasFavorites() {
+        if (favsLength > 0) {
+            return (<h1>Your Favorites! Don't wait too long to decide!</h1>);
+        }
+        else {
+            return (<h1>You don't have any favorites yet.</h1>);
+        }
+    }
+
     return(
         <div>
-            <h1>Your Favorites! Don't wait too long to decide!</h1>
+            {hasFavorites()}
             <div style={{width: "60vw", display: "grid", gridTemplateColumns: "auto auto auto", marginLeft: "auto", marginRight: "auto"}}>
                 {favs.map((pet) => (
                     <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", color: 'inherit', textDecoration: 'inherit'}}>
