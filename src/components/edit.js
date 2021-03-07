@@ -12,11 +12,6 @@ import {catBreedsArray} from './breeds'
 import {dogBreedsArray} from './breeds'
 import Typography from '@material-ui/core/Typography'
 
-const petData = [
-    { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
-    { id: '2', animal: 'Dog', name: 'Brutus', age: 3, sex: 'male', weight: '55', dogs: false, breed: 'Boxer' },
-    { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
-]
 
 const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -190,9 +185,10 @@ const Edit = () => {
 
     return(
 
-        <div>
-            <form id="form" onSubmit={handleSubmit} style={{width: "80%"}}>
-            <InputLabel id="name">Name: {pet.name}</InputLabel>
+        <div style={{marginTop: "5%"}}>
+            <h1><u>Edit Pet</u></h1>
+            <form id="form" onSubmit={handleSubmit}>
+            <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
             <TextField
                     type='text'
                     name='name'
@@ -207,8 +203,11 @@ const Edit = () => {
                     }}
                     value={pet.name}
                 />
-                <br></br>
-                <InputLabel id="breed">Breed: {pet.breed}</InputLabel>
+                </div>
+                <div style={{display: "grid", gridTemplateColumns: "auto auto auto auto", marginLeft: "10%", marginRight: "10%"}}>
+                
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="breed">Breed</InputLabel>
                 <Select 
                     labelId="breed"
                     name="breed" 
@@ -223,8 +222,10 @@ const Edit = () => {
                 >
                     {selectBreedList()}
                 </Select>
-                <br></br>
-                <InputLabel id="sex">Sex: {pet.sex}</InputLabel>
+                </div>
+                
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="sex">Sex</InputLabel>
                 <Select 
                     labelId="sex"
                     name="sex" 
@@ -240,7 +241,8 @@ const Edit = () => {
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="age">Age</InputLabel>
                 <Input 
                     labelId="age"
@@ -256,7 +258,8 @@ const Edit = () => {
                     }}
                 >
                 </Input>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="weight">Weight (lbs)</InputLabel>
                 <Input 
                     labelId="weight" 
@@ -272,8 +275,9 @@ const Edit = () => {
                     }}
                 >
                 </Input>
-                <br></br>
-                <InputLabel id="size">Size: {pet.size}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="size">Size</InputLabel>
                 <Select 
                     labelId="size"
                     name="size" 
@@ -292,7 +296,8 @@ const Edit = () => {
                     <MenuItem value="XLarge">XLarge</MenuItem>
 
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="fee">Adoption Fee</InputLabel>
                 <Input 
                     labelId="fee" 
@@ -308,7 +313,8 @@ const Edit = () => {
                     }}
                 >
                 </Input>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="status">Status</InputLabel>
                 <Select 
                     labelId="status"
@@ -328,8 +334,9 @@ const Edit = () => {
                     <MenuItem value="Pending">Pending</MenuItem>
                     <MenuItem value="Adopted!">Adopted!</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="state">State: {pet.state}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="state">State</InputLabel>
                 <Select 
                     labelId="state"
                     name='state'
@@ -344,8 +351,9 @@ const Edit = () => {
                 >
                     {stateList}
                 </Select>
-                <br></br>
-                <InputLabel id="city">City: {pet.city}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="city">City</InputLabel>
                 <Select 
                     labelId="city"
                     name='city'
@@ -361,54 +369,9 @@ const Edit = () => {
                 >
                     {cityMenuList}
                 </Select>
-                <br></br>
-                {/* <TextField
-                    type='text'
-                    name='city'
-                    label={pet.city ? "" : 'City'}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setPet(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={pet.city}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='state'
-                    label={pet.state ? "" : 'State'}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setPet(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={pet.state}
-                />
-                <br></br> */}
-                <InputLabel id="aboutMe">About Me</InputLabel>
-                <textarea
-                    cols="100"
-                    rows="20"
-                    name='aboutMe'
-                    form="form"
-                    label={pet.aboutMe ? "" : 'About me'}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setPet(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={pet.aboutMe}
-                />
-             
-                <br></br>
-                <InputLabel id="checkDogs">Good with dogs: {pet.goodWithDogs}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="checkDogs">Good with dogs</InputLabel>
                 <Select 
                     labelId="checkDogs"
                     name="goodWithDogs" 
@@ -425,8 +388,9 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="checkCats">Good with cats: {pet.goodWithCats}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="checkCats">Good with cats</InputLabel>
                 <Select 
                     labelId="checkCats"
                     name="goodWithCats" 
@@ -443,8 +407,9 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="checkKids">Good with kids: {pet.goodWithKids}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="checkKids">Good with kids</InputLabel>
                 <Select 
                     labelId="checkKids"
                     name="goodWithKids" 
@@ -461,8 +426,9 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="checkFence">Fenced yard required: {pet.requiresFence}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="checkFence">Fenced yard required</InputLabel>
                 <Select 
                     labelId="checkFence"
                     name="requiresFence" 
@@ -479,8 +445,9 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
-                <InputLabel id="checkNeut">Neutered/Spayed: {pet.neuteredSpayed}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="checkNeut">Neutered/Spayed</InputLabel>
                 <Select 
                     labelId="checkNeut"
                     name="neuteredSpayed" 
@@ -497,8 +464,9 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                {/* <br></br> */}
-                <InputLabel id="checkTrained">Housetrained: {pet.houseTrained}</InputLabel>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                <InputLabel id="checkTrained">Housetrained</InputLabel>
                 <Select 
                     labelId="checkTrained"
                     name="houseTrained"
@@ -515,7 +483,8 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                <br></br>
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkShots">Shots up to date: {pet.shotsUpToDate}</InputLabel>
                 <Select 
                     labelId="checkShots" 
@@ -533,39 +502,37 @@ const Edit = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
+                </div>
+                </div>
+                <InputLabel id="aboutMe">About Me</InputLabel>
+                <textarea
+                    style={{fontSize: 18}}
+                    cols="100"
+                    rows="20"
+                    name='aboutMe'
+                    form="form"
+                    label={pet.aboutMe ? "" : 'About me'}
+                    onChange={e => {
+                        const {name, value} = e.target;
+                        setPet(prevState => ({
+                            ...prevState,
+                            [name]: value
+                        }));
+                    }}
+                    value={pet.aboutMe}
+                />
+             
                 <br></br>
-                {/* {
-                    Object.keys(pet).map(function(key) {
+                
+                <br></br>
 
-                        if(key.includes("photo")) {
-                            return null;
-                        }
-                        return <div>
-                                        <TextField
-                                            type='text'
-                                            name={key}
-                                            label={key}
-                                            onChange={e => {
-                                                const {name, value} = e.target;
-                                                setPet(prevState => ({
-                                                    ...prevState,
-                                                    [name]: value
-                                                }));
-                                            }}
-                                            value={pet[key]}
-                                        />
-                                    </div>            
-                        } 
-                    )
-                    
-                } */}
 
-                    <Button type='submit'>
-                        Update
-                    </Button>
+                <Button type='submit' style={{backgroundColor: "#4169E1", color: "white"}}>
+                    Update
+                </Button>
             </form>
             <hr></hr>
-            <div>
+            <div style={{display: "grid", gridTemplateColumns: "auto auto auto", width: "80vw", marginLeft: "auto", marginRight: "auto"}}>
             {
                 Object.keys(pet).map(function(key) {
 
@@ -573,7 +540,7 @@ const Edit = () => {
                         return null;
                     }
                     else if (key == "photo1") {
-                        return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto"}}>
+                        return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto", marginTop: "5%"}}>
                                     <div style={{width: "20vw", height: "90%"}}>
                                         <img src={pet[key]} style={{width: "100%", height: "100%", objectFit: "cover"}}></img> 
                                     </div>
@@ -586,11 +553,11 @@ const Edit = () => {
                                 </div>       
                     }
                     else if (pet[key] !== null) {
-                        return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto"}}>
+                        return <div style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", marginLeft: "auto", marginRight: "auto", marginTop: "5%"}}>
                                     <div style={{width: "20vw", height: "90%"}}>
                                         <img src={pet[key]} style={{width: "100%", height: "100%", objectFit: "cover"}}></img>
                                     </div>
-                                    <Button onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
+                                    <Button style={{color: "red"}} onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(pet["petId"], key, pet[key])};}}>
                                         Delete
                                     </Button>
                                     {/* <div>
