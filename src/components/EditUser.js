@@ -12,12 +12,6 @@ import {catBreedsArray} from './breeds'
 import {dogBreedsArray} from './breeds'
 import { useHistory } from 'react-router-dom';
 
-const userData = [
-    { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
-    { id: '2', animal: 'Dog', name: 'Brutus', age: 3, sex: 'male', weight: '55', dogs: false, breed: 'Boxer' },
-    { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
-]
-
 const SUPPORTED_FORMATS = [
     "image/jpg",
     "image/jpeg",
@@ -25,14 +19,11 @@ const SUPPORTED_FORMATS = [
     "image/png"
   ];
 
-const cityStates = require('../updated_cities_states.json');
 
 const EditUser = () => {
 
     const [user, setUser] = React.useState({});
-    const [photo, setPhoto] = React.useState(null);
-    const [cityList, setCityList] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
+
     const [id, setId] = React.useState("");
 
     const history = useHistory();
@@ -118,12 +109,15 @@ const EditUser = () => {
 
     return(
 
-        <div>
+        <div id="form" style={{marginTop: "5%", marginLeft: "auto", marginRight: "auto"}}>
+            <h1><u>User Dashboard</u></h1>
             <form onSubmit={handleSubmit}>
-                <InputLabel id="fname">
-                    First Name
-                </InputLabel>
-                <TextField
+            <div style={{display: "grid", gridTemplateColumns: "auto auto auto auto", marginLeft: "20%", marginRight: "20%", backgroundColor: "rgb(220,220,220)", padding: "2%", borderStyle: "groove"}}>
+            <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="fname">
+                        First Name
+                    </InputLabel>
+                    <TextField
                     type='text'
                     name='fname'
                     label={user.fname ? "" : 'First Name'}
@@ -136,70 +130,70 @@ const EditUser = () => {
                     }}
                     value={user.fname}
                 />
-                <br></br>
-                <InputLabel id="lname">
-                    Last Name
-                </InputLabel>
-                <TextField
-                    type='text'
-                    name='lname'
-                    label={user.lname ? "" : 'Last Name'}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setUser(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={user.lname}
-                />
-                <br></br>
-                <InputLabel id="password">
-                    Password
-                </InputLabel>
-                <TextField
-                    type='password'
-                    name='password'
-                    label={user.password ? "" : 'Password'}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setUser(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={user.password}
-                />
-                <br></br>
-                <InputLabel id="email">
-                    Email
-                </InputLabel>
-                <TextField
-                    type='email'
-                    name='email'
-                    label={user.email ? "" : 'Email'}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setUser(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={user.email}
-                />
-                <br></br>
-                
-               
-
-                    <Button type='submit'>
-                        Update
-                    </Button>
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="lname">
+                        Last Name
+                    </InputLabel>
+                    <TextField
+                        type='text'
+                        name='lname'
+                        label={user.lname ? "" : 'Last Name'}
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setUser(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={user.lname}
+                    />
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="password">
+                        Password
+                    </InputLabel>
+                    <TextField
+                        type='password'
+                        name='password'
+                        label={user.password ? "" : 'Password'}
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setUser(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={user.password}
+                    />
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="email">
+                        Email
+                    </InputLabel>
+                    <TextField
+                        type='email'
+                        name='email'
+                        label={user.email ? "" : 'Email'}
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setUser(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={user.email}
+                    />
+                </div>
+                </div>
+                <Button type='submit' style={{backgroundColor: "#4169E1", color: "white"}}>
+                    Update
+                </Button>
             </form>
             <Button color='secondary' onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler()};}}>
                 Delete
             </Button>
         </div>
-        
     )
 
 }
