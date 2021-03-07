@@ -50,8 +50,6 @@ const AddPet = () => {
     const [files, setFiles] = React.useState(null);
     const [open, setOpen] = React.useState(false);
 
-    //const form = useRef(null);
-
     const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com//pets"
     function changeCities(name) {
 
@@ -96,12 +94,10 @@ const AddPet = () => {
         for (let i = 0; i < files.length; i++) {
             data.append("photo", files[i])
         }
-        // data.append("photo", files[0]);
         for (var value of data.values()) {
             console.log(value);
         }
         const requestOptions = {
-            //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',
             body: data
         };
@@ -233,6 +229,7 @@ const AddPet = () => {
                 
                 <InputLabel id="aboutMe">About Me</InputLabel>
                 <textarea
+                    style={{fontSize: 18}}
                     cols="100"
                     rows="20"
                     name='aboutMe'
@@ -293,7 +290,6 @@ const AddPet = () => {
                     <MenuItem value="No">No</MenuItem>
                     <MenuItem value="UNKNOWN">UNKNOWN</MenuItem>
                 </Select>
-                {/* <br></br> */}
                 <InputLabel id="checkTrained">House Trained</InputLabel>
                 <Select 
                     labelId="checkTrained" 
@@ -322,15 +318,9 @@ const AddPet = () => {
                     id="contained-button-file"
                     multiple
                     type="file"
-                    //style={{display: 'none'}}
                     name="photo"
                     onChange={e => setFiles(e.target.files)}
                 />
-                {/* <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
-                    Upload Images
-                    </Button>
-                </label> */}
                 <br></br>
 
                 <Button type='submit' onClick={handleClick}>
