@@ -56,7 +56,7 @@ const Admin = () => {
     }
 
     return(
-        <div>
+        <div style={{width: "90%", marginLeft: "auto", marginRight: "auto"}}>
             <Tab label="Add Dog" to="/addDog" component={Link} /> 
             <Tab label="Add Cat" to="/addCat" component={Link} />
             <Tab label="Add Other" to="/addAnimal" component={Link} />
@@ -64,9 +64,6 @@ const Admin = () => {
             <MaterialTable
                 title="Pets"
                 columns={[
-                    { title: 'Page', field: 'petId', render: rowData => <Link to={"/pet/" + rowData.petId}>{rowData.petId}</Link>},
-                    { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>{rowData.petId}</Link>},
-                    { title: 'Delete', field: 'petId', render: rowData => <Link to="/admin" onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(rowData.petId)};}}>{rowData.petId}</Link>},
                     { title: 'Animal', field: 'animal' },
                     { title: 'Name', field: 'name' },
                     { title: 'Breed', field: 'breed' },
@@ -75,21 +72,12 @@ const Admin = () => {
                     { title: 'Weight', field: 'weight', type: 'numeric' },
                     { title: 'City', field: 'city'},
                     { title: 'State', field: 'state'},
+                    { title: 'View', field: 'petId', render: rowData => <Link to={"/pet/" + rowData.petId}>View</Link>},
+                    { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>Edit</Link>},
+                    { title: 'Delete', field: 'petId', render: rowData => <Link to={"/admin"} onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(rowData.petId)};}}>Delete</Link>}
 
                 ]}
                 data={pets}        
-                // actions={[
-                //     {
-                //     icon: 'save',
-                //     tooltip: 'Save User',
-                //     onClick: (event, rowData) => <Link to="/userdash"></Link>
-                //     },
-                //     {
-                //     icon: 'delete',
-                //     tooltip: 'Delete User',
-                //     //onClick: (event, rowData) => confirm("You want to delete " + rowData.name)
-                //     }
-                // ]}
             />
         </div>
         
