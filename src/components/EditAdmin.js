@@ -8,32 +8,20 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import { LaptopWindowsOutlined, SettingsPhoneTwoTone } from '@material-ui/icons';
-import {catBreedsArray} from './breeds'
-import {dogBreedsArray} from './breeds'
 import { useHistory } from 'react-router-dom';
 
-const adminData = [
-    { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
-    { id: '2', animal: 'Dog', name: 'Brutus', age: 3, sex: 'male', weight: '55', dogs: false, breed: 'Boxer' },
-    { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
-]
-
-const SUPPORTED_FORMATS = [
-    "image/jpg",
-    "image/jpeg",
-    "image/gif",
-    "image/png"
-  ];
 
 const cityStates = require('../updated_cities_states.json');
 
 const EditAdmin = () => {
 
     const [admin, setAdmin] = React.useState({});
-    const [photo, setPhoto] = React.useState(null);
     const [cityList, setCityList] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [id, setId] = React.useState("");
+    const [state, setState] = React.useState("");
+    const [city, setCity] = React.useState("");
+
 
     const history = useHistory();
 
@@ -47,6 +35,10 @@ const EditAdmin = () => {
                 const response = await fetch(url);
                 const json = await response.json();
                 setAdmin(json["rows"][0]);
+                setState(json["rows"][0]["state"]);
+                setCityList(cityStates[json["rows"][0]["state"]]);
+                setCity(json["rows"][0]["city"])
+
                 setId(val);
             } catch (e) {
                 console.error(e);
@@ -132,173 +124,192 @@ const EditAdmin = () => {
 
     return(
 
-        <div>
+        <div id="form" style={{marginTop: "5%", marginLeft: "auto", marginRight: "auto"}}>
+            <h1><u>Admin Dashboard</u></h1>
             <form onSubmit={handleSubmit}>
-                <InputLabel id="shelterName">
-                    Shelter Name
-                </InputLabel>
-                <TextField
-                    type='text'
-                    name='shelterName'
-                    focused="true"
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.shelterName}
-                />
-                <br></br>
-                <InputLabel id="password">
-                    Password
-                </InputLabel>
-                <TextField
-                    type='password'
-                    name='password'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.password}
-                />
-                <br></br>
-                <InputLabel id="fname">
-                    First Name
-                </InputLabel>
-                <TextField
-                    type='text'
-                    name='fname'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.fname}
-                />
-                <br></br>
-                <InputLabel id="lname">
-                    Last Name
-                </InputLabel>
-                <TextField
-                    type='text'
-                    name='lname'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.lname}
-                />
-                <br></br>
-                <InputLabel id="phone">
-                    Phone Number
-                </InputLabel>
-                <TextField
-                    type='tel'
-                    name='phone'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.phone}
-                />
-                <br></br>
-                <InputLabel id="email">
-                    Email
-                </InputLabel>
-                <TextField
-                    type='email'
-                    name='email'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.email}
-                />
-                <br></br>
-                <TextField
-                    type='text'
-                    name='website'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.website}
-                />
-                <br></br>
-                <InputLabel id="state">State: {admin.state}</InputLabel>
-                <Select 
-                    labelId="state"
-                    name='state'
-                    value={admin.state}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        })); 
-                        changeCities(e.target.value);}}
-                >
-                    {stateList}
+            <div style={{display: "grid", gridTemplateColumns: "auto auto auto", marginLeft: "10%", marginRight: "10%"}}>
+            <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="shelterName">
+                        Shelter Name
+                    </InputLabel>
+                    <TextField
+                        type='text'
+                        name='shelterName'
+                        focused="true"
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.shelterName}
+                    />
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="password">
+                        Password
+                    </InputLabel>
+                    <TextField
+                        type='password'
+                        name='password'
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.password}
+                    />
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="fname">
+                        First Name
+                    </InputLabel>
+                    <TextField
+                        type='text'
+                        name='fname'
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.fname}
+                    />
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="lname">
+                        Last Name
+                    </InputLabel>
+                    <TextField
+                        type='text'
+                        name='lname'
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.lname}
+                    />
+                </div>
+                <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="phone">
+                        Phone Number
+                    </InputLabel>
+                    <TextField
+                        type='tel'
+                        name='phone'
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.phone}
+                    />
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="email">
+                        Email
+                    </InputLabel>
+                    <TextField
+                        type='email'
+                        name='email'
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.email}
+                    />
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="email">
+                        Website
+                    </InputLabel>
+                    <TextField
+                        type='text'
+                        name='website'
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.website}
+                    />
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="state">State</InputLabel>
+                    <Select 
+                        labelId="state"
+                        name='state'
+                        value={admin.state ?? state}
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            })); 
+                            changeCities(e.target.value);}}
+                    >
+                        {stateList}
                 </Select>
-                <br></br>
-                <InputLabel id="city">City: {admin.city}</InputLabel>
-                <Select 
-                    labelId="city"
-                    name='city'
-                    value={admin.city}
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        })); 
-                    }}
+                </div>
+                <div style={{width:"10vw", height: "7vh", marginLeft: "auto", marginRight: "auto"}}>
+                    <InputLabel id="city">City</InputLabel>
+                    <Select 
+                        labelId="city"
+                        name='city'
+                        value={admin.city ?? city}
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            })); 
+                         }}
 
                 >
-                    {cityMenuList}
-                </Select>
+                        {cityMenuList}
+                    </Select>
+                </div>
+                </div>
                 <br></br>
-                <InputLabel id="aboutMe">
-                    About Me
-                </InputLabel>
-                <TextField
-                    type='text'
-                    name='aboutMe'
-                    onChange={e => {
-                        const {name, value} = e.target;
-                        setAdmin(prevState => ({
-                            ...prevState,
-                            [name]: value
-                        }));
-                    }}
-                    value={admin.aboutMe}
-                    multiline='true'
-                />
-                <br></br>
-               
-
-                    <Button type='submit'>
-                        Update
-                    </Button>
+                <div style={{width:"100%", marginLeft: "auto", marginRight: "auto", textAlign: "center"}}>
+                    <InputLabel id="aboutMe">
+                        About Me
+                    </InputLabel>
+                    <textarea
+                        style={{fontSize: 18}}
+                        cols="100"
+                        rows="20"
+                        type='text'
+                        name='aboutMe'
+                        form="form"
+                        onChange={e => {
+                            const {name, value} = e.target;
+                            setAdmin(prevState => ({
+                                ...prevState,
+                                [name]: value
+                            }));
+                        }}
+                        value={admin.aboutMe}
+                    />
+                </div>
+                
+                <Button type='submit' style={{backgroundColor: "#4169E1", color: "white"}}>
+                    Update
+                </Button>
                     
             </form>
             <Button color='secondary' onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler()};}}>
