@@ -138,6 +138,7 @@ const AddAdmin = () => {
                     type='text'
                     name='fname'
                     variant="outlined"
+                    required
                     label='First Name'
                     autoFocus
                     onChange={e => setFname(e.target.value)}
@@ -247,25 +248,31 @@ const AddAdmin = () => {
                 </TextField>
                 </Grid>
 
-                <Grid item xs={12}>
+                <div style={{display: "grid", gridTemplateColumns: "auto auto", marginLeft: "auto", marginRight: "auto", marginTop: "2vh", marginBottom: "2vh"}}>
+                  <div>
+                  
+                
                 <InputLabel id="state">State</InputLabel>
                 <Select labelId="state"
+                    required
                     onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
                 >
                     {stateList}
                 </Select>
-                </Grid>
+                </div>
 
-                <Grid item xs={12}>
+
+              <div>
                 <InputLabel id="city">City</InputLabel>
                 <Select labelId="city"
+                    required
                     onChange={e => {setCity(e.target.value)}}
 
                 >
                     {cityMenuList}
                 </Select>
-                
-                </Grid>
+                </div>
+                </div>
 
 
 
