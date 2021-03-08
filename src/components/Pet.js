@@ -118,6 +118,16 @@ const Pet = () => {
         }
 
     }
+            
+    function linkToWebsite(url) {
+        if (!url) {return;}
+        if (url.includes("http://") || url.includes("https://")) {
+            return <p><b>Website: </b><a href={url}>{url}</a></p>
+        }
+        else {
+            return <p><b>Website: </b><a href={`https://${url}`}>{url}</a></p>;
+        }
+    }
 
     return (
 
@@ -158,7 +168,7 @@ const Pet = () => {
                         </p>
                     </div>
                     <div>
-                        <p><b>Website: </b><a href={"https://"+pet["website"]}>{pet["website"]}</a></p>
+                        {linkToWebsite(pet["website"])}
                     </div>        
             </div>
             <br></br>
