@@ -243,27 +243,6 @@ const AddAdmin = () => {
                 >
                 </TextField>
                 </Grid>
-                <Grid item xs={12}>
-                <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    type='text'
-                    name="aboutMe" 
-                    label="About Me" 
-                    onChange={e => setAbout(e.target.value)}
-                    value={aboutMe}
-                >
-                </TextField>
-                </Grid>
-            
-
-
-
-
-
-
-
 
                 <br></br>
                 <Button type="submit"
