@@ -145,8 +145,26 @@ const AddDog = () => {
         data.append("houseTrained", trained);
         data.append("neuteredSpayed", neut);
         data.append("shotsUpToDate", shots);
+        if(name == "" || age == "" || weight == "" || fee == "" || city == "" || state == "" || size == "") {
+            alert("Name, age, weight, city, state, size, and adoption fee cannot be null");
+            event.preventDefault();
+            return;
+        }
+
+        if(weight < 0 || age < 0 || fee < 0) {
+            alert("Age, weight, and adoption fee cannot be negative");
+            event.preventDefault();
+            return;
+        }
+
         if (files === null) {
             alert("You need to upload one image file");
+            event.preventDefault();
+            return;
+        }
+        if (files === null) {
+            alert("You need to upload one image file");
+            event.preventDefault();
             return;
         }
         else {
@@ -155,12 +173,14 @@ const AddDog = () => {
 
                     alert("Invalid file type");
                     setFiles(null);
+                    event.preventDefault();
                     return;
                 }
                 if(files[i].size > 1048576) {
                     
                     alert("Files must be under 1MB");
                     setFiles(null);
+                    event.preventDefault();
                     return;
                 }
                 if(i >= 6) {
