@@ -30,7 +30,7 @@ const SearchPage = () => {
     
 
     return(
-        <div style={{width: "95%", display: "grid", gridTemplateColumns: "auto auto", marginLeft: "auto", marginRight: "auto", fontSize: "1vw"}}>
+        <div style={{width: "95%", display: "grid", gridTemplateColumns: "auto auto", marginLeft: "auto", marginRight: "auto", fontSize: "2vh"}}>
             <div style={{width: "25vw", marginLeft: "auto", marginRight: "auto", marginTop: "15%"}}>
                 <h1>Search Filters:</h1>
                 <SearchFilter search={search} handleSearch={handleSearch}/>
