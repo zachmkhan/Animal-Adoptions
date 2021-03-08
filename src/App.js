@@ -26,7 +26,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link, Redirect
 } from "react-router-dom";
 
 function App() {
@@ -35,9 +35,12 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
+          <Route exact path="/" render={() => (
+            <Redirect to="/userdash"/>
+          )}/>
           <Route path="/userdash">
             <Gallery/>
-          </Route> 
+          </Route>
           <Route path="/search">
             <Grid container direction="row">
               {/* <SearchFilter/>
