@@ -82,13 +82,15 @@ const Edit = () => {
     
     const handleSubmit = (event) => {
 
-        if(pet.name == "" || pet.age == "" || pet.weight == "" || pet.adoptionFee == "") {
-            alert("Name, age, weight, and adoption fee cannot be null");
+        if(pet.name == "" || pet.age == "" || pet.weight == "" || pet.adoptionFee == "" || pet.city == "" || pet.state == "") {
+            alert("Name, age, weight, city, state, and adoption fee cannot be null");
+            event.preventDefault();
             return;
         }
 
         if(pet.weight < 0 || pet.age < 0 || pet.adoptionFee < 0) {
             alert("Age, weight, and adoption fee cannot be negative");
+            event.preventDefault();
             return;
         }
 

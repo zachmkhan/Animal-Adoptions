@@ -157,11 +157,7 @@ const AddDog = () => {
             return;
         }
 
-        if (files === null) {
-            alert("You need to upload one image file");
-            event.preventDefault();
-            return;
-        }
+        
         if (files === null) {
             alert("You need to upload one image file");
             event.preventDefault();
