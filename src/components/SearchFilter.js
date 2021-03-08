@@ -48,6 +48,7 @@ const SearchFilter = (props) => {
   
         if(city == "" || st == "" || animal == "") {
             alert("You need to select an animal, state, and city");
+            event.preventDefault();
             return;
         }
         var newSearch = {
