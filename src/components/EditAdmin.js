@@ -70,6 +70,7 @@ const EditAdmin = () => {
         for(var i = 0; i < array.length; i++) {
             if(array[i] == "") {
                 alert("All fields are required");
+                event.preventDefault();
                 return;
             }
         }

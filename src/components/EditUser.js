@@ -56,6 +56,7 @@ const EditUser = () => {
 
         if(user.fname == "" || user.lname == "" || user.email == "" || user.password == "") {
             alert("All fields are required");
+            event.preventDefault();
             return;
         }
 
