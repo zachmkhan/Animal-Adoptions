@@ -24,6 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 
+const data = require('../updated_cities_states.json');
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,7 +64,8 @@ const AddAdmin = () => {
     const [aboutMe, setAbout] = React.useState("");
     //New Above
     const [user, setUserId] = React.useState();
-
+    const [cityList, setCityList] = React.useState([]);
+    
     const handleSubmit = (event) => {
       const requestOptions = {
           method: 'POST',
@@ -101,7 +103,20 @@ const AddAdmin = () => {
     }
 
     
+    function changeCities(name) {
 
+      var list = data[name];
+      setCityList(list);
+    }
+
+    var stateList = [];
+    Object.keys(data).forEach(state =>
+        stateList.push(<MenuItem value={state}>{state}</MenuItem>)
+    )
+    var cityMenuList = [];
+    cityList.forEach(city =>
+        cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
+    )
 
 
     
@@ -174,47 +189,7 @@ const AddAdmin = () => {
                 </Grid>
 
 
-                <Grid item xs={12}>
-                <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    type='text'
-                    name="shelterName" 
-                    label="Shelter Name" 
-                    onChange={e => setShelter(e.target.value)}
-                    value={shelterName}
-                >
-                </TextField>
-                </Grid>
-
-                <Grid item xs={12}>
-                <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    type='text'
-                    name="city" 
-                    label="City" 
-                    onChange={e => setCity(e.target.value)}
-                    value={city}
-                >
-                </TextField>
-                </Grid>
-
-                <Grid item xs={12}>
-                <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    type='text'
-                    name="state" 
-                    label="State" 
-                    onChange={e => setState(e.target.value)}
-                    value={state}
-                >
-                </TextField>
-                </Grid>
+                
 
                 <Grid item xs={12}>
                 <TextField
@@ -243,6 +218,59 @@ const AddAdmin = () => {
                 >
                 </TextField>
                 </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type='text'
+                    name="aboutMe" 
+                    label="About Me" 
+                    onChange={e => setAbout(e.target.value)}
+                    value={aboutMe}
+                >
+                </TextField>
+                </Grid>
+            
+
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    type='text'
+                    name="shelterName" 
+                    label="Shelter Name" 
+                    onChange={e => setShelter(e.target.value)}
+                    value={shelterName}
+                >
+                </TextField>
+                </Grid>
+
+                <Grid item xs={12}>
+                <InputLabel id="state">State</InputLabel>
+                <Select labelId="state"
+                    onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
+                >
+                    {stateList}
+                </Select>
+                </Grid>
+
+                <Grid item xs={12}>
+                <InputLabel id="city">City</InputLabel>
+                <Select labelId="city"
+                    onChange={e => {setCity(e.target.value)}}
+
+                >
+                    {cityMenuList}
+                </Select>
+                
+                </Grid>
+
+
+
+
+
 
                 <br></br>
                 <Button type="submit"
