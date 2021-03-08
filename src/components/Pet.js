@@ -54,6 +54,11 @@ const Pet = () => {
 
     function favoriteHandler() {
 
+        if (val == "" || val === null) {
+            alert("You must be signed in to add to favorites");
+            return;
+            
+        }
         if(check) {
             alert("Pet is already in your favorites");
             return;
@@ -68,7 +73,7 @@ const Pet = () => {
             })
         };
         console.log(`Added pet ${id} and user ${val}`);
-        fetch(favsUrl, requestOptions).then(response => response.json())
+        fetch(favsUrl, requestOptions).then(response => response.json()).then(() => alert("Pet added to favorites"))
     }
 
     function yesOrNo(string) {

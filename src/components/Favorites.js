@@ -68,7 +68,7 @@ const Favorites = () => {
     if(!value || value.length === 0) {
         return(
             <Typography>
-                You do not have permission to access this page.
+                You must be signed in to use favorites.
             </Typography>
         )
     }
