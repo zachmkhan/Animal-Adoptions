@@ -285,28 +285,6 @@ const EditAdmin = () => {
                 </div>
                 </div>
                 <br></br>
-                <div style={{width:"100%", marginLeft: "auto", marginRight: "auto", textAlign: "center"}}>
-                    <InputLabel id="aboutMe">
-                        About Me
-                    </InputLabel>
-                    <textarea
-                        style={{fontSize: 18}}
-                        cols="100"
-                        rows="20"
-                        type='text'
-                        name='aboutMe'
-                        form="form"
-                        onChange={e => {
-                            const {name, value} = e.target;
-                            setAdmin(prevState => ({
-                                ...prevState,
-                                [name]: value
-                            }));
-                        }}
-                        value={admin.aboutMe}
-                    />
-                </div>
-                
                 <Button type='submit' style={{backgroundColor: "#4169E1", color: "white"}}>
                     Update
                 </Button>
