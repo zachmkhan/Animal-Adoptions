@@ -28,7 +28,7 @@ const Gallery = () => {
             </div>
             <div style={{width: "7.5vw", height: "30vh", marginLeft: "auto", marginRight: "auto"}}></div>
             <div style={{width: "30vw", height: "30vh", marginLeft: "auto", marginRight: "auto", fontSize: "1vw"}}>
-                <h1>Welcome to AdoptPets!</h1>
+                <h1 style={{fontSize: "2.5vw"}}>Welcome to AdoptPets!</h1>
                 <h2>We are here to help you find your new best friend!</h2>
                 <h3>Here are some of our many features:</h3>
                 <p> &bull; Create a user account to favorite animals on the site</p>
