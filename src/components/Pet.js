@@ -56,13 +56,11 @@ const Pet = () => {
 
         if (val == "" || val === null) {
             alert("You must be logged in with a User account to add favorites.");
-            event.preventDefault();
             return;
             
         }
         if(check) {
             alert("Pet is already in your favorites");
-            event.preventDefault();
             return;
         }
         const favsUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites`
