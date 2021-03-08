@@ -20,6 +20,12 @@ import CloseIcon from '@material-ui/icons/Close';
 
 const data = require('../updated_cities_states.json');
 
+const SUPPORTED_FORMATS = [
+    "image/jpg",
+    "image/jpeg",
+    "image/png"
+  ];
+
 const AddPet = () => {
     const [cityList, setCityList] = React.useState([]);
     const [animal, setAnimal] = React.useState("");
@@ -93,13 +99,36 @@ const AddPet = () => {
         data.append("houseTrained", trained);
         data.append("neuteredSpayed", neut);
         data.append("shotsUpToDate", shots);
-        for (let i = 0; i < files.length; i++) {
-            data.append("photo", files[i])
+        if (files === null) {
+            alert("You need to upload one image file");
+            return;
         }
+        else {
+            for (let i = 0; i < files.length; i++) {
+                if(!SUPPORTED_FORMATS.includes(files[i].type)) {
+
+                    alert("Invalid file type");
+                    setFiles(null);
+                    return;
+                }
+                if(files[i].size > 1048576) {
+                    
+                    alert("Files must be under 1MB");
+                    setFiles(null);
+                    return;
+                }
+                if(i >= 6) {
+                    break //cut off extra files
+                }
+                data.append("photo", files[i])
+            }
+        }
+        // data.append("photo", files[0]);
         for (var value of data.values()) {
             console.log(value);
         }
         const requestOptions = {
+            //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',
             body: data
         };
@@ -108,7 +137,7 @@ const AddPet = () => {
         .then(response => response.json())
         .then(json => {
             console.log('parsed json', json) // access json.body here
-        })
+        }).then(() => handleClick())
         event.preventDefault();
     }
 
@@ -356,7 +385,7 @@ const AddPet = () => {
                     onChange={e => setFiles(e.target.files)}
                 />
 
-                <Button type='submit' onClick={handleClick}>
+                <Button type='submit'>
                     Add
                 </Button>
                 <Snackbar
