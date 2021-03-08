@@ -137,6 +137,7 @@ const EditAdmin = () => {
                         type='text'
                         name='shelterName'
                         focused="true"
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -154,6 +155,7 @@ const EditAdmin = () => {
                     <TextField
                         type='password'
                         name='password'
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -171,6 +173,7 @@ const EditAdmin = () => {
                     <TextField
                         type='text'
                         name='fname'
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -188,6 +191,7 @@ const EditAdmin = () => {
                     <TextField
                         type='text'
                         name='lname'
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -205,6 +209,7 @@ const EditAdmin = () => {
                     <TextField
                         type='tel'
                         name='phone'
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -222,6 +227,7 @@ const EditAdmin = () => {
                     <TextField
                         type='email'
                         name='email'
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -239,6 +245,7 @@ const EditAdmin = () => {
                     <TextField
                         type='text'
                         name='website'
+                        required
                         onChange={e => {
                             const {name, value} = e.target;
                             setAdmin(prevState => ({
@@ -254,6 +261,7 @@ const EditAdmin = () => {
                     <Select 
                         labelId="state"
                         name='state'
+                        required
                         value={admin.state ?? state}
                         onChange={e => {
                             const {name, value} = e.target;
@@ -271,6 +279,7 @@ const EditAdmin = () => {
                     <Select 
                         labelId="city"
                         name='city'
+                        required
                         value={admin.city ?? city}
                         onChange={e => {
                             const {name, value} = e.target;
