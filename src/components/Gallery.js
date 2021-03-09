@@ -26,8 +26,8 @@ const Gallery = () => {
             <div style={{width: "15vw", height: "30vh", borderStyle: "groove", marginLeft: "auto", marginRight: "auto", marginTop: "20%"}}>
                 <img src="https://elasticbeanstalk-us-east-2-181021098475.s3.us-east-2.amazonaws.com/cs467/4018.jpeg" style={{width: "100%", height: "100%", objectFit: "cover"}}></img>
             </div>
-            <div style={{width: "7.5vw", height: "30vh", marginLeft: "auto", marginRight: "auto"}}></div>
-            <div style={{width: "30vw", height: "30vh", marginLeft: "auto", marginRight: "auto", fontSize: "1vw"}}>
+            <div style={{width: "2.5vw", height: "30vh", marginLeft: "auto", marginRight: "auto"}}></div>
+            <div style={{width: "40vw", height: "30vh", marginLeft: "auto", marginRight: "auto", fontSize: "1vw"}}>
                 <h1 style={{fontSize: "2.5vw"}}>Welcome to AdoptPets!</h1>
                 <h2>We are here to help you find your new best friend!</h2>
                 <h3>Here are some of our many features:</h3>
@@ -37,7 +37,7 @@ const Gallery = () => {
                 <p>&bull; Search for animals with many different options</p>
                 <p>&bull; Keep track of your favorite animals</p>
             </div>
-            <div style={{width: "7.5vw", height: "30vh", marginLeft: "auto", marginRight: "auto"}}></div>
+            <div style={{width: "2.5vw", height: "30vh", marginLeft: "auto", marginRight: "auto"}}></div>
             <div style={{width: "15vw", height: "30vh", borderStyle: "groove", marginLeft: "auto", marginRight: "auto", marginTop: "20%"}}>
                 <img src="https://elasticbeanstalk-us-east-2-181021098475.s3.us-east-2.amazonaws.com/cs467/image0.jpg" style={{width: "100%", height: "100%", objectFit: "cover"}}></img>
 
