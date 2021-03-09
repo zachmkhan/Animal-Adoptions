@@ -210,6 +210,7 @@ const AddCat = () => {
                     type='text'
                     name='name'
                     label='Name'
+                    required
                     onChange={e => setName(e.target.value)}
                     value={name}
                 />
@@ -219,6 +220,7 @@ const AddCat = () => {
                 <InputLabel id="breed">Breed</InputLabel>
                 <Select 
                     labelId="breed" 
+                    required
                     onChange={e => setBreed(e.target.value)}
                     value={breed}
                 >
@@ -229,6 +231,7 @@ const AddCat = () => {
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select 
                     labelId="sex" 
+                    required
                     onChange={e => setSex(e.target.value)}
                     value={sex}
                 >
@@ -241,6 +244,7 @@ const AddCat = () => {
                 <Input 
                     labelId="age" 
                     type="number"
+                    required
                     value={age}
                     onChange={e => setAge(e.target.value)}
                 >
@@ -251,6 +255,7 @@ const AddCat = () => {
                 <Input 
                     labelId="weight" 
                     type="number"
+                    required
                     value={weight}
                     onChange={e => setWeight(e.target.value)}
                 >
@@ -259,7 +264,8 @@ const AddCat = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="size">Expected Size When Grown</InputLabel>
                 <Select 
-                    labelId="size" 
+                    labelId="size"
+                    required 
                     onChange={e => setSize(e.target.value)}
                     value={size}
                 >
@@ -275,6 +281,7 @@ const AddCat = () => {
                 <Input 
                     labelId="fee" 
                     type="number"
+                    required
                     value={fee}
                     onChange={e => setFee(e.target.value)}
                 >
@@ -284,6 +291,7 @@ const AddCat = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="state">State</InputLabel>
                 <Select labelId="state"
+                    required
                     onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
                 >
                     {stateList}
@@ -292,6 +300,7 @@ const AddCat = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="city">City</InputLabel>
                 <Select labelId="city"
+                    required
                     onChange={e => {setCity(e.target.value)}}
 
                 >
@@ -303,6 +312,7 @@ const AddCat = () => {
                 <Select 
                     labelId="status" 
                     type="text"
+                    required
                     value={status}
                     onChange={e => setStatus(e.target.value)}
                 >
@@ -319,6 +329,7 @@ const AddCat = () => {
                 <InputLabel id="checkDogs">Good With Dogs</InputLabel>
                 <Select 
                     labelId="checkDogs" 
+                    required
                     onChange={e => setDogs(e.target.value)}
                     value={dogs}
                 >
@@ -332,6 +343,7 @@ const AddCat = () => {
                 <InputLabel id="checkCats">Good With Cats</InputLabel>
                 <Select 
                     labelId="checkCats" 
+                    required
                     onChange={e => setCats(e.target.value)}
                     value={cats}
                 >
@@ -344,7 +356,8 @@ const AddCat = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkKids">Good With Kids</InputLabel>
                 <Select 
-                    labelId="checkKids" 
+                    labelId="checkKids"
+                    required 
                     onChange={e => setKids(e.target.value)}
                     value={kids}
                 >
@@ -358,6 +371,7 @@ const AddCat = () => {
                 <InputLabel id="checkFence">Fenced Yard Required</InputLabel>
                 <Select 
                     labelId="checkFence" 
+                    required
                     onChange={e => setFence(e.target.value)}
                     value={fence}
                 >
@@ -371,6 +385,7 @@ const AddCat = () => {
                 <InputLabel id="checkNeut">Neutered/Spayed</InputLabel>
                 <Select 
                     labelId="checkNeut" 
+                    required
                     onChange={e => setNeut(e.target.value)}
                     value={neut}
                 >
@@ -384,6 +399,7 @@ const AddCat = () => {
                 <InputLabel id="checkTrained">House Trained</InputLabel>
                 <Select 
                     labelId="checkTrained" 
+                    required
                     onChange={e => setTrained(e.target.value)}
                     value={trained}
                 >
@@ -396,6 +412,7 @@ const AddCat = () => {
                 <InputLabel id="checkShots">Shots Up To Date</InputLabel>
                 <Select 
                     labelId="checkShots" 
+                    required
                     onChange={e => setShots(e.target.value)}
                     value={shots}
                 >
