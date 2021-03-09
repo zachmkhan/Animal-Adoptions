@@ -121,6 +121,7 @@ const EditUser = () => {
                     <TextField
                     type='text'
                     name='fname'
+                    required
                     label={user.fname ? "" : 'First Name'}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -139,6 +140,7 @@ const EditUser = () => {
                     <TextField
                         type='text'
                         name='lname'
+                        required
                         label={user.lname ? "" : 'Last Name'}
                         onChange={e => {
                             const {name, value} = e.target;
@@ -157,6 +159,7 @@ const EditUser = () => {
                     <TextField
                         type='password'
                         name='password'
+                        required
                         label={user.password ? "" : 'Password'}
                         onChange={e => {
                             const {name, value} = e.target;
@@ -175,6 +178,7 @@ const EditUser = () => {
                     <TextField
                         type='email'
                         name='email'
+                        required
                         label={user.email ? "" : 'Email'}
                         onChange={e => {
                             const {name, value} = e.target;
