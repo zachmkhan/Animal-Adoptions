@@ -194,6 +194,7 @@ const Edit = () => {
             <TextField
                     type='text'
                     name='name'
+                    required
                     style={{marginLeft: "auto", marginRight: "auto"}}
                     label={pet.name ? "" : 'Name'}
                     onChange={e => {
@@ -213,6 +214,7 @@ const Edit = () => {
                 <Select 
                     labelId="breed"
                     name="breed" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -231,6 +233,7 @@ const Edit = () => {
                 <Select 
                     labelId="sex"
                     name="sex" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -250,6 +253,7 @@ const Edit = () => {
                     labelId="age"
                     name="age" 
                     type="number"
+                    required
                     value={pet.age}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -267,6 +271,7 @@ const Edit = () => {
                     labelId="weight" 
                     type="number"
                     name="weight"
+                    required
                     value={pet.weight}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -283,6 +288,7 @@ const Edit = () => {
                 <Select 
                     labelId="size"
                     name="size" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -305,6 +311,7 @@ const Edit = () => {
                     labelId="fee" 
                     type="number"
                     name="adoptionFee"
+                    required
                     value={pet.adoptionFee}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -322,6 +329,7 @@ const Edit = () => {
                     labelId="status"
                     name="status" 
                     type="text"
+                    required
                     value={pet.status}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -342,6 +350,7 @@ const Edit = () => {
                 <Select 
                     labelId="state"
                     name='state'
+                    required
                     value={pet.state}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -359,6 +368,7 @@ const Edit = () => {
                 <Select 
                     labelId="city"
                     name='city'
+                    required
                     value={pet.city}
                     onChange={e => {
                         const {name, value} = e.target;
@@ -377,6 +387,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkDogs"
                     name="goodWithDogs" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -396,6 +407,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkCats"
                     name="goodWithCats" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -415,6 +427,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkKids"
                     name="goodWithKids" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -434,6 +447,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkFence"
                     name="requiresFence" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -453,6 +467,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkNeut"
                     name="neuteredSpayed" 
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -472,6 +487,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkTrained"
                     name="houseTrained"
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
@@ -491,6 +507,7 @@ const Edit = () => {
                 <Select 
                     labelId="checkShots" 
                     name="shotsUpToDate"
+                    required
                     onChange={e => {
                         const {name, value} = e.target;
                         setPet(prevState => ({
