@@ -180,6 +180,7 @@ const AddPet = () => {
                     type='text'
                     name='animal'
                     label='Animal'
+                    required
                     onChange={e => setAnimal(e.target.value)}
                     value={animal}
                 />
@@ -189,6 +190,7 @@ const AddPet = () => {
                     type='text'
                     name='name'
                     label='Name'
+                    required
                     onChange={e => setName(e.target.value)}
                     value={name}
                 /></div>
@@ -199,6 +201,7 @@ const AddPet = () => {
                     type='text'
                     name='breed'
                     label='Breed'
+                    required
                     onChange={e => setBreed(e.target.value)}
                     value={breed}
                 />
@@ -207,6 +210,7 @@ const AddPet = () => {
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select 
                     labelId="sex" 
+                    required
                     onChange={e => setSex(e.target.value)}
                     value={sex}
                 >
@@ -219,6 +223,7 @@ const AddPet = () => {
                 <Input 
                     labelId="age" 
                     type="number"
+                    required
                     value={age}
                     onChange={e => setAge(e.target.value)}
                 >
@@ -229,6 +234,7 @@ const AddPet = () => {
                 <Input 
                     labelId="weight" 
                     type="number"
+                    required
                     value={weight}
                     onChange={e => setWeight(e.target.value)}
                 >
@@ -238,6 +244,7 @@ const AddPet = () => {
                 <InputLabel id="size">Expected Size When Grown</InputLabel>
                 <Select 
                     labelId="size" 
+                    required
                     onChange={e => setSize(e.target.value)}
                     value={size}
                 >
@@ -253,6 +260,7 @@ const AddPet = () => {
                 <Input 
                     labelId="fee" 
                     type="number"
+                    required
                     value={fee}
                     onChange={e => setFee(e.target.value)}
                 >
@@ -262,6 +270,7 @@ const AddPet = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="state">State</InputLabel>
                 <Select labelId="state"
+                    required
                     onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
                 >
                     {stateList}
@@ -271,7 +280,7 @@ const AddPet = () => {
                 <InputLabel id="city">City</InputLabel>
                 <Select labelId="city"
                     onChange={e => {setCity(e.target.value)}}
-
+                    required
                 >
                     {cityMenuList}
                 </Select>
@@ -282,6 +291,7 @@ const AddPet = () => {
                     labelId="status" 
                     type="text"
                     value={status}
+                    required
                     onChange={e => setStatus(e.target.value)}
                 >
                     <MenuItem value="Available">Available</MenuItem>
@@ -296,6 +306,7 @@ const AddPet = () => {
                     labelId="checkDogs" 
                     onChange={e => setDogs(e.target.value)}
                     value={dogs}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
@@ -309,6 +320,7 @@ const AddPet = () => {
                     labelId="checkCats" 
                     onChange={e => setCats(e.target.value)}
                     value={cats}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
@@ -322,6 +334,7 @@ const AddPet = () => {
                     labelId="checkKids" 
                     onChange={e => setKids(e.target.value)}
                     value={kids}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
@@ -335,6 +348,7 @@ const AddPet = () => {
                     labelId="checkFence" 
                     onChange={e => setFence(e.target.value)}
                     value={fence}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
@@ -348,6 +362,7 @@ const AddPet = () => {
                     labelId="checkNeut" 
                     onChange={e => setNeut(e.target.value)}
                     value={neut}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
@@ -361,6 +376,7 @@ const AddPet = () => {
                     labelId="checkTrained" 
                     onChange={e => setTrained(e.target.value)}
                     value={trained}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
@@ -373,6 +389,7 @@ const AddPet = () => {
                     labelId="checkShots" 
                     onChange={e => setShots(e.target.value)}
                     value={shots}
+                    required
                 >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
