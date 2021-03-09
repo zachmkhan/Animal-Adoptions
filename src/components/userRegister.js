@@ -110,6 +110,7 @@ const AddUser = () => {
                     name='fname'
                     variant="outlined"
                     label='First Name'
+                    required
                     autoFocus
                     onChange={e => setFname(e.target.value)}
                     value={fname}
