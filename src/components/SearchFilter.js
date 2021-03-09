@@ -181,7 +181,7 @@ const SearchFilter = (props) => {
                 </Select>
                 </div>
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
-                <InputLabel id="distance">Distance</InputLabel>
+                <InputLabel id="distance">Distance (miles)</InputLabel>
                 <Select labelId="distance"
                      onChange={e => {setDistance(e.target.value)}}
                 >
