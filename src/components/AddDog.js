@@ -77,51 +77,6 @@ const AddDog = () => {
         cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
     )
 
-    // const handleSubmit = (event) => {
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //          },
-    //         body: JSON.stringify({
-    //             sellerId: 1, //Dummy admin id
-    //             status:status, 
-    //             animal:"Cat", 
-    //             name:name,
-    //             breed:breed, 
-    //             sex:sex, 
-    //             age:age , 
-    //             weight:weight, 
-    //             size:size, 
-    //             adoptionFee:fee, 
-    //             aboutMe: desc, 
-    //             city:city, 
-    //             state:state, 
-    //             photo1:photo1, 
-    //             photo2:photo2, 
-    //             photo3:photo3, 
-    //             photo4:photo4, 
-    //             photo5:photo5, 
-    //             photo6:photo5, 
-    //             goodWithKids:kids, 
-    //             goodWithDogs:dogs, 
-    //             goodWithCats:cats, 
-    //             requiresFence:fence, 
-    //             houseTrained:trained, 
-    //             neuteredSpayed:neut, 
-    //             shotsUpToDate:shots
-    //         }
-    //         )
-    //     };
-    //     fetch(url, requestOptions)
-    //     .then(response => response.json())
-    //     .then(json => {
-    //         console.log('parsed json', json) // access json.body here
-    //     })
-    //     //event.preventDefault();
-    // }
-
     const handleSubmit = (event) => {
 
         var data = new FormData();
@@ -225,6 +180,7 @@ const AddDog = () => {
                     type='text'
                     name='name'
                     label='Name'
+                    required
                     onChange={e => setName(e.target.value)}
                     value={name}
                 /></div>
@@ -234,6 +190,7 @@ const AddDog = () => {
                 <InputLabel id="breed">Breed</InputLabel>
                 <Select 
                     labelId="breed" 
+                    required
                     onChange={e => setBreed(e.target.value)}
                     value={breed}
                 >
@@ -244,6 +201,7 @@ const AddDog = () => {
                 <InputLabel id="sex">Sex</InputLabel>
                 <Select 
                     labelId="sex" 
+                    required
                     onChange={e => setSex(e.target.value)}
                     value={sex}
                 >
@@ -256,6 +214,7 @@ const AddDog = () => {
                 <Input 
                     labelId="age" 
                     type="number"
+                    required
                     value={age}
                     onChange={e => setAge(e.target.value)}
                 >
@@ -266,6 +225,7 @@ const AddDog = () => {
                 <Input 
                     labelId="weight" 
                     type="number"
+                    required
                     value={weight}
                     onChange={e => setWeight(e.target.value)}
                 >
@@ -274,7 +234,8 @@ const AddDog = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="size">Expected Size When Grown</InputLabel>
                 <Select 
-                    labelId="size" 
+                    labelId="size"
+                    required 
                     onChange={e => setSize(e.target.value)}
                     value={size}
                 >
@@ -290,6 +251,7 @@ const AddDog = () => {
                 <Input 
                     labelId="fee" 
                     type="number"
+                    required
                     value={fee}
                     onChange={e => setFee(e.target.value)}
                 >
@@ -299,6 +261,7 @@ const AddDog = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="state">State</InputLabel>
                 <Select labelId="state"
+                    required
                     onChange={e => {setState(e.target.value); changeCities(e.target.value)}}
                 >
                     {stateList}
@@ -307,6 +270,7 @@ const AddDog = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="city">City</InputLabel>
                 <Select labelId="city"
+                    required
                     onChange={e => {setCity(e.target.value)}}
 
                 >
@@ -318,6 +282,7 @@ const AddDog = () => {
                 <Select 
                     labelId="status" 
                     type="text"
+                    required
                     value={status}
                     onChange={e => setStatus(e.target.value)}
                 >
@@ -331,6 +296,7 @@ const AddDog = () => {
                 <InputLabel id="checkDogs">Good With Dogs</InputLabel>
                 <Select 
                     labelId="checkDogs" 
+                    required
                     onChange={e => setDogs(e.target.value)}
                     value={dogs}
                 >
@@ -344,6 +310,7 @@ const AddDog = () => {
                 <InputLabel id="checkCats">Good With Cats</InputLabel>
                 <Select 
                     labelId="checkCats" 
+                    required
                     onChange={e => setCats(e.target.value)}
                     value={cats}
                 >
@@ -357,6 +324,7 @@ const AddDog = () => {
                 <InputLabel id="checkKids">Good With Kids</InputLabel>
                 <Select 
                     labelId="checkKids" 
+                    required
                     onChange={e => setKids(e.target.value)}
                     value={kids}
                 >
@@ -370,6 +338,7 @@ const AddDog = () => {
                 <InputLabel id="checkFence">Fenced Yard Required</InputLabel>
                 <Select 
                     labelId="checkFence" 
+                    required
                     onChange={e => setFence(e.target.value)}
                     value={fence}
                 >
@@ -382,7 +351,8 @@ const AddDog = () => {
                 <div style={{width:"25%", height: "10vh", marginLeft: "auto", marginRight: "auto"}}>
                 <InputLabel id="checkNeut">Neutered/Spayed</InputLabel>
                 <Select 
-                    labelId="checkNeut" 
+                    labelId="checkNeut"
+                    required 
                     onChange={e => setNeut(e.target.value)}
                     value={neut}
                 >
@@ -396,6 +366,7 @@ const AddDog = () => {
                 <InputLabel id="checkTrained">House Trained</InputLabel>
                 <Select 
                     labelId="checkTrained" 
+                    required
                     onChange={e => setTrained(e.target.value)}
                     value={trained}
                 >
@@ -408,6 +379,7 @@ const AddDog = () => {
                 <InputLabel id="checkShots">Shots Up To Date</InputLabel>
                 <Select 
                     labelId="checkShots" 
+                    required
                     onChange={e => setShots(e.target.value)}
                     value={shots}
                 >
