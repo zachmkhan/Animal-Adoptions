@@ -60,18 +60,19 @@ const AddDog = () => {
 
     const url = "http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets"
     const storedVal = localStorage.getItem('admin');
+    
+    //Change city list depending on state
     function changeCities(name) {
-
         var list = data[name];
         console.log(list);
         setCityList(list);
     }
-    
-    
+
     var stateList = [];
     Object.keys(data).forEach(state =>
         stateList.push(<MenuItem value={state}>{state}</MenuItem>)
     )
+    
     var cityMenuList = [];
     cityList.forEach(city =>
         cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
@@ -79,6 +80,7 @@ const AddDog = () => {
 
     const handleSubmit = (event) => {
 
+        //Create form data to be sent to backend
         var data = new FormData();
         data.append("sellerId", storedVal); //Need to update
         data.append("status", status);
@@ -100,19 +102,22 @@ const AddDog = () => {
         data.append("houseTrained", trained);
         data.append("neuteredSpayed", neut);
         data.append("shotsUpToDate", shots);
+
+        //Check for null values
         if(name == "" || age == "" || weight == "" || fee == "" || city == "" || state == "" || size == "") {
             alert("Name, age, weight, city, state, size, and adoption fee cannot be null");
             event.preventDefault();
             return;
         }
 
+        //Check for nonpositive values
         if(weight < 0 || age < 0 || fee < 0) {
             alert("Age, weight, and adoption fee cannot be negative");
             event.preventDefault();
             return;
         }
 
-        
+        //Check if files are valid
         if (files === null) {
             alert("You need to upload one image file");
             event.preventDefault();
@@ -140,16 +145,13 @@ const AddDog = () => {
                 data.append("photo", files[i])
             }
         }
-        // data.append("photo", files[0]);
-        for (var value of data.values()) {
-            console.log(value);
-        }
+
         const requestOptions = {
-            //headers: { 'content-type': 'multipart/form-data' },
             method: 'POST',
             body: data
         };
         
+        //Send POST request with form data
         fetch(url, requestOptions)
         .then(response => response.json())
         .then(json => {
@@ -158,16 +160,16 @@ const AddDog = () => {
         event.preventDefault();
     }
 
-
+    //Open dialog on pet add
     const handleClick = () => {
       setOpen(true);
     };
-  
+
+    //Close dialog
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
         return;
       }
-  
       setOpen(false);
     };
 

@@ -1,20 +1,8 @@
 import React, {useEffect} from 'react'
 import MaterialTable from 'material-table'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import MenuIcon from '@material-ui/core/Menu'
-import IconButton from '@material-ui/core/IconButton'
 import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
 import {Link} from 'react-router-dom'
-
-const petData = [
-    { id: '1', animal: 'Dog', name: 'Bingo', age: 3, sex: 'male', weight: '42', dogs: false, breed: 'Doberman' },
-    { id: '2', animal: 'Dog', name: 'Brutus', age: 3, sex: 'male', weight: '55', dogs: false, breed: 'Boxer' },
-    { id: '3', animal: 'Cat', name: 'Luna', age: 6, sex: 'female', weight: '15', dogs: true, breed: 'Siamese' }
-]
-
 
 
 
@@ -23,8 +11,7 @@ const Admin = () => {
     const [pets, setPets] = React.useState([]);
     const [value, setValue] = React.useState("");
 
-    // const url = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/`
-
+    //Load admin id
     useEffect(() => {
 
         const val = localStorage.getItem('admin');
@@ -36,6 +23,7 @@ const Admin = () => {
         
 	}, [pets])
 
+    //Receive pet id and send delete request to backend
     function deleteHandler(id) {
 
         const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/${id}`
@@ -47,6 +35,7 @@ const Admin = () => {
         fetch(deleteUrl, requestOptions).then(response => response.json())
     }
 
+    //Check for admin id and render nothing if not found
     if(!value || value.length === 0) {
         return(
             <Typography>
@@ -55,6 +44,7 @@ const Admin = () => {
         )
     }
 
+    //Render dashboard components
     return(
         <div style={{width: "90%", marginLeft: "auto", marginRight: "auto"}}>
             <Tab label="Add Dog" to="/addDog" component={Link} /> 
@@ -72,8 +62,8 @@ const Admin = () => {
                     { title: 'Weight', field: 'weight', type: 'numeric' },
                     { title: 'City', field: 'city'},
                     { title: 'State', field: 'state'},
-                    { title: 'View', field: 'petId', render: rowData => <Link to={"/pet/" + rowData.petId}>View</Link>},
-                    { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>Edit</Link>},
+                    { title: 'View', field: 'petId', render: rowData => <Link to={"/pet/" + rowData.petId}>View</Link>},    //Send to pet's page
+                    { title: 'Edit', field: 'petId', render: rowData => <Link to={"/edit/" + rowData.petId}>Edit</Link>},   //Send to pet's edit page
                     { title: 'Delete', field: 'petId', render: rowData => <Link to={"/admin"} onClick={() => {if(window.confirm('Are you sure you want to delete?')){ deleteHandler(rowData.petId)};}}>Delete</Link>}
 
                 ]}

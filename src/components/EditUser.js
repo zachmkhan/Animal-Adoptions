@@ -23,16 +23,11 @@ const SUPPORTED_FORMATS = [
 const EditUser = () => {
 
     const [user, setUser] = React.useState({});
-
     const [id, setId] = React.useState("");
-
     const history = useHistory();
-    // let {id} = useParams();
-
 
 
     useEffect(() => {
-
         
         async function fetchData() {
             try {
@@ -50,8 +45,7 @@ const EditUser = () => {
         fetchData();
     }, []);
 
-    
-    
+     //Send PUT request to user route, check for null fields
     const handleSubmit = (event) => {
 
         if(user.fname == "" || user.lname == "" || user.email == "" || user.password == "") {
@@ -59,7 +53,6 @@ const EditUser = () => {
             event.preventDefault();
             return;
         }
-
 
         const requestOptions = {
             method: 'PUT',
@@ -78,14 +71,12 @@ const EditUser = () => {
         fetch(editUrl, requestOptions)
             .then(response => response.json()).then(alert("Profile updated"))
             .then(() => history.push("/userdash"))
-           // .then(data => setUser(data["rows"][0]));
         console.log(user);
         event.preventDefault();
     }
 
-    
+    //Send delete request with user id
     function deleteHandler() {
-
 
         const requestOptions = {
             method: 'DELETE',
@@ -105,7 +96,6 @@ const EditUser = () => {
 
 
         console.log(user);
-        //localStorage.clear();
     }
 
     return(

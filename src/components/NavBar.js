@@ -25,28 +25,30 @@ const NavBar = () => {
         
         const user = localStorage.getItem('user')
         const admin = localStorage.getItem('admin')
+
+        //Check for user
         if (user) {
             setCheckUser(user)
             console.log('user', checkUser);
-
         }
+
+        //Check for admin
         if (admin) {
             setCheckAdmin(admin)
             console.log('admin', checkAdmin);
-
         }
+
     }, [checkUser, checkAdmin]);
 
+    //Clear storage value and redirect to userdash page
     function logOut() {
         alert("Logging out");
         history.push("/userdash")
         localStorage.clear();
         window.location.reload();
-      
-      
       }
 
-
+    //Admin navbar
     if (checkAdmin) {
         return (
         <div>
@@ -56,19 +58,10 @@ const NavBar = () => {
                         AdoptPets
                     </Typography>
                     <Box display='flex' flexGrow={1}>
-                    
-                    {/* {
-                        (!test || test.length === 0) 
-                        ?  <Typography>Hello</Typography>
-                        : <Typography>What</Typography>
-
-                    } */}
                     <Tabs value={false}>
                         <Tab label="Home" to="/userdash" component={Link} /> 
                         <Tab label="Search" to="/search" component={Link} />
                         <Tab label="Admin" to="/admin" component={Link} />
-                        {/* <Tab label="Home" to="/Home" component={Link} />  */}
-                        {/* <Tab label="Admin Login" to="/adminLogin" component={Link} />  */}
                         <Tab label="Profile" to="/EditAdmin" component={Link} /> 
                     </Tabs>
                     </Box>
@@ -78,6 +71,7 @@ const NavBar = () => {
         </div>
         )
     }
+    //User navbar
     else if (checkUser) {
         return (
             <div>
@@ -87,19 +81,10 @@ const NavBar = () => {
                             AdoptPets
                         </Typography>
                         <Box display='flex' flexGrow={1}>
-
-                        
-                        {/* {
-                            (!test || test.length === 0) 
-                            ?  <Typography>Hello</Typography>
-                            : <Typography>What</Typography>
-    
-                        } */}
                         <Tabs value={false}>
                             <Tab label="Home" to="/userdash" component={Link} /> 
                             <Tab label="Search" to="/search" component={Link} />
                             <Tab label="Favorites" to="/favorites" component={Link} />
-                            {/* <Tab label="Login" to="/userLogin" component={Link} /> */}
                             <Tab label="Profile" to="/EditUser" component={Link} />  
                         </Tabs>
                         </Box>
@@ -109,6 +94,7 @@ const NavBar = () => {
             </div>
             )
     }
+    //No account navbar
     return(
         <div>
         <AppBar position="static">
@@ -116,19 +102,11 @@ const NavBar = () => {
                 <Typography variant="title" color="inherit">
                     AdoptPets
                 </Typography>
-                
-                {/* {
-                    (!test || test.length === 0) 
-                    ?  <Typography>Hello</Typography>
-                    : <Typography>What</Typography>
-
-                } */}
                 <Tabs value={false}>
                     <Tab label="Home" to="/userdash" component={Link} /> 
                     <Tab label="Search" to="/search" component={Link} />
                     <Tab label="Admin" to="/admin" component={Link} />
                     <Tab label="Favorites" to="/favorites" component={Link} />
-                    {/* <Tab label="Home" to="/Home" component={Link} />  */}
                     <Tab label="Login" to="/userLogin" component={Link} /> 
                     <Tab label="Admin Login" to="/adminLogin" component={Link} /> 
                 </Tabs>

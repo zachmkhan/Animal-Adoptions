@@ -34,7 +34,7 @@ const Edit = () => {
     const editUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/${id}`
 
 
-
+    //Get existing pet data from backend, initialize city list from state
     useEffect(() => {
         async function fetchData() {
             try {
@@ -53,12 +53,11 @@ const Edit = () => {
         }
     }, []);
 
+    //Change city list depending on state
     function changeCities(name) {
-
         var list = cityStates[name];
         setCityList(list);
     }
-
     var stateList = [];
     Object.keys(cityStates).forEach(state =>
         stateList.push(<MenuItem value={state}>{state}</MenuItem>)
@@ -68,6 +67,7 @@ const Edit = () => {
         cityMenuList.push(<MenuItem value={city}>{city}</MenuItem>)
     )
 
+    //Select breed list depending on animal
     function selectBreedList() {
         if(pet.animal == "Dog") {
             return dogBreedsArray;
@@ -80,6 +80,7 @@ const Edit = () => {
         }
     }
     
+    //Form handler, send PUT request to pet handler
     const handleSubmit = (event) => {
 
         if(pet.name == "" || pet.age == "" || pet.weight == "" || pet.adoptionFee == "" || pet.city == "" || pet.state == "") {
@@ -123,11 +124,11 @@ const Edit = () => {
         };
         fetch(editUrl, requestOptions)
             .then(response => response.json())
-           // .then(data => setPet(data["rows"][0]));
         console.log(pet);
         event.preventDefault();
     }
 
+    //Receive pet id, url, and photo number, send DELETE to photo handler
     function deleteHandler(id, photoNum, petUrl) {
         
         const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/photo`
@@ -146,9 +147,9 @@ const Edit = () => {
             photoUrl:petUrl
         }))
         fetch(deleteUrl, requestOptions).then(response => {response.json(); window.location.reload()});
-        //window.location.reload();
     }
 
+    //Receive pet id and photo number, send POST to photo handler with new image
     function editHandler(id, photoNum) {
 
         if (photo === null) {
@@ -167,16 +168,15 @@ const Edit = () => {
         const editUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/photo`
         const requestOptions = {
             method: 'POST',
-            //headers: { 'Content-Type': 'application/json' },
             body: data
         };
         for (var value of data.values()) {
             console.log(value);
         }
         fetch(editUrl, requestOptions).then(response => {response.json(); window.location.reload()});
-        //window.location.reload();
     }
 
+    //Check for admin id and render nothing if not found or not equal to pet's seller id
     if(!value || value.length === 0 || value != pet.sellerId) {
         return(
             <Typography>

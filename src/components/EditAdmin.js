@@ -17,12 +17,9 @@ const EditAdmin = () => {
 
     const [admin, setAdmin] = React.useState({});
     const [cityList, setCityList] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
     const [id, setId] = React.useState("");
     const [state, setState] = React.useState("");
     const [city, setCity] = React.useState("");
-
-
     const history = useHistory();
 
 
@@ -47,12 +44,11 @@ const EditAdmin = () => {
         fetchData();
     }, []);
 
+    //Change city list depending on state
     function changeCities(name) {
-
         var list = cityStates[name];
         setCityList(list);
     }
-
     var stateList = [];
     Object.keys(cityStates).forEach(state =>
         stateList.push(<MenuItem value={state}>{state}</MenuItem>)
@@ -63,7 +59,7 @@ const EditAdmin = () => {
     )
 
     
-    
+    //Send PUT request to admin route, check for null fields
     const handleSubmit = (event) => {
 
         var array = Object.values(admin);
@@ -96,13 +92,12 @@ const EditAdmin = () => {
         const editUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/admin/${id}`
         fetch(editUrl, requestOptions)
             .then(response => response.json()).then(alert("Profile updated"))
-           // .then(data => setAdmin(data["rows"][0]));
         console.log(admin);
         
         event.preventDefault();
     }
 
-    
+    //Send delete request with admin id
     function deleteHandler() {
 
         const requestOptions = {
@@ -114,13 +109,11 @@ const EditAdmin = () => {
         };
 
         var deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/admin/${id}`;
-
         fetch(deleteUrl, requestOptions)
             .then(response => response.json())
             .then(history.push("/userdash"))
             .then(localStorage.clear())
             .then(window.location.reload())
-        //localStorage.clear();
     }
 
     return(
