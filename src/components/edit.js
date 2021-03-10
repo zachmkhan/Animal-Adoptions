@@ -6,8 +6,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-import Checkbox from '@material-ui/core/Checkbox';
-import { LaptopWindowsOutlined, SettingsPhoneTwoTone } from '@material-ui/icons';
 import {catBreedsArray} from './breeds'
 import {dogBreedsArray} from './breeds'
 import Typography from '@material-ui/core/Typography'

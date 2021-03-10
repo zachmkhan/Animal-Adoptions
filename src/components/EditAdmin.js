@@ -1,13 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import Checkbox from '@material-ui/core/Checkbox';
-import { LaptopWindowsOutlined, SettingsPhoneTwoTone } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 
 

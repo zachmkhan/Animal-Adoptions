@@ -1,27 +1,15 @@
 import React, {useRef, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {catBreedsArray} from './breeds'
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import test from '../testImg.jpg';
-import { Typography } from '@material-ui/core';
 
 const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -72,12 +60,6 @@ const AddCat = () => {
     const [city, setCity] = React.useState("");
     const [state, setState] = React.useState("");
     const [status, setStatus] = React.useState("");
-    const [photo1, setPhoto1] = React.useState("");
-    const [photo2, setPhoto2] = React.useState("");
-    const [photo3, setPhoto3] = React.useState("");
-    const [photo4, setPhoto4] = React.useState("");
-    const [photo5, setPhoto5] = React.useState("");
-    const [photo6, setPhoto6] = React.useState("");
     const [dogs, setDogs] = React.useState("");
     const [cats, setCats] = React.useState("");
     const [kids, setKids] = React.useState("");
@@ -433,7 +415,6 @@ const AddCat = () => {
                     id="contained-button-file"
                     multiple
                     type="file"
-                    //style={{display: 'none'}}
                     name="photo"
                     onChange={e => setFiles(e.target.files)}
                 />

@@ -1,44 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import test from '../testImg.jpg'
-import { makeStyles } from '@material-ui/core/styles';
-import pets from './dummyPetData';
-import {Link} from 'react-router-dom'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-     // backgroundColor: theme.palette.background.paper,
-    },
-    gridList: {
-      width: 500,
-      height: 450,
-    },
-  }));
-
 
 
 const ListPets = (props) => {
 
-    const classes = useStyles();
     const [pets, setPets] = React.useState([]);
 
     let {search} = props;
-    var petsData = [];
 
+    //Get list of pets depending on search criteria 
     useEffect(() => {
       async function fetchData() {
           try {
             //Check for empty query, need to switch routes if true
               var emptySearch = true;
-              
               var keysList = Object.values(search);
               for(var i = 0; i < keysList.length; i++) {
                 if(keysList[i] != "") {
@@ -46,13 +20,9 @@ const ListPets = (props) => {
                   break;
                 }
               }
-              // emptySearch = Object.keys(search).forEach(function(key) {
-              //     if(search[key] != ""){
-              //       return false;
-              //     };
-              //   });
-              console.log(emptySearch);
+              
               var url = "";
+              //Change backend call depending on empty search
               if(emptySearch){
                 url = new URL("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/");
               }
@@ -76,7 +46,6 @@ const ListPets = (props) => {
           }
       };
       fetchData();
-      //console.log(pets);
     }, [search]);
 
     return(

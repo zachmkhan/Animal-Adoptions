@@ -1,15 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
-import Input from '@material-ui/core/Input'
 import {dogBreedsArray} from './breeds'
 import {catBreedsArray} from './breeds'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -39,11 +32,9 @@ const SearchFilter = (props) => {
     const [distance, setDistance] = React.useState(50);
     const [breedList, setBreedList] = React.useState([]);
 
-
-    // const stateList = (Object.keys(data));
     let {search, handleSearch} = props;
 
-
+    //Update search object with form properties 
     const handleSubmit = (event) => {
   
         if(city == "" || st == "" || animal == "") {
@@ -68,13 +59,12 @@ const SearchFilter = (props) => {
             neuteredSpayed:neut ? "Yes": "",
             shotsUpToDate:shots ? "Yes": ""
         };
-        //console.log(newSearch);
         handleSearch(newSearch);
         event.preventDefault();
     }
 
+    //Select breed list depending on animal
     function changeBreeds(animal) {
-
         if(animal == "Dog"){
             setBreedList(dogBreedsArray);
         }
@@ -84,17 +74,14 @@ const SearchFilter = (props) => {
         else {
             setBreedList([]);
         }
-
     }
 
+    //Change city list depending on state
     function changeCities(name) {
-
         var list = data[name];
         console.log(list);
         setCityList(list);
     }
-    
-    
     var stateList = [];
     Object.keys(data).forEach(state =>
         stateList.push(<MenuItem value={state}>{state}</MenuItem>)
