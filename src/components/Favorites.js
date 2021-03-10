@@ -1,17 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import test from '../testImg.jpg'
-import { makeStyles } from '@material-ui/core/styles';
-import pets from './dummyPetData';
-import {Link} from 'react-router-dom'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import { useParams } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 
 
@@ -21,9 +10,7 @@ const Favorites = () => {
     const [favsLength, setFavsLength] = React.useState(false);  //useEffect hook to rerender on delete
     const [value, setValue] = React.useState("");
 
-
-    // let {id} = useParams();
-
+    //Check if user is logged in then return user's favorites
     useEffect(() => {
         const check = localStorage.getItem('user')
         if (check) {
@@ -48,7 +35,7 @@ const Favorites = () => {
     }, [favsLength]);
 
   
-
+    //Receive both pet id and user id to send DELETE to favorites route
     function deleteHandler(petId, userId) {
 
         const deleteUrl = `http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/favorites/`
@@ -61,10 +48,9 @@ const Favorites = () => {
              })
         };
         fetch(deleteUrl, requestOptions).then(response => (response.json()).then(data => setFavsLength(data.length)))
-        //console.log(`You have removed the ${petId} and ${userId}`)
-        //setFavs(favs);
     }
 
+    //Render this when user is not logged in
     if(!value || value.length === 0) {
         return(
             <Typography>
@@ -73,6 +59,7 @@ const Favorites = () => {
         )
     }
 
+    //Render text depending on favorites list
     function hasFavorites() {
         if (favsLength > 0) {
             return (<h1>Your Favorites! Don't wait too long to decide!</h1>);
