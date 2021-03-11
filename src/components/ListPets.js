@@ -1,72 +1,70 @@
-import React from 'react'
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import test from '../testImg.jpg'
-import { makeStyles } from '@material-ui/core/styles';
-import pets from './dummyPetData';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-     // backgroundColor: theme.palette.background.paper,
-    },
-    gridList: {
-      width: 500,
-      height: 450,
-    },
-  }));
-
+import React, {useState, useEffect} from 'react';
 
 
 const ListPets = (props) => {
 
-    const classes = useStyles();
+    const [pets, setPets] = React.useState([]);
 
     let {search} = props;
-    var petsData = [];
 
-    // pets.forEach(function(obj) {
-    //     petsData.push(  <GridListTile >
-    //         <img src={test} />
-    //         <GridListTileBar title={obj["name"]} />
-    //      </GridListTile>  )
-    // })
-    // console.log(search["breed"]);
-    // console.log(pets[0]["breed"]);
-
-    // pets.filter(pet => pet.breed == search.breed).map(filteredName => (
-    //     <li>
-    //         {filteredName.breed}
-    //     </li>
-    // ))
-
-    return(
-        <div className={classes.root}>
-            {/* <GridList cellHeight={180} cols={2} style={{width: '50%'}}>
-                {petsData}
-            </GridList> */}
-            <GridList>
-            {pets.filter(function(pet) {
-              for (var key in search) {
-                if(pet[key] != search[key] && search[key] != ""){
-                  return false;
+    //Get list of pets depending on search criteria 
+    useEffect(() => {
+      async function fetchData() {
+          try {
+            //Check for empty query, need to switch routes if true
+              var emptySearch = true;
+              var keysList = Object.values(search);
+              for(var i = 0; i < keysList.length; i++) {
+                if(keysList[i] != "") {
+                  emptySearch = false;
+                  break;
                 }
               }
-              return true
-            }
-              ).map(filteredName => (
-                <GridListTile >
-                    <img src={test} />
-                    <GridListTileBar title={filteredName["name"]} />
-              </GridListTile>  
-              )
-            )}
-            </GridList>
-        </div>
+              
+              var url = "";
+              //Change backend call depending on empty search
+              if(emptySearch){
+                url = new URL("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/");
+              }
+              else{
+                url = new URL("http://adoptpets.eba-uxjrmpet.us-east-2.elasticbeanstalk.com/pets/search");
+                Object.keys(search).forEach(function(key) {
+                  if(search[key] != ""){
+                    url.searchParams.append(key, search[key]);
+                  };
+                });
+
+              }
+              const response = await fetch(url);
+              const json = await response.json();
+              console.log(url);
+              console.log(json);
+              setPets(json["rows"]);
+          } catch (e) {
+              console.error(e);
+              alert("Search failed, please reload page and try again")
+          }
+      };
+      fetchData();
+    }, [search]);
+
+    return(
+      <div style={{display: "grid", gridTemplateColumns: "auto auto auto"}}>
+        {pets.map((pet) => (
+          <a href={`/pet/${pet.petId}`} style={{textAlign: "center", width: "20vw", height: "40vh", backgroundColor: "rgb(220,220,220)", borderStyle: "solid", color: 'inherit', textDecoration: 'inherit'}}>
+            <div style={{width: "20vw", height: "80%"}}>
+                <img src={pet.photo1} style={{width: "100%", height: "100%", objectFit: "cover"}}/>
+            </div>
+            <div>
+              {pet.name}
+              <br></br>
+              {`${pet.sex}, ${pet.ageGroup}`}
+              <br></br>
+              {`${pet.city}, ${pet.state}`}
+            </div>
+          </a>                        
+        ))}
+      </div>
     )
 }
 export default ListPets;
